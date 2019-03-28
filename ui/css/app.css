@@ -1,0 +1,338 @@
+/* *** root elements *** */
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  color: #fff;
+  background-color: #14213d;
+  border-top: 4px solid #fca311;
+  font: 300 1.5rem/1.4 'Lato', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-rendering: optimizeLegibility;
+}
+
+/* *** every element on a page as apllied *** */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: 0;
+  line-height: inherit;
+}
+
+/* *** page layout containers *** */
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1300px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1em;
+}
+
+.row {
+  padding: 44px 0 22px 0;
+  font-size: 1em;
+  color: #14213d;
+  background: #fff;
+}
+
+.row-alt {
+  padding: 44px 0 22px 0;
+  font-size: 1em;
+  color: #14213d;
+  background: #e5e5e5;
+}
+
+/* *** typography *** */
+h1,
+h2,
+p {
+  margin-bottom: 1em;
+}
+
+strong {
+  font-weight: 700;
+}
+
+cite,
+em {
+  font-style: italic;
+}
+
+/* *** links *** */
+a, 
+.link-in-p {
+  text-decoration: none;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.link-in-p {
+  color: #14213d;
+  cursor: pointer;
+  border-bottom: 1px solid;
+}
+
+.link-in-p:hover {
+  border-bottom-color: transparent;
+}
+
+/* *** base styles for buttons and form buttons *** */
+.btn {
+  margin: 0;
+  display: inline-block;
+  font-weight: 500;
+  font-family: 'clarke', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-transform: uppercase;
+  color: #000;
+  background: #fca311;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-form {
+  width: 100%;
+  margin-top: 22px;
+  padding: 8px 12px;
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.btn-form:hover {
+  background: #f09d19;
+}
+
+/* *** form and its elements *** */
+form {
+  max-width: 440px;
+  margin: 0 auto;
+  margin-bottom: 22px;
+  padding: 22px;
+  border: 2px solid;
+  line-height: 1.5;
+  font-size: 1em;
+}
+
+.form-field {
+  margin-bottom: 22px;
+}
+
+label,
+.fake-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.9em;
+  color: #14213d;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.fake-label {
+  display: block;
+}
+
+input[type="radio"] + label {
+  margin-right: 13px;
+  text-transform: capitalize;
+  font-size: unset;
+  font-weight: 400;
+}
+
+abbr[title="required"],
+form abbr[title="required"],
+label abbr[title="required"],
+p abbr[title="required"] {
+  text-decoration: none;
+  color: #dd2C00;
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"], 
+input[type="password"] {
+  width: 100%;
+  border: none;
+  padding: 5px;
+  font-weight: 400;
+  background: transparent;
+  border-bottom: 1px solid #8b8787;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus, 
+input[type="password"]:focus {
+  border-bottom: 1px solid #14213d;
+}
+
+input::placeholder {
+  font-weight: 300;
+  font-size: 1em;
+}
+
+button[disabled],
+html input:disabled,
+html input:read-only {
+  cursor: default;
+  background: #e5e5e5 !important;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  border: 2px solid #8b8787;
+  transition: 0.2s all linear;
+}
+
+input:checked {
+  border: 4px solid #14213d;
+}
+
+/* *** list and loading icon in form *** */
+ol,
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.form-loading-icon {
+  display: none;
+  text-transform: lowercase;
+  font-weight: 400;
+}
+
+.form-btn-loading-icon-visible .form-loading-icon {
+  display: inline;
+}
+
+/* *** header component on small screens *** */
+.app-header {
+  font-size: 1.3em;
+  font-weight: 400;
+  font-family: 'clarke', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	text-transform: uppercase;
+}
+
+.app-header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* *** app logo *** */
+.app-logo {
+  font-family: 'ribone', cursive;
+  color: #fca311;
+  padding: 10px 0;
+  font-size: 1.4em;
+  line-height: 0.9;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* *** navigation bar icon *** */
+.navicon {
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 1.7em;
+  padding: 5px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.navicon:hover {
+  color: #fca311;
+}
+
+.sm-vp-nav-visible .navicon-open {
+  opacity: 0;
+}
+
+/* *** navbar component on small screen *** */
+.app-nav {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  display: flex;
+  flex-flow: column nowrap;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 1000px;
+  color: #fff;
+  background-color: #14213d;
+  border-top: 4px solid #fca311;
+  transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.navicon-close {
+  align-self: flex-end;
+}
+
+.app-nav__list {
+  margin-top: 44px;
+  font-size: 1.1em;
+}
+
+.app-nav__item a {
+  position: relative;
+  display: block;
+  padding: 10px 5px 10px 14px;
+  color: #fff;
+}
+
+.app-nav__item a:hover {
+  color: #fca311;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.sm-vp-nav-visible .app-nav {
+  left: 0;
+}
+
+.sm-vp-nav-visible .app-nav__item a:hover::before{
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  background: #fca311;
+  width: 4px;
+  height: 100%;
+  left: 0;
+}
+
+/* *** responsive style rules across app's pages *** */
+@media (min-width: 800px) {
+  body {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
