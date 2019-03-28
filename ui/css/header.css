@@ -1,0 +1,32 @@
+/* *** responsive style rules for header/navbar - outer pages *** */
+@media (min-width: 880px) {
+  .lg-vp-header {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navicon {
+    display: none;
+  }
+
+  .app-nav {
+    width: unset;
+    position: static;
+    display: flex;
+    border-top: 0;
+    background-color: transparent;
+  }
+
+  .app-nav__list {
+    margin-top: 0;
+    display: flex;
+  }
+
+  .app-nav__item a {
+    display: inline-block;
+    padding: 10px 25px;
+    margin-left: 10px;
+  }
+}
