@@ -120,6 +120,20 @@ a,
   background: #f09d19;
 }
 
+.btn__loading-icon {
+  display: none;
+  text-transform: lowercase;
+  font-weight: 400;
+}
+
+.btn__loading-icon-visible .btn__loading-icon {
+  display: inline-block;
+}
+
+.btn__loading-icon-visible .btn__text {
+  display: none;
+}
+
 /* *** form and its elements *** */
 form {
   max-width: 440px;
@@ -220,16 +234,6 @@ ul {
   list-style-type: none;
 }
 
-.form-loading-icon {
-  display: none;
-  text-transform: lowercase;
-  font-weight: 400;
-}
-
-.form-btn-loading-icon-visible .form-loading-icon {
-  display: inline;
-}
-
 /* *** header component on small screens *** */
 .app-header {
   font-size: 1.3em;
@@ -259,7 +263,7 @@ ul {
 .navicon {
   cursor: pointer;
   font-weight: 300;
-  font-size: 1.7em;
+  font-size: 1.6em;
   padding: 5px;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
