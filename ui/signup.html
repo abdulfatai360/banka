@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>User Signup Form | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/font-face.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/signup.css">
+</head>
+
+<body class="">
+  <header class="app-header">
+    <div class="container lg-vp-header">
+      <div class="app-header__inner">
+        <a href="index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="index.html">Home</a></li>
+          <li class="app-nav__item"><a href="signin.html">Sign In</a></li>
+          <li class="app-nav__item"><a href="signup.html">Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="signup-page-content row">
+    <section class="container">
+      <h1>User Signup Form</h1>
+
+      <form class="form signup-form">
+        <div class="form-field">
+          <label for="first-name">
+            First Name <abbr title="required">*</abbr>
+          </label>
+          <input type="text" placeholder="Adamu" id="first-name" autofocus>
+        </div>
+    
+        <div class="form-field">
+          <label for="last-name">
+            Last Name <abbr title="required">*</abbr>
+          </label>
+          <input type="text" placeholder="Ayodeji" id="last-name">
+        </div>
+
+        <div class="form-field">
+          <label for="other-name">
+            Other Name
+          </label>
+          <input type="text" placeholder="Amaka" id="other-name">
+        </div>
+    
+        <div class="form-field">
+          <p class="fake-label">
+            Select Gender <abbr title="required">*</abbr>
+          </p>
+          <input type="radio" id="male" name="gender" value="male">
+          <label for="male">Male</label>
+    
+          <input type="radio" id="female" name="gender" value="female">
+          <label for="female">Female</label>
+    
+          <input type="radio" id="other" name="gender" value="other">
+          <label for="other">Other</label>
+        </div>
+
+        <div class="form-field">
+          <label for="phone">
+            Phone Number <abbr title="required">*</abbr>
+          </label>
+          <input type="tel" placeholder="08012345678" id="phone">
+        </div>
+      
+        <div class="form-field">
+          <label for="email">
+            Email <abbr title="required">*</abbr>
+          </label>
+          <input type="email" placeholder="email@domain.com" id="email">
+        </div>
+    
+        <div class="form-field">
+          <label for="password">
+            Password <abbr title="required">*</abbr>
+          </label>
+          <input type="password" placeholder="Enter password" id="password">
+        </div>
+    
+        <div class="form-field">
+          <label for="password-again">
+            Confirm Password <abbr title="required">*</abbr>
+          </label>
+          <input type="password" placeholder="Enter password again" id="password-again">
+        </div>
+      
+        <div class="form-field">
+          <button type="button" class="btn btn-form">
+            <span class="btn__text">Sign Up</span>
+            <span class="btn__loading-icon">
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          </button>
+        </div>
+      
+        <p>
+          Already have a user account?
+          <a href="signin.html" class="link-in-p">Sign in</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+
+</html>
