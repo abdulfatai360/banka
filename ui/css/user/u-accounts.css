@@ -1,0 +1,47 @@
+/* *** align table cells with amount content *** */
+td[class*=-bal] {
+  padding-left: 0.8em;
+  position: relative;
+}
+
+td[class*=-bal]::before {
+  content: "\20A6";
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  font: inherit;
+}
+
+/* *** new account opening form *** */
+.acct-opening h2 {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  line-height: 1.7;
+}
+
+.acct-opening h2:hover {
+  border-color: transparent;
+}
+
+.new-acct-icon {
+  font-size: 2em;
+  margin: 0;
+  line-height: 0;
+  margin-right: 5px;
+  font-weight: 400;
+}
+
+.form-toggle-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.acct-opn-form-visible .form-toggle-container {
+  max-height: 1000px;
+}

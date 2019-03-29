@@ -185,18 +185,18 @@ input[type="tel"],
 input[type="email"], 
 input[type="password"] {
   width: 100%;
-  border: none;
+  border: 1px solid #8b8787;
   padding: 5px;
   font-weight: 400;
   background: transparent;
-  border-bottom: 1px solid #8b8787;
+  /* border-bottom: 1px solid #8b8787; */
 }
 
 input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="email"]:focus, 
 input[type="password"]:focus {
-  border-bottom: 1px solid #14213d;
+  border-color: #14213d;
 }
 
 input::placeholder {
@@ -207,7 +207,7 @@ input::placeholder {
 button[disabled],
 html input:disabled,
 html input:read-only {
-  cursor: default;
+  cursor: not-allowed;
   background: #e5e5e5 !important;
 }
 

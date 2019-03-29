@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>User Accounts Details | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../css/font-face.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/header-inner.css">
+  <link rel="stylesheet" href="../css/app-inner.css">
+  <link rel="stylesheet" href="../css/user/u-accounts.css">
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="container container-inner">
+      <div class="app-header__inner">
+        <a href="./index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
+          <li class="app-nav__item"><a href="./accounts.html">Accounts</a></li>
+          <li class="app-nav__item"><a href="./transactions.html">Transactions</a></li>
+          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content user-accounts">
+    <section class="accts-details row">
+      <div class="accts-details__inner container">
+        <h2>All Accounts Details</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <th scope="col" class="type-th">Type</th>
+              <th scope="col" class="acct-nm-th">Account Name</th>
+              <th scope="col" class="acct-num-th">Account Number</th>
+              <th scope="col" class="status-th">Status</th>
+              <th scope="col" class="created-th">Opened On</th>
+              <th scope="col" class="opn-bal-th">Opening Bal</th>
+              <th scope="col" class="curr-bal-th">Current Bal</th>
+            </thead>
+          
+            <tbody>
+              <tr>
+                <td class="type">Savings</td>
+                <td class="acct-nm">Clementine Bauch Samantha</td>
+                <td class="acct-num">0131483939</td>
+                <td class="status">Active</td>
+                <td class="created">01/01/2019</td>
+                <td class="opn-bal">1,000.45</td>
+                <td class="curr-bal">500.37</td>
+              </tr>
+
+              <tr>
+                <td class="type">Current</td>
+                <td class="acct-nm">Clementine Bauch Samantha</td>
+                <td class="acct-num">0131483939</td>
+                <td class="status">Active</td>
+                <td class="created">01/01/2019</td>
+                <td class="opn-bal">1,000.13</td>
+                <td class="curr-bal">500.43</td>
+              </tr>
+
+              <tr>
+                <td class="type">Savings</td>
+                <td class="acct-nm">Clementine Bauch Samantha</td>
+                <td class="acct-num">0131483939</td>
+                <td class="status">Dormant</td>
+                <td class="created">01/01/2019</td>
+                <td class="opn-bal">1,000.77</td>
+                <td class="curr-bal">500.88</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="acct-opening row">
+      <div class="acct-opening__inner container">
+        <h2><span class="new-acct-icon">+</span> Open New Bank Account</h2>
+
+        <div class="form-toggle-container">
+          <form class="form acct-opening-form form-inner-pages">
+            <div class="form-field">
+              <label for="first-name">
+                First Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter first name" id="first-name" value="Chelsey" title="Update your profile on dashboard to change this value" readonly>
+            </div>
+          
+            <div class="form-field">
+              <label for="last-name">
+                Last Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter last name" id="last-name" value="Dietrich" title="Update your profile on dashboard to change this value" readonly>
+            </div>
+          
+            <div class="form-field">
+              <label for="other-name">
+                Other Name
+              </label>
+              <input type="text" placeholder="Enter other name" id="other-name" value="Kamren" title="Update your profile on dashboard to change this value" readonly>
+            </div>
+          
+            <div class="form-field">
+              <label for="acct-type">
+                Account Type <abbr title="required">*</abbr>
+              </label>
+              <select name="acctType" id="acct-type">
+                <option value="">-- Select an account type --</option>
+                <option value="current">Current</option>
+                <option value="savings">Savings</option>
+              </select>
+            </div>
+          
+            <div class="form-field">
+              <button type="button" class="btn btn-form btn-create-acct">
+                <span class="btn__text">Create Account</span>
+                <span class="btn__loading-icon">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/u-accounts.js"></script>
+  <script src="../js/simulate-async.js"></script>
+</body>
+
+</html>

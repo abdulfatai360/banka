@@ -56,4 +56,22 @@ if (window.location.pathname.includes('user/index.html')) {
   })
 }
 
+if (window.location.pathname.includes('user/accounts.html')) {
+  console.log('user-accounts');
+  btn = document.querySelector('.btn-create-acct');
+
+  btn.addEventListener('click', () => {
+    btn.classList.add('btn__loading-icon-visible');
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      document.body.classList.remove('acct-opn-form-visible');
+      btn.classList.remove('btn__loading-icon-visible');
+    }, 2000);
+  })
+}
+
 console.log(window.location);
