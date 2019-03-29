@@ -1,0 +1,113 @@
+/* *** align cell with amount in bank accts display table *** */
+td[class*=-bal] {
+  padding-left: 1.3em;
+  position: relative;
+}
+
+td[class*=-bal]::before {
+  content: "\20A6";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font: inherit;
+  padding-left: 7px;
+}
+
+/* *** delete button in accts display table *** */
+.btn-danger {
+  color: #dd2C00;
+}
+
+/* *** overlay for viewing a specific bank acct record container *** */
+.specific-bank-acct {
+  display: none;
+  color: #14213d;
+}
+
+/* *** swtiching the overlay on or off *** */
+.specific-bank-acct-visible .specific-bank-acct {
+  display: block;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.88);
+}
+
+.specific-bank-acct__inner {
+  width: 90%;
+  max-width: 440px;
+  padding: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+
+.acct-detail {
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  border: 2px solid #fca311;
+}
+
+.overlay-close {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-size: 1.7em;
+  text-align: center;
+  font-weight: 900;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.overlay-close:hover {
+  background-color: #dd2C00;
+  color: #fff;
+}
+
+.profile-photo {
+  margin-bottom: 22px;
+}
+
+.profile-photo__inner {
+  width: 170px;
+  height: 170px;
+  margin: 0 auto;
+  padding: 7px;
+  border: 1px solid;
+  border-radius: 50%;
+  background: url(../../images/erica-decker.jpg) no-repeat center;
+  background-size: cover;
+  background-clip: content-box;
+}
+
+.acct-detail .user-info {
+  text-align: center;
+}
+
+.acct-detail .user-info p {
+  margin-bottom: 0;
+  font-weight: 400;
+  padding: 0;
+}
+
+.acct-detail .user-info .name {
+  font-size: 1.1em;
+  font-weight: 700;
+}
