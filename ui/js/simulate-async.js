@@ -92,4 +92,22 @@ if (window.location.pathname.includes('user/transactions.html')) {
   })
 }
 
+if (window.location.pathname.includes('cashier/index.html')) {
+  console.log('cashier-dashboard');
+
+  btn = document.querySelector('.btn-update-done');
+  btn.addEventListener('click', () => {
+    btn.classList.add('btn__loading-icon-visible');
+
+    setTimeout(() => {
+      document.body.classList.remove('update-profile-form-visible');
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      btn.classList.remove('btn__loading-icon-visible');
+    }, 2000);
+  })
+}
+
 console.log(window.location);

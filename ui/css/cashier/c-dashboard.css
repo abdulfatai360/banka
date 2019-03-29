@@ -1,0 +1,27 @@
+/* *** style bg specific to the user profile *** */
+.user-photo__inner {
+  background: url(../../images/erica-decker.jpg) no-repeat center;
+  background-size: cover;
+  background-clip: content-box;
+}
+
+/* *** align cell in cashier's txns history *** */
+table {
+  min-width: 880px;
+}
+
+.table-container .amnt {
+  position: relative;
+  padding-left: 1.3em;
+}
+
+.amnt::before {
+  content: "\20A6";
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  font: inherit;
+  padding-left: 7px;
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cashier Dashboard | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../css/font-face.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/header-inner.css">
+  <link rel="stylesheet" href="../css/app-inner.css">
+  <link rel="stylesheet" href="../css/cashier/c-dashboard.css">
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="container container-inner">
+      <div class="app-header__inner">
+        <a href="./index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
+          <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
+          <li class="app-nav__item"><a href="./post-transaction.html">Post Transaction</a></li>
+          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content cashier-dashboard">
+    <section class="user-profile row-alt">
+      <div class="container">
+        <div class="user-profile__inner">
+          <div class="user-photo">
+            <div class="user-photo__inner"></div>
+          </div>
+        
+          <div class="user-info">
+            <p class="name">Ervin Howell Darwin</p>
+            <p class="email" data-type="email:">shanna@melissa.tv</p>
+            <p class="phone" data-type="phone:">08106926593</p>
+            <p class="role" data-type="role:">Cashier</p>
+        
+            <button type="button" class="btn btn-form btn-edit-profile">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        <div class="profile-update-form">
+          <form class="form">
+            <div class="form-field profile-img-field">
+              <label for="profile-image" data-title="Change Avatar"></label>
+              <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-image">
+            </div>
+        
+            <div class="form-field">
+              <label for="first-name">
+                First Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter first name" id="first-name" value="Ervin" autofocus>
+            </div>
+        
+            <div class="form-field">
+              <label for="last-name">
+                Last Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter last name" id="last-name" value=" Howell">
+            </div>
+        
+            <div class="form-field">
+              <label for="other-name">
+                Other Name
+              </label>
+              <input type="text" placeholder="Enter other name" id="other-name" value="Darwin">
+            </div>
+        
+            <div class="form-field">
+              <label for="phone">
+                Phone Number <abbr title="required">*</abbr>
+              </label>
+              <input type="tel" placeholder="Enter phone number" id="phone" value="08106926593">
+            </div>
+        
+            <div class="form-field">
+              <label for="email">
+                Email <abbr title="required">*</abbr>
+              </label>
+              <input type="email" placeholder="Enter email address" id="email" value="shanna@melissa.tv">
+            </div>
+        
+            <div class="form-field">
+              <label for="password">
+                Current Password <abbr title="required">*</abbr>
+              </label>
+              <input type="password" placeholder="Enter password" id="password">
+            </div>
+        
+            <p class="change-pw-btn link-in-p">I want to Change my Password</p>
+        
+            <div class="form-field new-password-field">
+              <label for="new-password">
+                New Password <abbr title="required">*</abbr>
+              </label>
+              <input type="password" placeholder="Enter new password" id="new-password">
+            </div>
+        
+            <div class="form-field">
+              <button type="button" class="btn btn-form btn-update-done">
+                <span class="btn__text">Update Profile</span>
+                <span class="btn__loading-icon">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </button>
+        
+              <button type="button" class="btn btn-update-cancel">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="cashier-txns-history row">
+      <div class="cashier-txns-history__inner container">
+        <h2>Transaction History</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col" class="type-th">Type</th>
+                <th scope="col" class="src-th">Source</th>
+                <th scope="col" class="dest-th">Destination</th>
+                <th scope="col" class="date-th">Date</th>
+                <th scope="col" class="amnt-th">Amount</th>
+              </tr>
+            </thead>
+          
+            <tbody>
+              <tr>
+                <td class="type">Credit</td>
+                <td class="src">
+                  <span class="acct-num">0123456789</span>
+                  &mdash;
+                  <span class="src-bank">GTB</span>
+                </td>
+                <td class="dest">
+                  <span class="acct-num">0123456789</span>
+                  &mdash;
+                  <span class="dest-bank">Banka</span>
+                </td>
+                <td class="date">20/03/2019</td>
+                <td class="amnt">2,000,000.12</td>
+              </tr>
+          
+              <tr>
+                <td class="type">Debit</td>
+                <td class="src">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="src-bank">Banka</span>
+                </td>
+                <td class="dest">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="dest-bank">GTB</span>
+                </td>
+                <td class="date">20/03/2019</td>
+                <td class="amnt">200,000.45</td>
+              </tr>
+          
+              <tr>
+                <td class="type">Debit</td>
+                <td class="src">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="src-bank">Banka</span>
+                </td>
+                <td class="dest">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="dest-bank">GTB</span>
+                </td>
+                <td class="date">20/03/2019</td>
+                <td class="amnt">150,000.99</td>
+              </tr>
+
+              <tr>
+                <td class="type">Debit</td>
+                <td class="src">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="src-bank">Banka</span>
+                </td>
+                <td class="dest">
+                  <span class="acct-num">0223498765</span>
+                  &mdash;
+                  <span class="dest-bank">GTB</span>
+                </td>
+                <td class="date">20/03/2019</td>
+                <td class="amnt">150,000.77</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>   
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/profile-update.js"></script>
+  <script src="../js/simulate-async.js"></script>
+</body>
+
+</html>
