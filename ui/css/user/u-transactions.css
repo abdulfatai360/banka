@@ -1,0 +1,87 @@
+/* *** form for selecting accout to view its txns *** */
+.acct-selection .form {
+  max-width: 550px;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border: 0;
+  display: flex;
+  align-content: center;
+  flex-flow: row wrap;
+}
+
+.acct-selection .selectContainer {
+  width: 100%;
+  max-width: 330px;
+  margin-bottom: 22px;
+}
+
+@media (min-width: 540px) {
+  .acct-selection .selectContainer,
+  .acct-selection .btnContainer {
+    margin-bottom: 0;
+  }
+}
+
+.selectContainer select {
+  display: inline-block;
+  height: 100%;
+}
+
+.btnContainer .btn-form {
+  margin-top: 0;
+  padding: 5px 20px;
+  font-weight: 400;
+  min-width: 172px;
+}
+
+/* *** txns display table *** */
+table {
+  min-width: 880px;
+}
+
+.debit .amnt {
+  padding-left: 1.4em;
+  position: relative;
+  color: green;
+}
+
+.credit .amnt {
+  padding-left: 1.15em;
+  position: relative;
+  color: #dd2C00;
+}
+
+.debit .amnt::before,
+.credit .amnt::before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  font: inherit;
+}
+
+.debit .amnt::before {
+  content: attr(data-sign)'\20A6';
+}
+
+.credit .amnt::before {
+  content: attr(data-sign)'\20A6';
+}
+
+td[class*=-bal] {
+  padding-left: 0.8em;
+  position: relative;
+}
+
+td[class*=-bal]::before {
+  content: "\20A6";
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  font: inherit;
+}

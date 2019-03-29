@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Accounts Transactions Details | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../css/font-face.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/header-inner.css">
+  <link rel="stylesheet" href="../css/app-inner.css">
+  <link rel="stylesheet" href="../css/user/u-transactions.css">
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="container container-inner">
+      <div class="app-header__inner">
+        <a href="./index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
+          <li class="app-nav__item"><a href="./accounts.html">Accounts</a></li>
+          <li class="app-nav__item"><a href="./transactions.html">Transactions</a></li>
+          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content accts-txns">
+    <section class="acct-selection row">
+      <div class="acct-selection__inner container">
+        <h2>Select an Account</h2>
+
+        <form class="form form-inner-pages">
+          <div class="form-field selectContainer">
+            <select name="selAcct" id="sel-acct" class="sel-acct" autofocus>
+              <option value="">-- Select bank account --</option>
+              <option value="0131483939">0131483939 &mdash; Savings</option>
+              <option value="0131483939">0131483939 &mdash; Current</option>
+              <option value="0131483939">0131483939 &mdash; Savings</option>>
+            </select>
+          </div>
+
+          <div class="form-field btnContainer">
+            <button type="button" class="btn btn-form">
+              <span class="btn__text">View Transactions</span>
+              <span class="btn__loading-icon">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="txns-details row">
+      <div class="txns-details__inner container">
+        <h2>Transactions Details</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <th scope="col" class="type-th">Type</th>
+              <th scope="col" class="acct-nm-th">Account Name</th>
+              <th scope="col" class="acct-num-th">Account Number</th>
+              <th scope="col" class="amnt-th">Amount</th>
+              <th scope="col" class="date-th">Date</th>
+              <th scope="col" class="cashier-th">Cashier</th>
+              <th scope="col" class="prev-bal-th">Prev Bal</th>
+              <th scope="col" class="curr-bal-th">Curr Bal</th>
+            </thead>
+        
+            <tbody>
+              <tr class="debit">
+                <td class="type">Debit</td>
+                <td class="acct-nm">Leanne Graham Millan</td>
+                <td class="acct-num">0131485678</td>
+                <td class="amnt" data-sign="+">1,000.00</td>
+                <td class="date">01/01/2019</td>
+                <td class="cashier">Andela Nigeria</td>
+                <td class="prev-bal">3,000.00</td>
+                <td class="curr-bal">2,000.00</td>
+              </tr>
+        
+              <tr class="credit">
+                <td class="type">Credit</td>
+                <td class="acct-nm">Leanne Graham Millan</td>
+                <td class="acct-num">0131485678</td>
+                <td class="amnt" data-sign="-">1,000.00</td>
+                <td class="date">01/01/2019</td>
+                <td class="cashier">Andela Nigeria</td>
+                <td class="prev-bal">3,000.00</td>
+                <td class="curr-bal">2,000.00</td>
+              </tr>
+        
+              <tr class="credit">
+                <td class="type">Credit</td>
+                <td class="acct-nm">Leanne Graham Millan</td>
+                <td class="acct-num">0131485678</td>
+                <td class="amnt" data-sign="-">1,000.00</td>
+                <td class="date">01/01/2019</td>
+                <td class="cashier">Andela Nigeria</td>
+                <td class="prev-bal">3,000.98</td>
+                <td class="curr-bal">2,000.67</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/simulate-async.js"></script>
+</body>
+
+</html>
