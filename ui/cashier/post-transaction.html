@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Post Transaction | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../css/font-face.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/header-inner.css">
+  <link rel="stylesheet" href="../css/app-inner.css">
+  <link rel="stylesheet" href="../css/cashier/post-transaction.css">
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="container container-inner">
+      <div class="app-header__inner">
+        <a href="./index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
+          <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
+          <li class="app-nav__item"><a href="./post-transaction.html">Post Transaction</a></li>
+          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content create-txn">
+    <section class="row">
+      <div class="container">
+        <h1>Transaction Posting Form</h1>
+
+        <form class="form">
+          <div class="form-field">
+            <label for="acct-name">
+              Account Name <abbr title="required">*</abbr>
+            </label>
+            <input type="text" placeholder="Enter account name" id="acct-name" autofocus>
+          </div>
+
+          <div class="form-field">
+            <label for="acct-number">
+              Account Number <abbr title="required">*</abbr>
+            </label>
+            <input type="text" placeholder="Enter account number" id="acct-number">
+          </div>
+
+          <div class="form-field">
+            <label for="depositor-name">
+              Depositor's Full Name <abbr title="required">*</abbr>
+            </label>
+            <input type="text" placeholder="Enter depositor full name" id="depositor-name">
+          </div>
+
+          <div class="form-field">
+            <label for="depositor-phone">
+              Depositor's Phone Number
+            </label>
+            <input type="tel" placeholder="Enter depositor phone number" id="depositor-phone">
+          </div>
+
+          <div class="form-field">
+            <label for="amount">
+              Total Amount <abbr title="required">*</abbr>
+            </label>
+            <input type="text" placeholder="Enter amount to deposit" id="amount">
+          </div>
+
+          <div class="form-field">
+            <label for="txn-type">
+              Transaction Type <abbr title="required">*</abbr>
+            </label>
+            <select id="txn-type">
+              <option value="">-- Select transaction type --</option>
+              <option value="credit">Credit</option>
+              <option value="debit">Debit</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <button type="button" class="btn btn-form">
+              <span class="btn__text">Post Transaction</span>
+              <span class="btn__loading-icon">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/simulate-async.js"></script>
+</body>
+
+</html>

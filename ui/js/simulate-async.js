@@ -110,4 +110,11 @@ if (window.location.pathname.includes('cashier/index.html')) {
   })
 }
 
+if (window.location.pathname.includes('cashier/post-transaction.html')) {
+  console.log('post-transaction');
+  btn = document.querySelector('.btn-form');
+  destination = 'index.html';
+  asyncComm();
+}
+
 console.log(window.location);
