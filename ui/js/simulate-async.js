@@ -71,7 +71,7 @@ if (window.location.pathname.includes('user/accounts.html')) {
       document.body.classList.remove('acct-opn-form-visible');
       btn.classList.remove('btn__loading-icon-visible');
     }, 2000);
-  })
+  });
 }
 
 if (window.location.pathname.includes('user/transactions.html')) {
@@ -115,6 +115,41 @@ if (window.location.pathname.includes('cashier/post-transaction.html')) {
   btn = document.querySelector('.btn-form');
   destination = 'index.html';
   asyncComm();
+}
+
+if (window.location.pathname.includes('admin/index.html')) {
+  console.log('admin-dashboard');
+
+  btn = document.querySelector('.btn-update-done');
+  btn.addEventListener('click', () => {
+    btn.classList.add('btn__loading-icon-visible');
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      console.log(btn)
+      document.body.classList.remove('update-profile-form-visible');
+      btn.classList.remove('btn__loading-icon-visible');
+    }, 2000);
+  })
+
+  const btns = document.querySelectorAll('.btn-table');
+  btns.forEach(el => {
+    el.addEventListener('click', () => {
+      el.classList.add('btn__loading-icon-visible');
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        console.log(el)
+        el.classList.remove('btn__loading-icon-visible');
+      }, 2000);
+    })
+  });
 }
 
 console.log(window.location);

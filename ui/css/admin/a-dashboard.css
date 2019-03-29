@@ -1,0 +1,73 @@
+/* *** bg styles for a specific admin profile *** */
+.user-photo__inner {
+  background: url(../../images/carolyn-chandler.jpg) no-repeat center;
+  background-size: cover;
+  background-clip: content-box;
+}
+
+/* *** navbar for switching user acct type display *** */
+.acct-type-bar {
+  background: #e5e5e5;
+  color: #14213d;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.acct-type-bar__list {
+  display: flex;
+}
+
+.acct-type-bar__item {
+  margin-right: 5px;
+  position: relative;
+  cursor: pointer;
+  padding: 12px 8px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.acct-type-bar__item:last-of-type {
+  margin-right: 0;
+}
+
+.active-tab::before,
+.acct-type-bar__item::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  background: #fca311;
+  height: 4px;
+  width: 0;
+  left: 0;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.active-tab::before,
+.acct-type-bar__item:hover::before {
+  width: 100%;
+}
+
+.clients-accts,
+.staff-accts {
+  display: none;
+}
+
+.visible-acct-type-section {
+  display: block;
+}
+
+/* *** action buttons in user acct type table *** */
+.btn-activate {
+  color: #fff;
+  background: #3ca374;
+  min-width: 75px;
+}
+
+.btn-activate:hover {
+  box-shadow: 0 0 2px #fff, 0 0 5px #3ca374, 0 0 10px #3ca374;
+}
+
+.btn-deactivate {
+  min-width: 95px;
+  color: #dd2C00;
+}
