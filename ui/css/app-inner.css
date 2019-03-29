@@ -1,0 +1,272 @@
+/* Styles specific to app inner pages (client, cashier, and admin) and 
+  works with style rules in the ./app.css file
+*/
+
+/* *** page content container *** */
+.page-content {
+  min-height: 100vh;
+  font-weight: 400;
+  font-size: 1em;
+  background: #fff;
+}
+
+/* *** headings *** */
+h1,
+h2 {
+  font: 700 1.4em/0.9 'clarke', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-transform: uppercase;
+}
+
+/* *** form and form fields *** */
+.form-inner-pages {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-field:last-of-type {
+  margin-bottom: 0;
+}
+
+select {
+  color: #14213d;
+  cursor: pointer;
+  width: 100%;
+  padding: 5px;
+  background: transparent;
+  border: 1px solid #e5e5e5;
+}
+
+select:focus {
+  border: 1px solid #14213d;
+}
+
+option {
+  padding-top: 8px;
+}
+
+/* *** table and its elements *** */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+	width: 100%;
+  min-width: 990px;
+	margin-bottom: 22px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1em;
+  font-weight: 400;
+}
+
+thead th{
+	color: #000;
+	font-weight: 700;
+  font-size: 1.05em;
+  text-align: left;
+  padding-bottom: 10px;
+}
+
+tbody th,
+tbody td {
+	padding-top: 12px;
+  padding-bottom: 12px;
+	border-top: 1px solid #e5e5e5;
+}
+
+tbody tr:nth-child(even) {
+  background: #e5e5e5;
+}
+
+th,
+td {
+	vertical-align: middle;
+  padding-right: 7px;
+}
+
+th:first-of-type,
+td:first-of-type {
+  padding-left: 7px;
+}
+
+th:last-of-type,
+td:last-of-type {
+  padding-left: 7px;
+}
+
+/* *** action buttons inside a table cell *** */
+.btn-table {
+  padding: 5px 10px;
+  margin-right: 8px;
+  border: 1px solid;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-weight: 700;
+  font-family: inherit;
+  background: transparent;
+  text-transform: capitalize;
+  /* font-variant: small-caps; */
+}
+
+.btn-table:hover {
+  box-shadow: 0 0 2px #fff, 0 0 5px, 0 0 10px;
+}
+
+/* *** user profile display on dashboard *** */
+.user-profile__inner {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  font-size: 1.05em;
+  overflow-x: hidden;
+}
+
+.user-photo {
+  margin-bottom: 11px;
+}
+
+.user-photo__inner {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  padding: 7px;
+  border: 1px solid;
+  border-radius: 50%;
+}
+
+.user-info {
+  align-self: center;
+  margin-bottom: 11px;
+}
+
+@media (min-width: 420px) {
+  .user-photo {
+    margin-right: 15px;
+  }
+}
+
+.user-info p {
+  position: relative;
+  margin-bottom: 0.05em;
+  padding-left: 3.3em;
+}
+
+.user-info p:first-of-type {
+  padding-left: 0;
+}
+
+.user-info p::before {
+  content: attr(data-type);
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.73em;
+  color: #6e6c6c;
+}
+
+.user-info .name {
+  font-size: 1.1em;
+  font-weight: 900;
+}
+
+.btn-edit-profile {
+  width: unset;
+  font-size: 1.17em;
+  padding: 5px 10px;
+}
+
+.profile-update-form,
+.update-profile-form-visible .user-profile__inner {
+  display: none;
+}
+
+.user-profile-visible .user-photo__inner,
+.update-profile-form-visible .profile-update-form {
+  display: block;
+}
+
+.profile-img-field {
+  text-align: center;
+}
+
+label[for="profile-image"] {
+  width: 11em;
+  height: 11em;
+  padding: 7px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid;
+  border-radius: 50%;
+}
+
+label[for="profile-image"]::before {
+  content: attr(data-title);
+  width: 100%;
+  padding: 7px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 1.3em;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.44);
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+label[for="profile-image"]:hover::before {
+  opacity: 1;
+}
+
+.profile-update-form input[type="file"] {
+  display: none;
+  /* opacity: 0; */
+}
+
+.change-pw-btn {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.new-password-field {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.new-password-field-visible .new-password-field {
+  max-height: 1000px;
+}
+
+.profile-update-form .form-field:last-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-update-done,
+.btn-update-cancel {
+  width: 48%;
+  padding: 5px;
+  margin-top: 0;
+  font-size: 1.3em;
+}
+
+.btn-update-cancel {
+  color: #dd2C00;
+  background: transparent;
+  border: 1px solid;
+}
+
+.btn-update-cancel:hover {
+  box-shadow: 0 0 2px #fff, 0 0 5px #dd2C00, 0 0 10px #dd2C00;
+}
+

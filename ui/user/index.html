@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>User Dashboard | Banka</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../css/font-face.css">
+  <link rel="stylesheet" href="../css/app.css">
+  <link rel="stylesheet" href="../css/header-inner.css">
+  <link rel="stylesheet" href="../css/app-inner.css">
+  <link rel="stylesheet" href="../css/user/u-dashboard.css">
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="container container-inner">
+      <div class="app-header__inner">
+        <a href="./index.html" class="app-logo">
+          <span class="tp">Ban</span><br>
+          <span class="bt">ka</span>
+        </a>
+        <span class="navicon navicon-open">
+          <i class="fas fa-bars"></i>
+        </span>
+      </div>
+      
+      <nav class="app-nav">
+        <span class="navicon navicon-close">
+          <i class="fas fa-times"></i>
+        </span>
+        <ul class="app-nav__list">
+          <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
+          <li class="app-nav__item"><a href="./accounts.html">Accounts</a></li>
+          <li class="app-nav__item"><a href="./transactions.html">Transactions</a></li>
+          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content user-dashboard">
+    <section class="user-profile row-alt">
+      <div class="container">
+        <div class="user-profile__inner">
+          <div class="user-photo">
+            <div class="user-photo__inner"></div>
+          </div>
+    
+          <div class="user-info">
+            <p class="name">Chelsey Dietrich Kamren</p>
+            <p class="email" data-type="email:">Lucio_Hettinger@annie.ca</p>
+            <p class="phone" data-type="phone:">08025495412</p>
+            <p class="role" data-type="role:">Client</p>
+    
+            <button type="button" class="btn btn-form btn-edit-profile">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+    
+        <div class="profile-update-form">
+          <form class="form">
+            <div class="form-field profile-img-field">
+              <label for="profile-image" data-title="Change Avatar"></label>
+              <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-image">
+            </div>
+
+            <div class="form-field">
+              <label for="first-name">
+                First Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter first name" id="first-name" value="Chelsey" autofocus>
+            </div>
+    
+            <div class="form-field">
+              <label for="last-name">
+                Last Name <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter last name" id="last-name" value="Dietrich">
+            </div>
+    
+            <div class="form-field">
+              <label for="other-name">
+                Other Name
+              </label>
+              <input type="text" placeholder="Enter other name" id="other-name" value="Kamren">
+            </div>
+    
+            <div class="form-field">
+              <label for="phone">
+                Phone Number <abbr title="required">*</abbr>
+              </label>
+              <input type="tel" placeholder="Enter phone number" id="phone" value="08025495412">
+            </div>
+    
+            <div class="form-field">
+              <label for="email">
+                Email <abbr title="required">*</abbr>
+              </label>
+              <input type="email" placeholder="Enter email address" id="email" value="Lucio_Hettinger@annie.ca">
+            </div>
+    
+            <div class="form-field">
+              <label for="password">
+                Current Password <abbr title="required">*</abbr>
+              </label>
+              <input type="password" placeholder="Enter password" id="password">
+            </div>
+
+            <p class="change-pw-btn link-in-p">I want to Change my Password</p>
+
+            <div class="form-field new-password-field">
+              <label for="new-password">
+                New Password <abbr title="required">*</abbr>
+              </label>
+              <input type="password" placeholder="Enter new password" id="new-password">
+            </div>
+    
+            <div class="form-field">
+              <button type="button" class="btn btn-form btn-update-done">
+                <span class="btn__text">Update Profile</span>
+                <span class="btn__loading-icon">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </button>
+              
+              <button type="button" class="btn btn-update-cancel">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="accts-overview row">
+      <div class="accts-overview__inner container">
+        <h2>All Accounts</h2>
+
+        <ul class="accts-overview__list">
+          <li class="accts-overview__item">
+            <div class="bank-details">
+              <span class="bank-name">Banka</span>
+              <span class="acct-type">Savings</span>
+            </div>
+            <div class="acct-holder-details">
+              <p class="acct-name">Clementine Bauch Samantha</p>
+              <p class="acct-num">0131483939</p>
+            </div>
+            <div class="acct-bal-details">
+              <p>Balance</p>
+              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+            </div>
+          </li>
+
+          <li class="accts-overview__item">
+            <div class="bank-details">
+              <span class="bank-name">Banka</span>
+              <span class="acct-type">Current</span>
+            </div>
+            <div class="acct-holder-details">
+              <p class="acct-name">Clementine Bauch Samantha</p>
+              <p class="acct-num">0131483939</p>
+            </div>
+            <div class="acct-bal-details">
+              <p>Balance</p>
+              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+            </div>
+          </li>
+
+          <li class="accts-overview__item">
+            <div class="bank-details">
+              <span class="bank-name">Banka</span>
+              <span class="acct-type">Savings</span>
+            </div>
+            <div class="acct-holder-details">
+              <p class="acct-name">Clementine Bauch Samantha</p>
+              <p class="acct-num">0131483939</p>
+            </div>
+            <div class="acct-bal-details">
+              <p>Balance</p>
+              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+            </div>
+          </li>
+        </ul>
+
+        <span class="btn-user-dashboard-container">
+          <a href="./accounts.html" class="btn btn-form btn-user-dashboard">
+            <span class="btn__text">View accounts details</span>
+            <span class="btn__loading-icon">
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          </a>
+        </span>
+      </div>
+    </section>
+
+    <section class="txns-overview row">
+      <div class="txns-overview__inner container">
+        <h2>Recent Transactions</h2>
+
+        <table class="">
+          <thead>
+            <tr>
+              <th scope="col">Transaction Date</th>
+              <th scope="col">Transaction Account</th>
+              <th scope="col">Transaction Amount/Time</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <th scope="row" class="txn-date">
+                <span class="month">MAR</span>
+                <span class="day">20</span>
+                <span class="year">2019</span>
+              </th>
+
+              <td class="txn-desc">
+                Cash transfer from 0123456789
+              </td>
+
+              <td class="txn-amnt-time">
+                <span class="type debit" data-sign="+">
+                  1,000.00
+                </span>
+                <span class="time">10:12am</span>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row" class="txn-date">
+                <span class="month">MAR</span>
+                <span class="day">20</span>
+                <span class="year">2019</span>
+              </th>
+            
+              <td class="txn-desc">
+                Cash transfer to 0123456789
+              </td>
+            
+              <td class="txn-amnt-time">
+                <span class="type credit" data-sign="-">
+                  1,000.00
+                </span>
+                <span class="time">10:12am</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <span class="btn-user-dashboard-container">
+          <a href="./transactions.html" class="btn btn-form btn-user-dashboard">
+            <span class="btn__text">View all transactions</span>
+            <span class="btn__loading-icon">
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          </a>
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/profile-update.js"></script>
+  <script src="../js/simulate-async.js"></script>
+</body>
+
+</html>

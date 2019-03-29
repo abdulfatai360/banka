@@ -1,0 +1,52 @@
+/* *** Responsive style rules for header/navbar - inner pages *** */
+@media (min-width: 880px) {
+  body {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .container-inner {
+    padding: 0 11px;
+  }
+
+  header {
+    min-width: 250px;
+    width: 250px;
+  }
+
+  main {
+    min-width: calc(100vw - 250px);
+  }
+
+  .navicon {
+    display: none;
+  }
+
+  .app-header__inner {
+    margin-top: 44px;
+  }
+
+  .app-logo {
+    padding-top: 0;
+    padding-left: 14px;
+    font-size: 2.4em;
+  }
+
+  .app-nav {
+    padding: 0;
+    position: static;
+    border-top: 0;
+    background: transparent;
+  }
+
+  .app-nav__item a:hover::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    background: #fca311;
+    width: 4px;
+    height: 100%;
+    left: 0;
+  }
+}
