@@ -74,4 +74,22 @@ if (window.location.pathname.includes('user/accounts.html')) {
   })
 }
 
+if (window.location.pathname.includes('user/transactions.html')) {
+  console.log('user-transactions');
+  btn = document.querySelector('.btn-form');
+
+  btn.addEventListener('click', () => {
+    btn.classList.add('btn__loading-icon-visible');
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 500,
+        behavior: 'smooth'
+      });
+
+      btn.classList.remove('btn__loading-icon-visible');
+    }, 2000);
+  })
+}
+
 console.log(window.location);
