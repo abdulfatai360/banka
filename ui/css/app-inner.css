@@ -105,7 +105,6 @@ td:last-of-type {
   font-family: inherit;
   background: transparent;
   text-transform: capitalize;
-  /* font-variant: small-caps; */
 }
 
 .btn-table:hover {

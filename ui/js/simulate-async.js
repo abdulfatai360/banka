@@ -1,12 +1,13 @@
-let destination; let btn;
+let destination;
 
-const asyncComm = () => {
+const asyncComm = (btn) => {
   btn.addEventListener('click', (e) => {
     btn.classList.add('btn__loading-icon-visible');
 
     setTimeout(() => {
       window.location = destination;
     }, 2000);
+
     e.stopPropagation();
   });
 }
@@ -150,6 +151,16 @@ if (window.location.pathname.includes('admin/index.html')) {
       }, 2000);
     })
   });
+}
+
+if (window.location.pathname.includes('admin/bank-accounts.html')) {
+  console.log('admin/bank-accounts.html');
+  const btns = document.querySelectorAll('.btn-table');
+
+  btns.forEach(btn => {
+    destination = 'bank-accounts.html';
+    asyncComm(btn);
+  })
 }
 
 console.log(window.location);

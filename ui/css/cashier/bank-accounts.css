@@ -17,6 +17,7 @@ td[class*=-bal]::before {
 
 /* *** delete button in accts display table *** */
 .btn-danger {
+  min-width: 65px;
   color: #dd2C00;
 }
 
