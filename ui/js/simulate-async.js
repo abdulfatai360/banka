@@ -163,4 +163,12 @@ if (window.location.pathname.includes('admin/bank-accounts.html')) {
   })
 }
 
+if (window.location.pathname.includes('admin/create-staff-account.html')) {
+  console.log('admin/create-staff-account.html');
+  const btn = document.querySelector('.btn-form');
+
+  destination = 'index.html';
+  asyncComm(btn);
+}
+
 console.log(window.location);
