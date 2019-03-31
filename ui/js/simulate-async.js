@@ -1,174 +1,114 @@
-let destination;
-
-const asyncComm = (btn) => {
-  btn.addEventListener('click', (e) => {
-    btn.classList.add('btn__loading-icon-visible');
+//  Simulate async operation using setTimeout API
+// asyncComm rename to simulateAsync
+const simulateAsync = async (trigger, dest) => {
+  trigger.addEventListener('click', (e) => {
+    trigger.classList.add('btn__loading-icon-visible');
 
     setTimeout(() => {
-      window.location = destination;
+      window.location = dest;
     }, 2000);
 
+    e.preventDefault();
     e.stopPropagation();
   });
 }
 
-if (window.location.pathname.includes('/signin.html')) {
-  console.log('signin');
-  btn = document.querySelector('.btn-form');
-  destination = 'cashier/index.html';
-  asyncComm();
+// Store the current path into a variable
+const pageUrl = window.location.pathname;
+
+if (pageUrl.includes('/signin.html')) {
+  console.log('/signin.html');
+  const btn = document.querySelector('.btn-form');
+  const destination = 'cashier/index.html';
+
+  simulateAsync(btn, destination);
 }
 
-if (window.location.pathname.includes('/signup.html')) {
-  console.log('signup');
-  btn = document.querySelector('.btn-form');
-  destination = 'user/index.html';
-  asyncComm();
+if (pageUrl.includes('/signup.html')) {
+  console.log('/signup.html');
+  const btn = document.querySelector('.btn-form');
+  const destination = 'user/index.html';
+
+  simulateAsync(btn, destination);
 }
 
-if (window.location.pathname.includes('user/index.html')) {
-  console.log('user-dashboard');
-  btns = document.querySelectorAll('a.btn-form');
-  btns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      btn.classList.add('btn__loading-icon-visible');
-
-      setTimeout(() => {
-        window.location = btn.href;
-      }, 2000);
-
-      e.preventDefault();
-      e.stopPropagation();
-    })
+if (pageUrl.includes('user/index.html')) {
+  console.log('user/index.html');
+  const linkBtns = document.querySelectorAll('a.btn-form');
+  linkBtns.forEach(linkBtn => {
+    const destination = linkBtn.href;
+    simulateAsync(linkBtn, destination)
   });
 
-  btn = document.querySelector('.btn-update-done');
-  btn.addEventListener('click', () => {
-    btn.classList.add('btn__loading-icon-visible');
-
-    setTimeout(() => {
-      document.body.classList.remove('update-profile-form-visible');
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      btn.classList.remove('btn__loading-icon-visible');
-    }, 2000);
-  })
+  const profileUpdateBtn = document.querySelector('.btn-update-done');
+  const destination = 'index.html'
+  simulateAsync(profileUpdateBtn, destination);
 }
 
-if (window.location.pathname.includes('user/accounts.html')) {
-  console.log('user-accounts');
-  btn = document.querySelector('.btn-create-acct');
+if (pageUrl.includes('user/accounts.html')) {
+  console.log('user/accounts.html');
+  const btn = document.querySelector('.btn-create-acct');
+  const destination = 'accounts.html';
 
-  btn.addEventListener('click', () => {
-    btn.classList.add('btn__loading-icon-visible');
+  simulateAsync(btn, destination);
+}
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      document.body.classList.remove('acct-opn-form-visible');
-      btn.classList.remove('btn__loading-icon-visible');
-    }, 2000);
+if (pageUrl.includes('user/transactions.html')) {
+  console.log('user/transactions.html');
+  const btn = document.querySelector('.btn-form');
+  const destination = 'transactions.html';
+
+  simulateAsync(btn, destination).then(() => {
+    window.scrollTo({
+      top: 500,
+      behavior: 'smooth'
+    });
   });
 }
 
-if (window.location.pathname.includes('user/transactions.html')) {
-  console.log('user-transactions');
-  btn = document.querySelector('.btn-form');
+if (pageUrl.includes('cashier/index.html')) {
+  console.log('cashier/index.html');
+  const profileUpdateBtn = document.querySelector('.btn-update-done');
+  const destination = 'index.html';
 
-  btn.addEventListener('click', () => {
-    btn.classList.add('btn__loading-icon-visible');
-
-    setTimeout(() => {
-      window.scrollTo({
-        top: 500,
-        behavior: 'smooth'
-      });
-
-      btn.classList.remove('btn__loading-icon-visible');
-    }, 2000);
-  })
+  simulateAsync(profileUpdateBtn, destination);
 }
 
-if (window.location.pathname.includes('cashier/index.html')) {
-  console.log('cashier-dashboard');
-
-  btn = document.querySelector('.btn-update-done');
-  btn.addEventListener('click', () => {
-    btn.classList.add('btn__loading-icon-visible');
-
-    setTimeout(() => {
-      document.body.classList.remove('update-profile-form-visible');
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      btn.classList.remove('btn__loading-icon-visible');
-    }, 2000);
-  })
-}
-
-if (window.location.pathname.includes('cashier/post-transaction.html')) {
-  console.log('post-transaction');
-  btn = document.querySelector('.btn-form');
-  destination = 'index.html';
-  asyncComm();
-}
-
-if (window.location.pathname.includes('admin/index.html')) {
-  console.log('admin-dashboard');
-
-  btn = document.querySelector('.btn-update-done');
-  btn.addEventListener('click', () => {
-    btn.classList.add('btn__loading-icon-visible');
-
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      console.log(btn)
-      document.body.classList.remove('update-profile-form-visible');
-      btn.classList.remove('btn__loading-icon-visible');
-    }, 2000);
-  })
-
-  const btns = document.querySelectorAll('.btn-table');
-  btns.forEach(el => {
-    el.addEventListener('click', () => {
-      el.classList.add('btn__loading-icon-visible');
-
-      setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        console.log(el)
-        el.classList.remove('btn__loading-icon-visible');
-      }, 2000);
-    })
-  });
-}
-
-if (window.location.pathname.includes('admin/bank-accounts.html')) {
-  console.log('admin/bank-accounts.html');
+if (pageUrl.includes('cashier/bank-accounts.html') || pageUrl.includes('admin/bank-accounts.html')) {
+  console.log('cashier/bank-accounts.html or admin/bank-accounts.html');
   const btns = document.querySelectorAll('.btn-table');
 
   btns.forEach(btn => {
     destination = 'bank-accounts.html';
-    asyncComm(btn);
+    simulateAsync(btn, destination);
   })
 }
 
-if (window.location.pathname.includes('admin/create-staff-account.html')) {
+if (pageUrl.includes('cashier/post-transaction.html')) {
+  console.log('cashier/post-transaction.html');
+  const btn = document.querySelector('.btn-form');
+  destination = 'index.html';
+
+  simulateAsync(btn, destination);
+}
+
+if (pageUrl.includes('admin/index.html')) {
+  console.log('admin/index.html');
+  const btn = document.querySelector('.btn-update-done');
+  const destination = 'index.html';
+
+  simulateAsync(btn, destination);
+
+  const btns = document.querySelectorAll('.btn-table');
+  btns.forEach(el => simulateAsync(el, destination));
+}
+
+if (pageUrl.includes('admin/create-staff-account.html')) {
   console.log('admin/create-staff-account.html');
   const btn = document.querySelector('.btn-form');
-
   destination = 'index.html';
-  asyncComm(btn);
+
+  simulateAsync(btn, destination);
 }
 
 console.log(window.location);
