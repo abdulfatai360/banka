@@ -17,7 +17,7 @@
   margin-bottom: 22px;
 }
 
-@media (min-width: 540px) {
+@media (min-width: 550px) {
   .acct-selection .selectContainer,
   .acct-selection .btnContainer {
     margin-bottom: 0;
@@ -31,9 +31,8 @@
 
 .btnContainer .btn-form {
   margin-top: 0;
-  padding: 5px 20px;
-  font-weight: 400;
   min-width: 172px;
+  border: 1px solid #8b8787;
 }
 
 /* *** txns display table *** */
