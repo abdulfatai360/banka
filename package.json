@@ -1,0 +1,30 @@
+{
+  "name": "banka",
+  "version": "1.0.0",
+  "description": "Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "babel src --out-dir build --source-maps",
+    "build:dev": "babel src --watch --out-dir build --source-maps",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdulfatai360/banka.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdulfatai360/banka/issues"
+  },
+  "homepage": "https://github.com/abdulfatai360/banka#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.3",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  }
+}
