@@ -4,15 +4,14 @@
   "description": "Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.",
   "main": "./src/index.js",
   "scripts": {
-    "build": "babel src --out-dir build --source-maps",
-    "build:dev": "babel src --watch --out-dir build --source-maps",
+    "build": "babel src --watch --out-dir build --source-maps",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abdulfatai360/banka.git"
   },
-  "author": "",
+  "author": "Abdulfatai Jimoh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/abdulfatai360/banka/issues"
@@ -26,8 +25,13 @@
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-mocha": "^5.3.0",
+    "mocha": "^6.0.2"
   }
 }
