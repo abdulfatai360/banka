@@ -4,13 +4,13 @@ import '@babel/polyfill';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/index';
-import { userModel, sequence } from '../../src/models/user';
+import { userModel, userSerial } from '../../src/models/user';
 import hashPassword from '../../src/utilities/hash-password';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
-const seedDb = async () => {
+const seedUserDb = async () => {
   const users = [
     {
       firstName: 'Leanne',
@@ -27,7 +27,6 @@ const seedDb = async () => {
       phone: '08106926593',
       email: 'shanna@melissa.tv',
       password: 'shanna@melissa.tv',
-      type: 'staff',
     },
   ];
 
@@ -39,11 +38,6 @@ const seedDb = async () => {
 
 describe('/auth', () => {
   describe('POST /auth/signup', () => {
-    afterEach('clear user DB and reset sequence generator', async () => {
-      userModel.deleteAll();
-      sequence.reset();
-    });
-
     let user;
 
     const execSignupReq = async () => {
@@ -53,6 +47,11 @@ describe('/auth', () => {
 
       return res;
     };
+
+    afterEach('clears and reset external dependencies', async () => {
+      userModel.deleteAll();
+      userSerial.reset();
+    });
 
     it('should return 201 for successful user signup', async () => {
       user = {
@@ -70,7 +69,7 @@ describe('/auth', () => {
       expect(res.body).to.have.ownProperty('status');
     });
 
-    it('should create a new user account and returns details in response body', async () => {
+    it('should create a new user account and returns its details', async () => {
       user = {
         firstName: 'Abdus',
         lastName: 'Sobur',
@@ -88,7 +87,7 @@ describe('/auth', () => {
     });
 
     it('should return 409 if user registers with an existing email', async () => {
-      await seedDb();
+      await seedUserDb();
 
       user = {
         firstName: 'Leanne',
@@ -106,15 +105,6 @@ describe('/auth', () => {
   });
 
   describe('POST /auth/signin', () => {
-    before('Populate the user database', async () => {
-      await seedDb();
-    });
-
-    after('Clears user database and reset serial generator', () => {
-      userModel.deleteAll();
-      sequence.reset();
-    });
-
     let loginCredentials;
 
     const execSigninReq = async () => {
@@ -124,6 +114,15 @@ describe('/auth', () => {
 
       return res;
     };
+
+    before('Populate the user database', async () => {
+      await seedUserDb();
+    });
+
+    after('Clears and reset external dependencies', () => {
+      userModel.deleteAll();
+      userSerial.reset();
+    });
 
     it('should return 400 for invalid login credentials', async () => {
       loginCredentials = {
@@ -150,7 +149,7 @@ describe('/auth', () => {
       expect(res).to.have.status(200);
     });
 
-    it('should return user details in response body after successful login', async () => {
+    it('should return user details after successful login', async () => {
       loginCredentials = {
         email: 'sincere@april.biz',
         password: 'sincere@april.biz',
@@ -162,3 +161,5 @@ describe('/auth', () => {
     });
   });
 });
+
+export default seedUserDb;

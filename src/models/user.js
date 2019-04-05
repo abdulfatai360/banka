@@ -3,7 +3,7 @@ import '@babel/polyfill';
 import Sequence from '../utilities/sequence';
 import removeObjectProp from '../utilities/remove-object-prop';
 
-const sequence = new Sequence();
+const userSerial = new Sequence();
 
 class User {
   constructor() {
@@ -12,7 +12,7 @@ class User {
 
   create(userData) {
     const userEntity = Object.assign(
-      { id: sequence.autoIncrement() },
+      { id: userSerial.autoIncrement() },
       userData,
     );
 
@@ -53,4 +53,4 @@ class User {
 }
 
 const userModel = new User();
-export { userModel, sequence };
+export { userModel, userSerial };

@@ -4,7 +4,7 @@ import convertTo2dp from '../utilities/convert-to-2dp';
 import { userModel } from './user';
 import bankAccountNumber from '../utilities/bank-acct-num';
 
-const sequence = new Sequence();
+const accountSerial = new Sequence();
 
 class Account {
   constructor() {
@@ -22,7 +22,7 @@ class Account {
     acctNumber = duplicate ? bankAccountNumber(acctOwner) : acctNumber;
 
     const accountEntity = {
-      id: sequence.autoIncrement(),
+      id: accountSerial.autoIncrement(),
       accountNumber: acctNumber,
       createdOn: new Date(),
       owner: data.owner,
@@ -40,7 +40,15 @@ class Account {
     return this.bankAccounts
       .find(acct => acct.accountNumber === acctNumber);
   }
+
+  findAll() {
+    return this.bankAccounts;
+  }
+
+  deleteAll() {
+    this.bankAccounts.splice(0);
+  }
 }
 
 const accountModel = new Account();
-export { accountModel, sequence };
+export { accountModel, accountSerial };
