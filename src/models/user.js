@@ -11,14 +11,14 @@ class User {
   }
 
   create(userData) {
-    const newUser = Object.assign(
+    const userEntity = Object.assign(
       { id: sequence.autoIncrement() },
       userData,
     );
 
-    this.database.push(newUser);
+    this.database.push(userEntity);
 
-    return removeObjectProp('password', newUser);
+    return removeObjectProp('password', userEntity);
   }
 
   // eslint-disable-next-line consistent-return
@@ -32,6 +32,10 @@ class User {
 
       return `${user.firstName} ${user.lastName}`;
     }
+  }
+
+  findById(id) {
+    return this.database.find(user => user.id === id);
   }
 
   findByEmail(emailStr) {

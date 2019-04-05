@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import { config } from 'dotenv';
 import auth from './routes/auth';
+import accounts from './routes/accounts';
 
 config();
 const app = express();
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 // other routes
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/accounts', accounts);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
