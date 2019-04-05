@@ -24,7 +24,7 @@ app.use('/api/v1/auth', auth);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server started...listening on port ${port}`);
+  console.log(`Starting development server... http://localhost:${port}\n`);
 });
 
 export default app;
