@@ -1,7 +1,9 @@
 /* eslint-disable consistent-return */
 /* eslint-disable default-case */
 /* eslint-disable no-case-declarations */
-import { userSignup, userSignin } from '../utilities/validation-init';
+import {
+  userSignup, userSignin, createAccount,
+} from '../utilities/validation-init';
 
 const validateInputs = (entity) => {
   const validateInner = (req, res, next) => {
@@ -11,6 +13,9 @@ const validateInputs = (entity) => {
         break;
       case 'loginUser':
         userSignin(req, res, next);
+        break;
+      case 'createBankAccount':
+        createAccount(req, res, next);
         break;
     }
   };

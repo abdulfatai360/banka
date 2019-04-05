@@ -5,16 +5,21 @@
 import Joi from 'joi';
 
 const integer = (input) => {
-  const customJoiError = Joi.number().integer().error((errors) => {
-    return errors.map((err) => {
-      switch (err.type) {
-        case 'number.base':
-          return `${input} should be a number`;
-        case 'number.integer':
-          return `${input} should be an integer`;
-      }
-    }).join(' and ');
-  });
+  const customJoiError = Joi.number().integer().required()
+    .error((errors) => {
+      return errors.map((err) => {
+        switch (err.type) {
+          case 'number.base':
+            return `${input} should be a number`;
+          case 'number.integer':
+            return `${input} should be an integer`;
+          case 'any.empty':
+            return `${input} should not be empty`;
+          case 'any.required':
+            return `${input} is required`;
+        }
+      }).join(' and ');
+    });
 
   return customJoiError;
 };
@@ -155,6 +160,27 @@ const password = (input) => {
   return customJoiError;
 };
 
+const bankAccountType = (input) => {
+  const customJoiError = Joi.string().required()
+    .regex(/^(savings)|(current)$/i)
+    .error((errors) => {
+      return errors.map((err) => {
+        switch (err.type) {
+          case 'string.base':
+            return `${input} should be a string`;
+          case 'any.required':
+            return `${input} is required`;
+          case 'any.empty':
+            return `${input} should be not be empty`;
+          case 'string.regex.base':
+            return `${input} should be either 'Savings' or 'Current'`;
+        }
+      }).join(' and ');
+    });
+
+  return customJoiError;
+};
+
 
 export {
   integer,
@@ -164,4 +190,5 @@ export {
   accountNumber,
   email,
   password,
+  bankAccountType,
 };
