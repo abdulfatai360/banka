@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import '@babel/polyfill';
 import Sequence from '../utilities/sequence';
+import removeObjectProp from '../utilities/remove-object-prop';
 
 const sequence = new Sequence();
 
@@ -17,14 +18,7 @@ class User {
 
     this.database.push(newUser);
 
-    const propToRemove = 'password';
-    const returnedUserEntity = Object.keys(newUser)
-      .reduce((object, key) => {
-        if (key !== propToRemove) object[key] = newUser[key];
-        return object;
-      }, {});
-
-    return returnedUserEntity;
+    return removeObjectProp('password', newUser);
   }
 
   // eslint-disable-next-line consistent-return
@@ -44,13 +38,13 @@ class User {
     return this.database.find(user => user.email === emailStr);
   }
 
-  getAll() {
+  findAll() {
     return this.database;
   }
 
   deleteAll() {
     this.database.splice(0);
-    this.getAll();
+    this.findAll();
   }
 }
 

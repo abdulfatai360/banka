@@ -35,5 +35,28 @@ const userSignup = (req, res, next) => {
   }
 };
 
+const userSignin = (req, res, next) => {
+  const loginCredentials = {
+    email: req.body.email,
+    password: req.body.password,
+  };
 
-export default userSignup;
+  const schema = Joi.object().keys({
+    email: email('Your login email'),
+    password: password('Your login password'),
+  });
+
+  const { error } = Joi.validate(loginCredentials, schema);
+
+  if (error) {
+    res.status(422).json({
+      status: res.statusCode,
+      error: error.details[0].message,
+    });
+  } else {
+    next();
+  }
+};
+
+
+export { userSignup, userSignin };
