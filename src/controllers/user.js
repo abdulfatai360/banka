@@ -2,13 +2,21 @@ import '@babel/polyfill';
 import hashPassword from '../utilities/hash-password';
 import authToken from '../utilities/auth-token';
 import { userModel } from '../models/user';
+import removeObjectProp from '../utilities/remove-object-prop';
+
+const loginErrHandler = (req, res) => (
+  res.status(400).json({
+    status: res.statusCode,
+    error: 'Your email or password does not exist in our user database',
+  })
+);
 
 const user = {
   async create(req, res) {
     // hash user's input password
     const password = await hashPassword.generateHash(req.body.password);
 
-    // set user account type
+    // set user account type and isAdmin property
     const type = req.body.type || 'client';
     let isAdmin;
 
@@ -26,7 +34,7 @@ const user = {
       type,
     };
 
-    // set isAdmin based on account type
+    // update userEntity to reflect isAdmin prop
     userEntity = (isAdmin !== undefined)
       ? Object.assign(userEntity, { isAdmin })
       : userEntity;
@@ -47,10 +55,31 @@ const user = {
 
     // add auth-token to response header and include in response body
     return res.header('x-auth-token', token)
-      .status(201)
-      .json({
+      .status(201).json({
         status: res.statusCode,
         data: Object.assign({ token }, data),
+      });
+  },
+
+  async login(req, res) {
+    // authenticate email credential
+    let signingInUser = userModel.findByEmail(req.body.email);
+    if (!signingInUser) return loginErrHandler(req, res);
+
+    // authenticate password credential
+    const isPasswordValid = await hashPassword
+      .verifyPassword(req.body.password, signingInUser.password);
+    if (!isPasswordValid) return loginErrHandler(req, res);
+
+    // at this point, credentials are authentic
+    signingInUser = removeObjectProp('password', signingInUser);
+    const token = authToken.generateToken(signingInUser);
+
+    return res.header('x-auth-token', token)
+      .status(200)
+      .json({
+        status: res.statusCode,
+        data: Object.assign({ token }, signingInUser),
       });
   },
 };
