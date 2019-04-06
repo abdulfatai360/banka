@@ -2,7 +2,7 @@
 import Joi from 'joi';
 import {
   requiredName, optionalName, phone, email, password,
-  integer, bankAccountType,
+  integer, bankAccountType, accountNumber,
 } from './validation-rules';
 
 const userSignup = (req, res, next) => {
@@ -82,5 +82,33 @@ const createAccount = (req, res, next) => {
   }
 };
 
+const changeAccountStatus = (req, res, next) => {
+  const clientInputs = {
+    accountNumber: req.params.accountNumber,
+    newAccountStatus: req.body.status,
+  };
 
-export { userSignup, userSignin, createAccount };
+  const schema = Joi.object().keys({
+    accountNumber: accountNumber('Account number parameter'),
+    newAccountStatus: requiredName('Account status'),
+  });
+
+  const { error } = Joi.validate(clientInputs, schema);
+
+  if (error) {
+    res.status(422).json({
+      status: res.statusCode,
+      error: error.details[0].message,
+    });
+  } else {
+    next();
+  }
+};
+
+
+export {
+  userSignup,
+  userSignin,
+  createAccount,
+  changeAccountStatus,
+};

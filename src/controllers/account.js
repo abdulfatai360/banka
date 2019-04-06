@@ -33,6 +33,33 @@ const account = {
       },
     });
   },
+
+  changeStatus(req, res) {
+    // get client inputs from req body and parameter
+    const { accountNumber } = req.params;
+    const newStatus = req.body.status;
+
+    // confirm if the account record exist
+    const acctInfo = accountModel.findByAccountNumber(accountNumber);
+    if (!acctInfo) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'The bank account record you wanted to change its status is incorrect',
+      });
+    }
+
+    // grab the status prop of the acct number from account DB
+    acctInfo.status = newStatus;
+
+    // return the acct number and its new status in res body
+    res.status(200).json({
+      status: res.statusCode,
+      data: {
+        accountNumber: acctInfo.accountNumber,
+        status: acctInfo.status,
+      },
+    });
+  },
 };
 
 export default account;

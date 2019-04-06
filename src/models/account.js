@@ -18,7 +18,7 @@ class Account {
     // generate account number, find duplicate, and ...
     // generate another if duplicate is found
     let acctNumber = bankAccountNumber(acctOwner);
-    const duplicate = this.findAccountDuplicate(acctNumber);
+    const duplicate = this.findByAccountNumber(acctNumber);
     acctNumber = duplicate ? bankAccountNumber(acctOwner) : acctNumber;
 
     const accountEntity = {
@@ -27,7 +27,7 @@ class Account {
       createdOn: new Date(),
       owner: data.owner,
       type: data.type,
-      status: 'active',
+      status: 'draft',
       openingBalance: convertTo2dp(0),
       balance: convertTo2dp(0),
     };
@@ -36,7 +36,7 @@ class Account {
     return accountEntity;
   }
 
-  findAccountDuplicate(acctNumber) {
+  findByAccountNumber(acctNumber) {
     return this.bankAccounts
       .find(acct => acct.accountNumber === acctNumber);
   }
