@@ -41,6 +41,10 @@ class Account {
       .find(acct => acct.accountNumber === acctNumber);
   }
 
+  findById(id) {
+    return this.bankAccounts.find(acct => acct.id === id);
+  }
+
   findAll() {
     return this.bankAccounts;
   }
