@@ -89,8 +89,29 @@ const changeAccountStatus = (req, res, next) => {
   };
 
   const schema = Joi.object().keys({
-    accountNumber: accountNumber('Account number parameter'),
+    accountNumber: accountNumber('The specified account number'),
     newAccountStatus: requiredName('Account status'),
+  });
+
+  const { error } = Joi.validate(clientInputs, schema);
+
+  if (error) {
+    res.status(422).json({
+      status: res.statusCode,
+      error: error.details[0].message,
+    });
+  } else {
+    next();
+  }
+};
+
+const deleteAccount = (req, res, next) => {
+  const clientInputs = {
+    accountNumber: req.params.accountNumber,
+  };
+
+  const schema = Joi.object().keys({
+    accountNumber: accountNumber('The specified account number'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
@@ -111,4 +132,5 @@ export {
   userSignin,
   createAccount,
   changeAccountStatus,
+  deleteAccount,
 };

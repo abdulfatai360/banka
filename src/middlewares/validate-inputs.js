@@ -2,7 +2,11 @@
 /* eslint-disable default-case */
 /* eslint-disable no-case-declarations */
 import {
-  userSignup, userSignin, createAccount, changeAccountStatus,
+  userSignup,
+  userSignin,
+  createAccount,
+  changeAccountStatus,
+  deleteAccount,
 } from '../utilities/validation-init';
 
 const validateInputs = (entity) => {
@@ -19,6 +23,9 @@ const validateInputs = (entity) => {
         break;
       case 'changeBankAccountStatus':
         changeAccountStatus(req, res, next);
+        break;
+      case 'deleteBankAccount':
+        deleteAccount(req, res, next);
         break;
     }
   };

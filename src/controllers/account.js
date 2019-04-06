@@ -3,19 +3,19 @@ import '@babel/polyfill';
 import { userModel } from '../models/user';
 import { accountModel } from '../models/account';
 
-const account = {
+const accountController = {
   create(req, res) {
     // confirm if the owner specified in req's body exist
-    const acctOwner = userModel.findById(Number(req.body.owner));
+    const accountOwner = userModel.findById(Number(req.body.owner));
 
-    if (!acctOwner) {
+    if (!accountOwner) {
       return res.status(400).json({
         status: res.statusCode,
         error: 'The person you tried to open a bank account for does not exist',
       });
     }
 
-    const acctInfo = accountModel.create({
+    const accountInfo = accountModel.create({
       owner: Number(req.body.owner),
       type: req.body.type,
     });
@@ -23,13 +23,13 @@ const account = {
     res.status(201).json({
       status: res.statusCode,
       data: {
-        accountNumber: acctInfo.accountNumber,
-        firstName: acctOwner.firstName,
-        lastName: acctOwner.lastName,
-        otherName: acctOwner.otherName,
-        email: acctOwner.email,
-        type: acctInfo.type,
-        openingBalance: acctInfo.openingBalance,
+        accountNumber: accountInfo.accountNumber,
+        firstName: accountOwner.firstName,
+        lastName: accountOwner.lastName,
+        otherName: accountOwner.otherName,
+        email: accountOwner.email,
+        type: accountInfo.type,
+        openingBalance: accountInfo.openingBalance,
       },
     });
   },
@@ -40,8 +40,8 @@ const account = {
     const newStatus = req.body.status;
 
     // confirm if the account record exist
-    const acctInfo = accountModel.findByAccountNumber(accountNumber);
-    if (!acctInfo) {
+    const account = accountModel.findByAccountNumber(accountNumber);
+    if (!account) {
       return res.status(400).json({
         status: res.statusCode,
         error: 'The bank account record you wanted to change its status is incorrect',
@@ -49,17 +49,38 @@ const account = {
     }
 
     // update the status of the account number record
-    acctInfo.status = newStatus;
+    account.status = newStatus;
 
     // return the acct number and its new status in res body
     res.status(200).json({
       status: res.statusCode,
       data: {
-        accountNumber: acctInfo.accountNumber,
-        status: acctInfo.status,
+        accountNumber: account.accountNumber,
+        status: account.status,
       },
+    });
+  },
+
+  delete(req, res) {
+    // confirm if the specified account number record exist
+    const { accountNumber } = req.params;
+    const account = accountModel.findByAccountNumber(accountNumber);
+
+    if (!account) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'The bank account record you wanted to delete is incorrect',
+      });
+    }
+
+    // then delete the account record from DB
+    accountModel.deleteOne({ accountNumber });
+
+    res.status(200).json({
+      status: res.statusCode,
+      message: 'Bank account deleted successfully',
     });
   },
 };
 
-export default account;
+export default accountController;
