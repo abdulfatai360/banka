@@ -48,7 +48,7 @@ const account = {
       });
     }
 
-    // grab the status prop of the acct number from account DB
+    // update the status of the account number record
     acctInfo.status = newStatus;
 
     // return the acct number and its new status in res body
