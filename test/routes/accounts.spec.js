@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-return-await */
 /* eslint-disable no-await-in-loop */
 import '@babel/polyfill';
@@ -23,6 +24,13 @@ const seedAccountDb = () => {
 };
 
 describe('/accounts', () => {
+  before('Populate user database', async () => { await seedUserDb(); });
+
+  after('Clears user database and its serial generator', () => {
+    userModel.deleteAll();
+    userSerial.reset();
+  });
+
   describe('POST /accounts', () => {
     let accountInfo;
 
@@ -34,22 +42,19 @@ describe('/accounts', () => {
       return res;
     };
 
-    afterEach('Clears databases', () => {
-      userModel.deleteAll();
+    afterEach('Clears Account database and its serial generator', () => {
       accountModel.deleteAll();
-      userSerial.reset();
       accountSerial.reset();
     });
 
     it('should return 400 when specified account owner is invalid', async () => {
-      accountInfo = { owner: '1', type: 'current' };
+      accountInfo = { owner: '0', type: 'current' };
       const res = await execCreateAccountReq();
 
       expect(res).to.have.status(400);
     });
 
     it('should create a new account and save it in account DB', async () => {
-      await seedUserDb();
       accountInfo = { owner: '1', type: 'savings' };
       const res = await execCreateAccountReq();
 
@@ -58,7 +63,6 @@ describe('/accounts', () => {
     });
 
     it('should return 201 for when a new account is created', async () => {
-      await seedUserDb();
       accountInfo = { owner: '1', type: 'savings' };
       const res = await execCreateAccountReq();
 
@@ -66,7 +70,6 @@ describe('/accounts', () => {
     });
 
     it('should return some info about the bank account and its owner', async () => {
-      await seedUserDb();
       accountInfo = { owner: '1', type: 'savings' };
       const res = await execCreateAccountReq();
 
@@ -89,14 +92,11 @@ describe('/accounts', () => {
       return res;
     };
 
-    before('Seed user and account DB', async () => {
-      await seedUserDb();
+    before('Populate Account database', () => {
       seedAccountDb();
     });
 
-    after('Clears dependencies', () => {
-      userModel.deleteAll();
-      userSerial.reset();
+    after('Clears Account database and its serial generator', () => {
       accountModel.deleteAll();
       accountSerial.reset();
     });
@@ -114,7 +114,6 @@ describe('/accounts', () => {
     it('should return 200 when an account status is changed', async () => {
       const accountRecord = accountModel.findById(1);
 
-      // eslint-disable-next-line prefer-destructuring
       accountNumber = accountRecord.accountNumber;
       reqBody = { status: 'active' };
 
@@ -127,7 +126,6 @@ describe('/accounts', () => {
     it('should change the account status and returns its new status', async () => {
       const accountRecord = accountModel.findById(1);
 
-      // eslint-disable-next-line prefer-destructuring
       accountNumber = accountRecord.accountNumber;
       reqBody = { status: 'dormant' };
 
@@ -137,6 +135,53 @@ describe('/accounts', () => {
       expect(res.body.data)
         .to.have.own.property('status')
         .that.matches(/dormant/i);
+    });
+  });
+
+  describe('DELETE /accounts/<account-number>', () => {
+    let accountNumber;
+
+    const execDeleteReq = async () => {
+      const res = await chai.request(app)
+        .delete(`/api/v1/accounts/${accountNumber}`);
+
+      return res;
+    };
+
+    beforeEach('Populate account database', () => { seedAccountDb(); });
+
+    afterEach('Clears user database and its serial generator', () => {
+      accountModel.deleteAll();
+      accountSerial.reset();
+    });
+
+    it('should return 400 for invalid account number', async () => {
+      accountNumber = '1111111111';
+      const res = await execDeleteReq();
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.own.property('error');
+    });
+
+    it('should return 200 when an account is deleted', async () => {
+      const account = accountModel.findById(1);
+      accountNumber = account.accountNumber;
+
+      const res = await execDeleteReq();
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.own.property('message');
+    });
+
+    it('should delete the account in the database', async () => {
+      let account = accountModel.findById(1);
+      accountNumber = account.accountNumber;
+
+      await execDeleteReq();
+
+      account = accountModel.findById(1);
+      // eslint-disable-next-line no-unused-expressions
+      expect(account).to.be.undefined;
     });
   });
 });
