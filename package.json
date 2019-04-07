@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel src --watch --out-dir dist --source-maps",
     "start": "nodemon dist/index.js",
-    "test": "mocha --recursive --colors --inline-diffs --timeout 5000 --exit --require @babel/register"
+    "test": "mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register"
   },
   "keywords": [],
   "repository": {
