@@ -38,15 +38,24 @@ class Account {
 
   findByAccountNumber(acctNumber) {
     return this.bankAccounts
-      .find(acct => acct.accountNumber === acctNumber);
+      .find(account => account.accountNumber === acctNumber);
   }
 
   findById(id) {
-    return this.bankAccounts.find(acct => acct.id === id);
+    return this.bankAccounts.find(account => account.id === id);
   }
 
   findAll() {
     return this.bankAccounts;
+  }
+
+  deleteOne(paramObj = {}) {
+    const key = Object.keys(paramObj)[0];
+
+    const accountIndex = this.bankAccounts
+      .findIndex(account => account[key] === paramObj[key]);
+
+    this.bankAccounts.splice(accountIndex, 1);
   }
 
   deleteAll() {
