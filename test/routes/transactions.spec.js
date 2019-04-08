@@ -13,7 +13,7 @@ import { userModel, userSerial } from '../../src/models/user';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe.only('/transactions', () => {
+describe('/transactions', () => {
   before('Populate user database', async () => {
     await seedUserDb();
   });
