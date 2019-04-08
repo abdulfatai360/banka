@@ -5,18 +5,53 @@
 import Joi from 'joi';
 
 const integer = (input) => {
-  const customJoiError = Joi.number().integer().required()
+  const customJoiError = Joi.string().required().regex(/^\d+$/)
     .error((errors) => {
       return errors.map((err) => {
         switch (err.type) {
-          case 'number.base':
-            return `${input} should be a number`;
-          case 'number.integer':
-            return `${input} should be an integer`;
           case 'any.empty':
             return `${input} should not be empty`;
           case 'any.required':
             return `${input} is required`;
+          case 'string.regex.base':
+            return `${input} should be an integer`;
+        }
+      }).join(' and ');
+    });
+
+  return customJoiError;
+};
+
+const float = (input) => {
+  const customJoiError = Joi.string().required()
+    .regex(/^\d+(.){1}(\d){2}$/)
+    .error((errors) => {
+      return errors.map((err) => {
+        switch (err.type) {
+          case 'any.empty':
+            return `${input} should not be empty`;
+          case 'any.required':
+            return `${input} is required`;
+          case 'string.regex.base':
+            return `${input} should be a number rounded to two (2) decimal places`;
+        }
+      }).join(' and ');
+    });
+
+  return customJoiError;
+};
+
+const requiredStr = (input) => {
+  const customJoiError = Joi.string().required().regex(/^[a-zA-Z]+$/)
+    .error((errors) => {
+      return errors.map((err) => {
+        switch (err.type) {
+          case 'any.empty':
+            return `${input} should not be empty`;
+          case 'any.required':
+            return `${input} is required`;
+          case 'string.regex.base':
+            return `${input} should contain alphabets only`;
         }
       }).join(' and ');
     });
@@ -69,7 +104,7 @@ const optionalName = (input) => {
 
 const phone = (input) => {
   const customJoiError = Joi.string().required().length(11)
-    .regex(/^[0-9]{11}$/)
+    .regex(/^\d{11}$/)
     .error((errors) => {
       return errors.map((err) => {
         switch (err.type) {
@@ -92,7 +127,7 @@ const phone = (input) => {
 
 const accountNumber = (input) => {
   const customJoiError = Joi.string().required().length(10)
-    .regex(/^[0-9]{10}$/)
+    .regex(/^\d{10}$/)
     .error((errors) => {
       return errors.map((err) => {
         switch (err.type) {
@@ -105,7 +140,7 @@ const accountNumber = (input) => {
           case 'string.length':
             return `${input} should be ${err.context.limit} characters long`;
           case 'string.regex.base':
-            return `${input} should be a valid account number`;
+            return `${input} should contain numbers only and be 10 characters long`;
         }
       }).join(' and ');
     });
@@ -181,9 +216,31 @@ const bankAccountType = (input) => {
   return customJoiError;
 };
 
+const transactionType = (input) => {
+  const customJoiError = Joi.string().required()
+    .regex(/^(debit)|(credit)$/i)
+    .error((errors) => {
+      return errors.map((err) => {
+        switch (err.type) {
+          case 'string.base':
+            return `${input} should be a string`;
+          case 'any.required':
+            return `${input} is required`;
+          case 'any.empty':
+            return `${input} should be not be empty`;
+          case 'string.regex.base':
+            return `${input} should be either 'Debit' or 'Credit'`;
+        }
+      }).join(' and ');
+    });
+
+  return customJoiError;
+};
+
 
 export {
   integer,
+  requiredStr,
   requiredName,
   optionalName,
   phone,
@@ -191,4 +248,6 @@ export {
   email,
   password,
   bankAccountType,
+  transactionType,
+  float,
 };

@@ -1,12 +1,12 @@
 /* eslint-disable consistent-return */
 import Joi from 'joi';
 import {
-  requiredName, optionalName, phone, email, password,
-  integer, bankAccountType, accountNumber,
+  requiredName, optionalName, phone, email, password, integer, float,
+  bankAccountType, accountNumber, transactionType, requiredStr,
 } from './validation-rules';
 
 const userSignup = (req, res, next) => {
-  const userEntity = {
+  const clientInputs = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     otherName: req.body.otherName,
@@ -24,7 +24,7 @@ const userSignup = (req, res, next) => {
     password: password('Password'),
   });
 
-  const { error } = Joi.validate(userEntity, schema);
+  const { error } = Joi.validate(clientInputs, schema);
 
   if (error) {
     res.status(422).json({
@@ -60,7 +60,7 @@ const userSignin = (req, res, next) => {
 };
 
 const createAccount = (req, res, next) => {
-  const createAccountInputs = {
+  const clientInputs = {
     owner: req.body.owner,
     type: req.body.type,
   };
@@ -70,7 +70,7 @@ const createAccount = (req, res, next) => {
     type: bankAccountType('Bank account type'),
   });
 
-  const { error } = Joi.validate(createAccountInputs, schema);
+  const { error } = Joi.validate(clientInputs, schema);
 
   if (error) {
     res.status(422).json({
@@ -90,7 +90,7 @@ const changeAccountStatus = (req, res, next) => {
 
   const schema = Joi.object().keys({
     accountNumber: accountNumber('The specified account number'),
-    newAccountStatus: requiredName('Account status'),
+    newAccountStatus: requiredStr('Account status'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
@@ -126,6 +126,33 @@ const deleteAccount = (req, res, next) => {
   }
 };
 
+const postTransaction = (req, res, next) => {
+  const clientInputs = {
+    accountNumber: req.params.accountNumber,
+    amount: req.body.amount,
+    type: req.body.type,
+    cashier: req.body.cashier,
+  };
+
+  const schema = Joi.object().keys({
+    accountNumber: accountNumber('The specified account number'),
+    amount: float('The amount to transact with'),
+    type: transactionType('Transaction type'),
+    cashier: integer('Cashier value'),
+  });
+
+  const { error } = Joi.validate(clientInputs, schema);
+
+  if (error) {
+    res.status(422).json({
+      status: res.statusCode,
+      error: error.details[0].message,
+    });
+  } else {
+    next();
+  }
+};
+
 
 export {
   userSignup,
@@ -133,4 +160,5 @@ export {
   createAccount,
   changeAccountStatus,
   deleteAccount,
+  postTransaction,
 };

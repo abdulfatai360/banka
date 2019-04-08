@@ -12,11 +12,8 @@ class Account {
   }
 
   create(data) {
-    // find account owner from user database
     const acctOwner = userModel.findById(Number(data.owner));
 
-    // generate account number, find duplicate, and ...
-    // generate another if duplicate is found
     let acctNumber = bankAccountNumber(acctOwner);
     const duplicate = this.findByAccountNumber(acctNumber);
     acctNumber = duplicate ? bankAccountNumber(acctOwner) : acctNumber;
@@ -27,9 +24,9 @@ class Account {
       createdOn: new Date(),
       owner: data.owner,
       type: data.type,
-      status: 'draft',
-      openingBalance: convertTo2dp(0),
-      balance: convertTo2dp(0),
+      status: data.status,
+      openingBalance: convertTo2dp(data.openingBalance),
+      balance: convertTo2dp(data.balance),
     };
 
     this.bankAccounts.push(accountEntity);
