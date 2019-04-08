@@ -48,7 +48,6 @@ class User {
       return user.id === id && user.isAdmin === false;
     });
 
-    console.log(cashier);
     return cashier;
   }
 
