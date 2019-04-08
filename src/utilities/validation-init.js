@@ -65,7 +65,7 @@ const createAccount = (req, res, next) => {
     type: req.body.type,
   };
 
-  const schema = Joi.object().keys({
+  const schema = Joi.object({
     owner: integer('Bank account owner'),
     type: bankAccountType('Bank account type'),
   });
@@ -83,17 +83,13 @@ const createAccount = (req, res, next) => {
 };
 
 const changeAccountStatus = (req, res, next) => {
-  const clientInputs = {
+  const { error } = Joi.validate({
     accountNumber: req.params.accountNumber,
     newAccountStatus: req.body.status,
-  };
-
-  const schema = Joi.object().keys({
+  }, Joi.object({
     accountNumber: accountNumber('The specified account number'),
     newAccountStatus: requiredStr('Account status'),
-  });
-
-  const { error } = Joi.validate(clientInputs, schema);
+  }));
 
   if (error) {
     res.status(422).json({
@@ -106,15 +102,11 @@ const changeAccountStatus = (req, res, next) => {
 };
 
 const deleteAccount = (req, res, next) => {
-  const clientInputs = {
+  const { error } = Joi.validate({
     accountNumber: req.params.accountNumber,
-  };
-
-  const schema = Joi.object().keys({
+  }, Joi.object().keys({
     accountNumber: accountNumber('The specified account number'),
-  });
-
-  const { error } = Joi.validate(clientInputs, schema);
+  }));
 
   if (error) {
     res.status(422).json({

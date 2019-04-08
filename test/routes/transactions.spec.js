@@ -47,7 +47,7 @@ describe('/transactions', () => {
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
-        cashier: '2',
+        cashier: '3',
       };
 
       const res = await execDebitTxnReq();
@@ -75,7 +75,7 @@ describe('/transactions', () => {
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
-        cashier: '2',
+        cashier: '3',
       };
 
       const res = await execDebitTxnReq();
@@ -91,7 +91,7 @@ describe('/transactions', () => {
       transactionInfo = {
         amount: '50.56',
         type: 'debit',
-        cashier: '2',
+        cashier: '3',
       };
 
       account.balance = 500.00;
@@ -109,7 +109,7 @@ describe('/transactions', () => {
       transactionInfo = {
         amount: '50.00',
         type: 'debit',
-        cashier: '2',
+        cashier: '3',
       };
 
       account.balance = 500.00;
