@@ -65,30 +65,30 @@ const transactionController = {
     saveAndReturnTxnDetails(req, res, oldBalance, account);
   },
 
-  // creditAccount(req, res) {
-  //   const init = txnInit(req, res);
+  creditAccount(req, res) {
+    const init = txnInit(req, res);
 
-  //   if (!init.cashier) {
-  //     return res.status(400).json({
-  //       status: res.statusCode,
-  //       error: 'The cashier value you entered is incorrect',
-  //     });
-  //   }
+    if (!init.cashier) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'The cashier value you entered is incorrect',
+      });
+    }
 
-  //   if (!init.account) {
-  //     return res.status(400).json({
-  //       status: res.statusCode,
-  //       error: `The bank account you wanted to post a ${req.body.type} transaction for is incorrect`,
-  //     });
-  //   }
+    if (!init.account) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: `The bank account you wanted to post a ${req.body.type} transaction for is incorrect`,
+      });
+    }
 
-  //   const { account } = init;
-  //   const oldBalance = account.balance;
+    const { account } = init;
+    const oldBalance = account.balance;
 
-  //   account.balance = convertTo2dp(Number(account.balance) + Number(req.body.amount));
+    account.balance = convertTo2dp(Number(account.balance) + Number(req.body.amount));
 
-  //   saveAndReturnTxnDetails(req, res, oldBalance, account);
-  // },
+    saveAndReturnTxnDetails(req, res, oldBalance, account);
+  },
 };
 
 export default transactionController;
