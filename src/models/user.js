@@ -42,6 +42,16 @@ class User {
     return this.database.find(user => user.email === emailStr);
   }
 
+  findCashierById(id) {
+    // eslint-disable-next-line arrow-body-style
+    const cashier = this.database.find((user) => {
+      return user.id === id && user.isAdmin === false;
+    });
+
+    console.log(cashier);
+    return cashier;
+  }
+
   findAll() {
     return this.database;
   }

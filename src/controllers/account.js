@@ -5,7 +5,6 @@ import { accountModel } from '../models/account';
 
 const accountController = {
   create(req, res) {
-    // confirm if the owner specified in req's body exist
     const accountOwner = userModel.findById(Number(req.body.owner));
 
     if (!accountOwner) {
@@ -18,6 +17,9 @@ const accountController = {
     const accountInfo = accountModel.create({
       owner: Number(req.body.owner),
       type: req.body.type,
+      status: 'draft',
+      openingBalance: 0.00,
+      balance: 0.00,
     });
 
     res.status(201).json({
@@ -35,11 +37,9 @@ const accountController = {
   },
 
   changeStatus(req, res) {
-    // get client inputs from req body and parameter
     const { accountNumber } = req.params;
     const newStatus = req.body.status;
 
-    // confirm if the account record exist
     const account = accountModel.findByAccountNumber(accountNumber);
     if (!account) {
       return res.status(400).json({
@@ -48,10 +48,8 @@ const accountController = {
       });
     }
 
-    // update the status of the account number record
     account.status = newStatus;
 
-    // return the acct number and its new status in res body
     res.status(200).json({
       status: res.statusCode,
       data: {
@@ -62,7 +60,6 @@ const accountController = {
   },
 
   delete(req, res) {
-    // confirm if the specified account number record exist
     const { accountNumber } = req.params;
     const account = accountModel.findByAccountNumber(accountNumber);
 
@@ -73,7 +70,6 @@ const accountController = {
       });
     }
 
-    // then delete the account record from DB
     accountModel.deleteOne({ accountNumber });
 
     res.status(200).json({

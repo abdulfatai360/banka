@@ -7,6 +7,7 @@ import {
   createAccount,
   changeAccountStatus,
   deleteAccount,
+  postTransaction,
 } from '../utilities/validation-init';
 
 const validateInputs = (entity) => {
@@ -26,6 +27,9 @@ const validateInputs = (entity) => {
         break;
       case 'deleteBankAccount':
         deleteAccount(req, res, next);
+        break;
+      case 'postTransaction':
+        postTransaction(req, res, next);
         break;
     }
   };
