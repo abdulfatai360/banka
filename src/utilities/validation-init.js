@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import Joi from 'joi';
+import HttpResponse from './http-response';
 import {
   requiredName, optionalName, phone, email, password, integer, float,
   bankAccountType, accountNumber, transactionType, requiredStr,
@@ -26,14 +27,8 @@ const userSignup = (req, res, next) => {
 
   const { error } = Joi.validate(clientInputs, schema);
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 const userSignin = (req, res, next) => {
@@ -49,14 +44,8 @@ const userSignin = (req, res, next) => {
 
   const { error } = Joi.validate(loginCredentials, schema);
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 const createAccount = (req, res, next) => {
@@ -72,14 +61,8 @@ const createAccount = (req, res, next) => {
 
   const { error } = Joi.validate(clientInputs, schema);
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 const changeAccountStatus = (req, res, next) => {
@@ -91,14 +74,8 @@ const changeAccountStatus = (req, res, next) => {
     newAccountStatus: requiredStr('Account status'),
   }));
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 const deleteAccount = (req, res, next) => {
@@ -108,14 +85,8 @@ const deleteAccount = (req, res, next) => {
     accountNumber: accountNumber('The specified account number'),
   }));
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 const postTransaction = (req, res, next) => {
@@ -135,14 +106,8 @@ const postTransaction = (req, res, next) => {
 
   const { error } = Joi.validate(clientInputs, schema);
 
-  if (error) {
-    res.status(422).json({
-      status: res.statusCode,
-      error: error.details[0].message,
-    });
-  } else {
-    next();
-  }
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+  next();
 };
 
 

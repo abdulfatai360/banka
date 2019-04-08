@@ -6,8 +6,8 @@
   "scripts": {
     "build": "babel src --watch --out-dir dist --source-maps",
     "start": "nodemon dist/index.js",
-    "test": "mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
+    "test:dev": "mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
+    "test": "nyc --reporter=html --reporter=text mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [],

@@ -58,12 +58,12 @@ describe('/auth', () => {
       return res;
     };
 
-    afterEach('clears and reset external dependencies', async () => {
+    afterEach('clears and reset user database', async () => {
       userModel.deleteAll();
       userSerial.reset();
     });
 
-    it('should return 201 for successful user signup', async () => {
+    it('should return 201 when a user account is created', async () => {
       user = {
         firstName: 'Abdus',
         lastName: 'Sobur',
@@ -79,7 +79,7 @@ describe('/auth', () => {
       expect(res.body).to.have.ownProperty('status');
     });
 
-    it('should create a new user account and returns its details', async () => {
+    it('should create a user account and returns its details', async () => {
       user = {
         firstName: 'Abdus',
         lastName: 'Sobur',
@@ -96,7 +96,7 @@ describe('/auth', () => {
       expect(userDetails.email).to.match(/abdusobur@domain.com/i);
     });
 
-    it('should return 409 if user registers with an existing email', async () => {
+    it('should return 409 when user registers with an existing email', async () => {
       await seedUserDb();
 
       user = {
@@ -134,7 +134,7 @@ describe('/auth', () => {
       userSerial.reset();
     });
 
-    it('should return 400 for invalid login credentials', async () => {
+    it('should return 400 any of the login credentials is invalid', async () => {
       loginCredentials = {
         email: 'invalidemail@domain.com',
         password: 'invalidpassword',
@@ -148,7 +148,7 @@ describe('/auth', () => {
         .that.is.a('string');
     });
 
-    it('should return 200 for valid login credentials', async () => {
+    it('should return 200 when a user logs in', async () => {
       loginCredentials = {
         email: 'sincere@april.biz',
         password: 'sincere@april.biz',

@@ -2,28 +2,34 @@
 import '@babel/polyfill';
 import { userModel } from '../models/user';
 import { accountModel } from '../models/account';
+import HttpResponse from '../utilities/http-response';
+
+const accountData = (req) => {
+  // default values
+  const status = 'draft'; const openingBalance = 0;
+
+  return {
+    owner: Number(req.body.owner),
+    type: req.body.type,
+    status,
+    openingBalance,
+    balance: openingBalance,
+  };
+};
 
 const accountController = {
   create(req, res) {
     const accountOwner = userModel.findById(Number(req.body.owner));
 
     if (!accountOwner) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: 'The person you tried to open a bank account for does not exist',
+      return HttpResponse.send(res, 400, {
+        error: 'The client you tried to open an account for does not exist',
       });
     }
 
-    const accountInfo = accountModel.create({
-      owner: Number(req.body.owner),
-      type: req.body.type,
-      status: 'draft',
-      openingBalance: 0.00,
-      balance: 0.00,
-    });
+    const accountInfo = accountModel.create(accountData(req));
 
-    res.status(201).json({
-      status: res.statusCode,
+    return HttpResponse.send(res, 201, {
       data: {
         accountNumber: accountInfo.accountNumber,
         firstName: accountOwner.firstName,
@@ -39,23 +45,15 @@ const accountController = {
   changeStatus(req, res) {
     const { accountNumber } = req.params;
     const newStatus = req.body.status;
-
     const account = accountModel.findByAccountNumber(accountNumber);
+
     if (!account) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: 'The bank account record you wanted to change its status is incorrect',
-      });
+      return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
     }
 
     account.status = newStatus;
-
-    res.status(200).json({
-      status: res.statusCode,
-      data: {
-        accountNumber: account.accountNumber,
-        status: account.status,
-      },
+    return HttpResponse.send(res, 200, {
+      data: { accountNumber, status: account.status },
     });
   },
 
@@ -64,18 +62,13 @@ const accountController = {
     const account = accountModel.findByAccountNumber(accountNumber);
 
     if (!account) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: 'The bank account record you wanted to delete is incorrect',
+      return HttpResponse.send(res, 400, {
+        error: 'The account you wanted to delete is invalid',
       });
     }
 
     accountModel.deleteOne({ accountNumber });
-
-    res.status(200).json({
-      status: res.statusCode,
-      message: 'Bank account deleted successfully',
-    });
+    return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
   },
 };
 
