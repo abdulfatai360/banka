@@ -27,6 +27,8 @@ const seedUserDb = async () => {
       phone: '08106926593',
       email: 'shanna@melissa.tv',
       password: 'shanna@melissa.tv',
+      type: 'staff',
+      isAdmin: false,
     },
   ];
 

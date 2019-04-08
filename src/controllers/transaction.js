@@ -7,7 +7,6 @@ import { userModel } from '../models/user';
 
 const txnInit = (req, res) => {
   const { accountNumber } = req.params;
-  console.log('CashierId..', req.body.cashier);
 
   const account = accountModel.findByAccountNumber(accountNumber);
   const cashier = userModel.findCashierById(Number(req.body.cashier));

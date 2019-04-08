@@ -14,8 +14,20 @@ chai.use(chaiHttp);
 
 const seedAccountDb = () => {
   const acctInfoFromClient = [
-    { owner: '1', type: 'savings' },
-    { owner: '2', type: 'current' },
+    {
+      owner: '1',
+      type: 'savings',
+      status: 'draft',
+      openingBalance: 0.00,
+      balance: 0.00,
+    },
+    {
+      owner: '2',
+      type: 'current',
+      status: 'draft',
+      openingBalance: 0.00,
+      balance: 0.00,
+    },
   ];
 
   for (let i = 0; i < acctInfoFromClient.length; i += 1) {
@@ -185,3 +197,5 @@ describe('/accounts', () => {
     });
   });
 });
+
+export default seedAccountDb;

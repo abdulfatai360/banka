@@ -1,6 +1,6 @@
 import Sequence from '../utilities/sequence';
 
-const serial = new Sequence();
+const transactionSerial = new Sequence();
 
 class Transaction {
   constructor() {
@@ -9,7 +9,7 @@ class Transaction {
 
   create(data) {
     const transactionEntity = {
-      id: serial.autoIncrement(),
+      id: transactionSerial.autoIncrement(),
       createdOn: new Date(),
       type: data.type,
       accountNumber: data.accountNumber,
@@ -33,4 +33,4 @@ class Transaction {
 }
 
 const transactionModel = new Transaction();
-export { serial, transactionModel };
+export { transactionSerial, transactionModel };
