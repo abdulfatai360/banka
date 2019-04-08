@@ -16,20 +16,20 @@ const simulateAsync = async (trigger, dest) => {
 // Store the current path into a variable
 const pageUrl = window.location.pathname;
 
-if (pageUrl.includes('/signin.html')) {
-  console.log('/signin.html');
-  const btn = document.querySelector('.btn-form');
-  const destination = 'cashier/index.html';
+function setBtnAndDest(curr, dest, btnClass) {
+  console.log(curr);
+  const btn = document.querySelector(btnClass);
+  const destination = dest;
 
   simulateAsync(btn, destination);
 }
 
-if (pageUrl.includes('/signup.html')) {
-  console.log('/signup.html');
-  const btn = document.querySelector('.btn-form');
-  const destination = 'user/index.html';
+if (pageUrl.includes('/signin.html')) {
+  setBtnAndDest('/signin.html', 'cashier/index.html', '.btn-form');
+}
 
-  simulateAsync(btn, destination);
+if (pageUrl.includes('/signup.html')) {
+  setBtnAndDest('/signup.html', 'user/index.html', '.btn-form');
 }
 
 if (pageUrl.includes('user/index.html')) {
@@ -46,32 +46,15 @@ if (pageUrl.includes('user/index.html')) {
 }
 
 if (pageUrl.includes('user/accounts.html')) {
-  console.log('user/accounts.html');
-  const btn = document.querySelector('.btn-create-acct');
-  const destination = 'accounts.html';
-
-  simulateAsync(btn, destination);
+  setBtnAndDest('user/accounts.html', 'accounts.html', '.btn-create-acct');
 }
 
 if (pageUrl.includes('user/transactions.html')) {
-  console.log('user/transactions.html');
-  const btn = document.querySelector('.btn-form');
-  const destination = 'transactions.html';
-
-  simulateAsync(btn, destination).then(() => {
-    window.scrollTo({
-      top: 500,
-      behavior: 'smooth'
-    });
-  });
+  setBtnAndDest('user/transactions.html', 'transactions.html', '.btn-form');
 }
 
 if (pageUrl.includes('cashier/index.html')) {
-  console.log('cashier/index.html');
-  const profileUpdateBtn = document.querySelector('.btn-update-done');
-  const destination = 'index.html';
-
-  simulateAsync(profileUpdateBtn, destination);
+  setBtnAndDest('cashier/index.html', 'index.html', '.btn-update-done');
 }
 
 if (pageUrl.includes('cashier/bank-accounts.html') || pageUrl.includes('admin/bank-accounts.html')) {
@@ -85,30 +68,16 @@ if (pageUrl.includes('cashier/bank-accounts.html') || pageUrl.includes('admin/ba
 }
 
 if (pageUrl.includes('cashier/post-transaction.html')) {
-  console.log('cashier/post-transaction.html');
-  const btn = document.querySelector('.btn-form');
-  destination = 'index.html';
-
-  simulateAsync(btn, destination);
+  setBtnAndDest('cashier/post-transaction.html', 'index.html', '.btn-form');
 }
 
 if (pageUrl.includes('admin/index.html')) {
-  console.log('admin/index.html');
-  const btn = document.querySelector('.btn-update-done');
-  const destination = 'index.html';
-
-  simulateAsync(btn, destination);
+  setBtnAndDest('admin/index.html', 'index.html', '.btn-update-done');
 
   const btns = document.querySelectorAll('.btn-table');
   btns.forEach(el => simulateAsync(el, destination));
 }
 
 if (pageUrl.includes('admin/create-staff-account.html')) {
-  console.log('admin/create-staff-account.html');
-  const btn = document.querySelector('.btn-form');
-  destination = 'index.html';
-
-  simulateAsync(btn, destination);
+  setBtnAndDest('admin/create-staff-account.html', 'index.html', '.btn-form');
 }
-
-console.log(window.location);
