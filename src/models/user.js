@@ -21,19 +21,6 @@ class User {
     return removeObjectProp('password', userEntity);
   }
 
-  // eslint-disable-next-line consistent-return
-  getUserFullname(userId) {
-    const user = this.database.find(u => u.id === userId);
-
-    if (user) {
-      if (user.otherName) {
-        return `${user.firstName} ${user.otherName} ${user.lastName}`;
-      }
-
-      return `${user.firstName} ${user.lastName}`;
-    }
-  }
-
   findById(id) {
     return this.database.find(user => user.id === id);
   }

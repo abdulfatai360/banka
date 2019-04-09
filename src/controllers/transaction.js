@@ -4,6 +4,7 @@ import { transactionModel } from '../models/transaction';
 import { accountModel } from '../models/account';
 import convertTo2dp from '../utilities/convert-to-2dp';
 import { userModel } from '../models/user';
+import HttpResponse from '../utilities/http-response';
 
 const txnInit = (req, res) => {
   const { accountNumber } = req.params;
@@ -35,33 +36,28 @@ const transactionController = {
     const init = txnInit(req, res);
 
     if (!init.cashier) {
-      return res.status(400).json({
-        status: res.statusCode,
+      return HttpResponse.send(res, 400, {
         error: 'The cashier value you entered is incorrect',
       });
     }
 
     if (!init.account) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: `The bank account you wanted to post a ${req.body.type} transaction for is incorrect`,
+      return HttpResponse.send(res, 400, {
+        error: 'The account you wanted to debit is incorrect',
       });
     }
 
     const { account } = init;
-
     const oldBalance = account.balance;
     const newBal = Number(account.balance) - Number(req.body.amount);
 
     if (newBal < 0) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: 'This bank account do not have enough fund to complete this transaction',
+      return HttpResponse.send(res, 400, {
+        error: 'Insufficient fund to complete this transaction',
       });
     }
 
     account.balance = convertTo2dp(newBal);
-
     saveAndReturnTxnDetails(req, res, oldBalance, account);
   },
 
@@ -69,16 +65,14 @@ const transactionController = {
     const init = txnInit(req, res);
 
     if (!init.cashier) {
-      return res.status(400).json({
-        status: res.statusCode,
+      return HttpResponse.send(res, 400, {
         error: 'The cashier value you entered is incorrect',
       });
     }
 
     if (!init.account) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: `The bank account you wanted to post a ${req.body.type} transaction for is incorrect`,
+      return HttpResponse.send(res, 400, {
+        error: 'The account you wanted to credit is incorrect',
       });
     }
 
@@ -86,7 +80,6 @@ const transactionController = {
     const oldBalance = account.balance;
 
     account.balance = convertTo2dp(Number(account.balance) + Number(req.body.amount));
-
     saveAndReturnTxnDetails(req, res, oldBalance, account);
   },
 };
