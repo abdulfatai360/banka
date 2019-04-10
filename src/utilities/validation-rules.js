@@ -152,7 +152,7 @@ const email = (input) => {
 };
 
 const password = (input) => {
-  const customJoiError = Joi.string().required().min(6).max(255)
+  const customJoiError = Joi.string().required().min(6).max(254)
     .error((errors) => {
       return errors.map((err) => {
         switch (err.type) {
