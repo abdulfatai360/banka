@@ -1,34 +1,30 @@
 import express from 'express';
 import helmet from 'helmet';
 import { config } from 'dotenv';
+import rootRoute from './routes/root';
 import auth from './routes/auth';
 import accounts from './routes/accounts';
 import transactions from './routes/transactions';
+import undefinedRoute from './routes/undefined';
 
 config();
 const app = express();
+const port = process.env.PORT || 3000;
+const serverMsg = `Starting development server... http://localhost:${port}\n`;
 
 // middlewares
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// root route
-app.get('/', (req, res) => {
-  res.status(200).json({
-    status: res.statusCode,
-    message: 'Welcome to Banka!',
-  });
-});
-
-// other routes
+// routes
+app.use('/', rootRoute);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/accounts', accounts);
 app.use('/api/v1/transactions', transactions);
+app.use('/*', undefinedRoute);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Starting development server... http://localhost:${port}\n`);
-});
+// server
+app.listen(port, () => console.log(serverMsg));
 
 export default app;
