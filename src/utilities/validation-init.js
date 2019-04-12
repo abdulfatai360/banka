@@ -1,10 +1,7 @@
 /* eslint-disable consistent-return */
 import Joi from 'joi';
 import HttpResponse from './http-response';
-import {
-  requiredName, optionalName, phone, email, password, integer, float,
-  bankAccountType, accountNumber, transactionType, requiredStr,
-} from './validation-rules';
+import * as validationRule from './validation-rules';
 
 const userSignup = (req, res, next) => {
   const clientInputs = {
@@ -17,12 +14,12 @@ const userSignup = (req, res, next) => {
   };
 
   const schema = Joi.object({
-    firstName: requiredName('First name'),
-    lastName: requiredName('Last name'),
-    otherName: optionalName('Other name'),
-    phone: phone('Phone'),
-    email: email('Email'),
-    password: password('Password'),
+    firstName: validationRule.requiredName('First name'),
+    lastName: validationRule.requiredName('Last name'),
+    otherName: validationRule.optionalName('Other name'),
+    phone: validationRule.phone('Phone'),
+    email: validationRule.email('Email'),
+    password: validationRule.password('Password'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
@@ -38,8 +35,8 @@ const userSignin = (req, res, next) => {
   };
 
   const schema = Joi.object().keys({
-    email: email('Your login email'),
-    password: password('Your login password'),
+    email: validationRule.email('Your login email'),
+    password: validationRule.password('Your login password'),
   });
 
   const { error } = Joi.validate(loginCredentials, schema);
@@ -55,8 +52,8 @@ const createAccount = (req, res, next) => {
   };
 
   const schema = Joi.object({
-    owner: integer('Bank account owner'),
-    type: bankAccountType('Bank account type'),
+    owner: validationRule.integer('Bank account owner'),
+    type: validationRule.bankAccountType('Bank account type'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
@@ -70,8 +67,8 @@ const changeAccountStatus = (req, res, next) => {
     accountNumber: req.params.accountNumber,
     newAccountStatus: req.body.status,
   }, Joi.object({
-    accountNumber: accountNumber('The specified account number'),
-    newAccountStatus: requiredStr('Account status'),
+    accountNumber: validationRule.accountNumber('The specified account number'),
+    newAccountStatus: validationRule.requiredStr('Account status'),
   }));
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
@@ -82,7 +79,7 @@ const deleteAccount = (req, res, next) => {
   const { error } = Joi.validate({
     accountNumber: req.params.accountNumber,
   }, Joi.object().keys({
-    accountNumber: accountNumber('The specified account number'),
+    accountNumber: validationRule.accountNumber('The specified account number'),
   }));
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
@@ -98,10 +95,10 @@ const postTransaction = (req, res, next) => {
   };
 
   const schema = Joi.object().keys({
-    accountNumber: accountNumber('The specified account number'),
-    amount: float('The amount to transact with'),
-    type: transactionType('Transaction type'),
-    cashier: integer('Cashier value'),
+    accountNumber: validationRule.accountNumber('The specified account number'),
+    amount: validationRule.float('The amount to transact with'),
+    type: validationRule.transactionType('Transaction type'),
+    cashier: validationRule.integer('Cashier value'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
