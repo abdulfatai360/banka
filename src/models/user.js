@@ -21,6 +21,15 @@ class User {
     return removeObjectProp('password', userEntity);
   }
 
+  getFullName(id) {
+    const user = this.findById(id);
+    if (user.otherName) {
+      return `${user.lastName} ${user.firstName} ${user.otherName}`;
+    }
+
+    return `${user.lastName} ${user.firstName}`;
+  }
+
   findById(id) {
     return this.database.find(user => user.id === id);
   }

@@ -25,6 +25,7 @@ class Transaction {
       transactionId: transactionEntity.id,
       accountNumber: transactionEntity.accountNumber,
       amount: transactionEntity.amount,
+      createdOn: transactionEntity.createdOn,
       cashier: transactionEntity.cashier,
       transactionType: transactionEntity.type,
       accountBalance: transactionEntity.newBalance,
