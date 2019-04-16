@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import Sequence from '../utilities/sequence';
 import convertTo2dp from '../utilities/convert-to-2dp';
 import { userModel } from './user';

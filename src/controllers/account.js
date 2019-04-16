@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-import '@babel/polyfill';
 import { userModel } from '../models/user';
 import { accountModel } from '../models/account';
 import HttpResponse from '../utilities/http-response';

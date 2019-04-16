@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import '@babel/polyfill';
 import Sequence from '../utilities/sequence';
 import removeObjectProp from '../utilities/remove-object-prop';
 
