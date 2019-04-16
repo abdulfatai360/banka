@@ -1,6 +1,5 @@
 /* eslint-disable prefer-template */
 /* eslint-disable consistent-return */
-import '@babel/polyfill';
 import { transactionModel } from '../models/transaction';
 import { accountModel } from '../models/account';
 import convertTo2dp from '../utilities/convert-to-2dp';

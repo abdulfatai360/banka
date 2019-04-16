@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import express from 'express';
 import user from '../controllers/user';
 import validateInputs from '../middlewares/validate-inputs';

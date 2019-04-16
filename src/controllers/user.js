@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import hashPassword from '../utilities/hash-password';
 import authToken from '../utilities/auth-token';
 import { userModel } from '../models/user';
