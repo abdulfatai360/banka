@@ -1,70 +1,91 @@
+/* eslint-disable no-restricted-syntax */
 import hashPassword from '../utilities/hash-password';
 import authToken from '../utilities/auth-token';
-import { userModel } from '../models/user';
 import removeObjectProp from '../utilities/remove-object-prop';
 import HttpResponse from '../utilities/http-response';
+import userModel from '../database/models/user';
 
-const loginErrHandler = (req, res) => (
+const loginErrHandler = res => (
   HttpResponse.send(res, 400, {
     error: 'Sorry, the email or password you entered is incorrect',
   })
 );
 
-const userData = async (req, res) => {
+const signUpErrHandler = (res, error) => {
+  if (error.code === '23505') {
+    return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
+  }
+
+  return HttpResponse.send(res, 500, { error: 'Sorry, we can not complete your request now' });
+};
+
+const userData = async (req) => {
   const password = await hashPassword.generateHash(req.body.password);
-  const type = req.body.type || 'client';
+  const type = req.body.type || 'Client';
 
   return {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    otherName: req.body.otherName,
+    first_name: req.body.firstName,
+    last_name: req.body.lastName,
+    other_name: req.body.otherName,
     phone: req.body.phone,
-    email: req.body.email,
+    email: req.body.email.toLowerCase(),
     password,
     type,
   };
 };
 
 const userController = {
-  async create(req, res) {
+  async createUser(req, res) {
     let isAdmin;
-    let userEntity = await userData(req, res);
+    let userEntity = await userData(req);
+    let user;
 
-    if ((/^staff$/i).test(userEntity.type)) {
+    if ((/^Staff$/i).test(userEntity.type)) {
       isAdmin = (/^true$/i).test(req.body.isAdmin) || false;
+      userEntity = Object.assign(userEntity, { is_admin: isAdmin });
     }
 
-    userEntity = (isAdmin !== undefined)
-      ? Object.assign(userEntity, { isAdmin })
-      : userEntity;
+    try {
+      const rows = await userModel.create(userEntity);
+      [user] = rows;
 
-    if (userModel.findByEmail(userEntity.email)) {
-      return HttpResponse.send(res, 409, { error: 'A user with this email already existed' });
+      if (!user.other_name) user = removeObjectProp('other_name', user);
+      if (!user.is_admin) user = removeObjectProp('is_admin', user);
+      user = removeObjectProp('password', user);
+    } catch (error) {
+      return signUpErrHandler(res, error);
     }
 
-    const userInfo = userModel.create(userEntity);
-    const token = authToken.generateToken(userInfo);
+    const token = authToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 201, {
-      data: Object.assign({ token }, userInfo),
+      data: Object.assign({ token }, user),
     });
   },
 
-  async login(req, res) {
-    let signingInUser = userModel.findByEmail(req.body.email);
-    if (!signingInUser) return loginErrHandler(req, res);
+  async loginUser(req, res) {
+    const emailCred = req.body.email.toLowerCase();
+    const passCred = req.body.password;
+
+    const { rowCount, rows } = await userModel.findByEmail(emailCred);
+
+    if (!rowCount) return loginErrHandler(res);
 
     const isPasswordValid = await hashPassword
-      .verifyPassword(req.body.password, signingInUser.password);
-    if (!isPasswordValid) return loginErrHandler(req, res);
+      .verifyPassword(passCred, rows[0].password);
 
-    signingInUser = removeObjectProp('password', signingInUser);
-    const token = authToken.generateToken(signingInUser);
+    if (!isPasswordValid) return loginErrHandler(res);
+
+    let user = removeObjectProp('password', rows[0]);
+    if (!user.other_name) user = removeObjectProp('other_name', user);
+    if (!user.is_admin) user = removeObjectProp('is_admin', user);
+
+    const token = authToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 200, {
-      data: Object.assign({ token }, signingInUser),
+      data: Object.assign({ token }, user),
     });
   },
 };
