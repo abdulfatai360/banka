@@ -12,7 +12,7 @@ const conninfo = {
     password: process.env.PG_PASSWORD || null,
   },
   heroku: {
-    connectionString: process.env.CONNECTION_URI,
+    connectionString: process.env.DATABASE_URL,
     ssl: true,
   },
 };
