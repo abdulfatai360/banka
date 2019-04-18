@@ -16,7 +16,8 @@ const signUpErrHandler = (res, error) => {
     return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
   }
 
-  return HttpResponse.send(res, 500, { error: 'Sorry, we can not complete your request now' });
+  console.log('Error from signing up: ', error.message);
+  return HttpResponse.send(res, 500, { error: 'Sorry,something went wrong. We can not complete your request now. Please contact site administrator' });
 };
 
 const userData = async (req) => {
@@ -26,7 +27,6 @@ const userData = async (req) => {
   return {
     first_name: req.body.firstName,
     last_name: req.body.lastName,
-    other_name: req.body.otherName,
     phone: req.body.phone,
     email: req.body.email.toLowerCase(),
     password,
@@ -49,7 +49,6 @@ const userController = {
       const rows = await userModel.create(userEntity);
       [user] = rows;
 
-      if (!user.other_name) user = removeObjectProp('other_name', user);
       if (!user.is_admin) user = removeObjectProp('is_admin', user);
       user = removeObjectProp('password', user);
     } catch (error) {
@@ -78,7 +77,6 @@ const userController = {
     if (!isPasswordValid) return loginErrHandler(res);
 
     let user = removeObjectProp('password', rows[0]);
-    if (!user.other_name) user = removeObjectProp('other_name', user);
     if (!user.is_admin) user = removeObjectProp('is_admin', user);
 
     const token = authToken.generateToken(user);

@@ -22,11 +22,7 @@ class User {
 
   getFullName(id) {
     const user = this.findById(id);
-    if (user.otherName) {
-      return `${user.lastName} ${user.firstName} ${user.otherName}`;
-    }
-
-    return `${user.lastName} ${user.firstName}`;
+    return `${user.firstName} ${user.lastName}`;
   }
 
   findById(id) {

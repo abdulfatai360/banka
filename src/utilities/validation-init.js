@@ -7,7 +7,6 @@ const userSignup = (req, res, next) => {
   const clientInputs = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    otherName: req.body.otherName,
     phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
@@ -16,7 +15,6 @@ const userSignup = (req, res, next) => {
   const schema = Joi.object({
     firstName: validationRule.requiredName('First name'),
     lastName: validationRule.requiredName('Last name'),
-    otherName: validationRule.optionalName('Other name'),
     phone: validationRule.phone('Phone'),
     email: validationRule.email('Email'),
     password: validationRule.password('Password'),
@@ -47,13 +45,15 @@ const userSignin = (req, res, next) => {
 
 const createAccount = (req, res, next) => {
   const clientInputs = {
-    owner: req.body.owner,
-    type: req.body.type,
+    ownerId: req.body.ownerId,
+    accountType: req.body.accountType,
+    openingBalance: req.body.openingBalance,
   };
 
   const schema = Joi.object({
-    owner: validationRule.integer('Bank account owner'),
-    type: validationRule.bankAccountType('Bank account type'),
+    ownerId: validationRule.integer('Bank account owner'),
+    accountType: validationRule.bankAccountType('Bank account type'),
+    openingBalance: validationRule.float('Opening balance'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);
@@ -65,7 +65,7 @@ const createAccount = (req, res, next) => {
 const changeAccountStatus = (req, res, next) => {
   const { error } = Joi.validate({
     accountNumber: req.params.accountNumber,
-    newAccountStatus: req.body.status,
+    newAccountStatus: req.body.accountStatus,
   }, Joi.object({
     accountNumber: validationRule.accountNumber('The specified account number'),
     newAccountStatus: validationRule.requiredStr('Account status'),

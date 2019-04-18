@@ -13,6 +13,7 @@ const simpleData = (input, pattern, type) => {
   if (type === 'simpleStr') msg = `${input} should contain alphabets only`;
   if (type === 'acctType') msg = `${input} should be either 'Savings' or 'Current'`;
   if (type === 'txnType') msg = `${input} should be either 'Debit' or 'Credit`;
+  if (type === 'phone') msg = `${input} should be a valid phone number. It should be of this format: '+234xxxxxxxxxx' or '234xxxxxxxxxx'`;
 
   return Joi.string().required().regex(pattern)
     .error((errors) => {
@@ -32,7 +33,6 @@ const simpleData = (input, pattern, type) => {
 const fixedLengthData = (input, len, pattern, type) => {
   let msg;
 
-  if (type === 'phone') msg = `${input} should be a valid phone number`;
   if (type === 'acctNum') msg = `${input} should contain numbers only and be 10 characters long`;
 
   return Joi.string().required().length(len)
@@ -76,7 +76,7 @@ const transactionType = (input) => {
 };
 
 const phone = (input) => {
-  return fixedLengthData(input, 11, /^[0-9]{11}$/, 'phone');
+  return simpleData(input, /^(\+234|234)[0-9]{10}$/, 'phone');
 };
 
 const accountNumber = (input) => {
