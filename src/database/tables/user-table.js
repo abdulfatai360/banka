@@ -13,7 +13,7 @@ const createTable = `
   );
 `;
 
-const dropTable = 'DROP TABLE IF EXISTS users;';
+const dropTable = 'DROP TABLE IF EXISTS users CASCADE;';
 
 export { createTable, dropTable };
 require('make-runnable');
