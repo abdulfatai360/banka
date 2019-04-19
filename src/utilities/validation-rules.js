@@ -1,7 +1,3 @@
-/* eslint-disable default-case */
-/* eslint-disable arrow-body-style */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
 import Joi from 'joi';
 
 // data categories
@@ -17,7 +13,7 @@ const simpleData = (input, pattern, type) => {
 
   return Joi.string().required().regex(pattern)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'any.empty':
             return `${input} should not be empty`;
@@ -25,8 +21,12 @@ const simpleData = (input, pattern, type) => {
             return `${input} is required`;
           case 'string.regex.base':
             return msg;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 };
 
@@ -38,7 +38,7 @@ const fixedLengthData = (input, len, pattern, type) => {
   return Joi.string().required().length(len)
     .regex(pattern)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'string.base':
             return `${input} should be a string`;
@@ -50,44 +50,34 @@ const fixedLengthData = (input, len, pattern, type) => {
             return `${input} should be ${err.context.limit} characters long`;
           case 'string.regex.base':
             return msg;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 };
 
-const integer = (input) => {
-  return simpleData(input, /^[0-9]+$/, 'int');
-};
+const integer = input => simpleData(input, /^[0-9]+$/, 'int');
 
-const float = (input) => {
-  return simpleData(input, /^[0-9]+[.]{1}[0-9]{2}$/, 'float');
-};
+const float = input => simpleData(input, /^[0-9]+[.]{1}[0-9]{2}$/, 'float');
 
-const requiredStr = (input) => {
-  return simpleData(input, /^[a-zA-Z]+$/, 'simpleStr');
-};
+const requiredStr = input => simpleData(input, /^[a-zA-Z]+$/, 'simpleStr');
 
-const bankAccountType = (input) => {
-  return simpleData(input, /^(savings)|(current)$/i, 'acctType');
-};
+const bankAccountType = input => simpleData(input, /^(savings)|(current)$/i, 'acctType');
 
-const transactionType = (input) => {
-  return simpleData(input, /^(debit)|(credit)$/i, 'txnType');
-};
+const transactionType = input => simpleData(input, /^(debit)|(credit)$/i, 'txnType');
 
-const phone = (input) => {
-  return simpleData(input, /^(\+234|234)[0-9]{10}$/, 'phone');
-};
+const phone = input => simpleData(input, /^(\+234|234)[0-9]{10}$/, 'phone');
 
-const accountNumber = (input) => {
-  return fixedLengthData(input, 10, /^[0-9]{10}$/, 'acctNum');
-};
+const accountNumber = input => fixedLengthData(input, 10, /^[0-9]{10}$/, 'acctNum');
 
 const requiredName = (input) => {
   const customJoiError = Joi.string().required().min(2).max(50)
     .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'any.empty':
             return `${input} should not be empty`;
@@ -99,8 +89,12 @@ const requiredName = (input) => {
             return `${input} should have at most ${err.context.limit} characters`;
           case 'string.regex.base':
             return `${input} should be a valid name`;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 
   return customJoiError;
@@ -111,7 +105,7 @@ const optionalName = (input) => {
     .string().allow('').min(2).max(50)
     .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'string.min':
             return `${input} should have at least ${err.context.limit} characters`;
@@ -119,8 +113,12 @@ const optionalName = (input) => {
             return `${input} should have at most ${err.context.limit} characters`;
           case 'string.regex.base':
             return `${input} should be a valid name`;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 
   return customJoiError;
@@ -130,7 +128,7 @@ const email = (input) => {
   const customJoiError = Joi.string().required().min(3).max(254)
     .regex(/^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'string.base':
             return `${input} should be a string`;
@@ -144,8 +142,12 @@ const email = (input) => {
             return `${input} should have at most ${err.context.limit} characters`;
           case 'string.regex.base':
             return `${input} should be a valid email address`;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 
   return customJoiError;
@@ -154,7 +156,7 @@ const email = (input) => {
 const password = (input) => {
   const customJoiError = Joi.string().required().min(6).max(254)
     .error((errors) => {
-      return errors.map((err) => {
+      const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'string.base':
             return `${input} should be a string`;
@@ -166,8 +168,12 @@ const password = (input) => {
             return `${input} should have at least ${err.context.limit} characters`;
           case 'string.max':
             return `${input} should have at most ${err.context.limit} characters`;
+          default:
+            return `Sorry, the ${input} you entered is invalid`;
         }
-      }).join(' and ');
+      });
+
+      return customMsgs.join(' and ');
     });
 
   return customJoiError;

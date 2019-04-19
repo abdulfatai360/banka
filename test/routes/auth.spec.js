@@ -1,5 +1,3 @@
-/* eslint-disable no-return-await */
-/* eslint-disable no-await-in-loop */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/index';
@@ -15,7 +13,7 @@ const seedUserDb = async () => {
       firstName: 'Leanne',
       lastName: 'Graham',
       otherName: 'Millan',
-      phone: '08077073680',
+      phone: '2348077073680',
       email: 'sincere@april.biz',
       password: 'sincere@april.biz',
     },
@@ -23,25 +21,27 @@ const seedUserDb = async () => {
       firstName: 'Ervin',
       lastName: 'Howell',
       otherName: 'Darwin',
-      phone: '08106926593',
+      phone: '2348106926593',
       email: 'shanna@melissa.tv',
       password: 'shanna@melissa.tv',
     },
     {
-      firstName: 'Ervin',
-      lastName: 'Howell',
-      otherName: 'Darwin',
-      phone: '08106926593',
-      email: 'shanna@melissa.tv',
-      password: 'shanna@melissa.tv',
+      firstName: 'First',
+      lastName: 'Last',
+      otherName: 'Other',
+      phone: '2348106926593',
+      email: 'cashier@domain.com',
+      password: 'cashier@domain.com',
       type: 'staff',
       isAdmin: false,
     },
   ];
 
   for (let i = 0; i < users.length; i += 1) {
-    users[i].password = await hashPassword.generateHash(users[i].password);
-    userModel.create(users[i]);
+    const user = users[i];
+    const hash = await hashPassword.generateHash(user.password);
+    user.password = hash;
+    userModel.create(user);
   }
 };
 
@@ -67,7 +67,7 @@ describe('/auth', () => {
         firstName: 'Abdus',
         lastName: 'Sobur',
         otherName: 'Ayomide',
-        phone: '08077073680',
+        phone: '2348077073680',
         email: 'abdusobur@domain.com',
         password: 'abdusobur@domain.com',
       };
@@ -83,7 +83,7 @@ describe('/auth', () => {
         firstName: 'Abdus',
         lastName: 'Sobur',
         otherName: 'Ayomide',
-        phone: '08077073680',
+        phone: '2348077073680',
         email: 'abdusobur@domain.com',
         password: 'abdusobur@domain.com',
       };
@@ -102,7 +102,7 @@ describe('/auth', () => {
         firstName: 'Leanne',
         lastName: 'Graham',
         otherName: 'Millan',
-        phone: '08077073680',
+        phone: '2348077073680',
         email: 'sincere@april.biz',
         password: 'sincere@april.biz',
       };

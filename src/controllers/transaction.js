@@ -1,5 +1,3 @@
-/* eslint-disable prefer-template */
-/* eslint-disable consistent-return */
 import { transactionModel } from '../models/transaction';
 import { accountModel } from '../models/account';
 import convertTo2dp from '../utilities/convert-to-2dp';
@@ -33,7 +31,6 @@ const saveAndReturnTxnEntity = (req, res, oldBalance, account) => {
   const txnInfo = transactionModel.create(transactionData);
 
   HttpResponse.send(res, 201, { data: txnInfo });
-
   return txnInfo;
 };
 
@@ -43,12 +40,9 @@ const generateEmailContent = (txnAlertTemplate, txnInfo, account) => {
   const txnTimeDate = txnInfo.createdOn;
   const accountName = userModel.getFullName(Number(account.owner));
 
-  const txnDate = padWithZero(txnTimeDate.getDate()) + '/'
-    + padWithZero(txnTimeDate.getMonth() + 1) + '/'
-    + txnTimeDate.getFullYear();
+  const txnDate = `${padWithZero(txnTimeDate.getDate())}/${padWithZero(txnTimeDate.getMonth() + 1)}/${txnTimeDate.getFullYear()}`;
 
-  const txnTime = padWithZero(txnTimeDate.getHours()) + ':'
-    + padWithZero(txnTimeDate.getMinutes());
+  const txnTime = `${padWithZero(txnTimeDate.getHours())}:${padWithZero(txnTimeDate.getMinutes())}`;
 
   template = template.replace('{{accountName}}', accountName);
   template = template.replace('{{type}}', txnInfo.transactionType);
@@ -91,7 +85,7 @@ const transactionController = {
     const txnInfo = saveAndReturnTxnEntity(req, res, oldBalance, account);
     const txnAlertTemplate = generateEmailContent(emailTemplate, txnInfo, account);
 
-    emailSender({
+    return emailSender({
       name: userModel.getFullName(Number(account.owner)),
       address: userModel.findById(Number(account.owner)).email,
     }, 'Banka Transaction Alert', txnAlertTemplate);
@@ -120,7 +114,7 @@ const transactionController = {
 
     const txnAlertTemplate = generateEmailContent(emailTemplate, txnInfo, account);
 
-    emailSender({
+    return emailSender({
       name: userModel.getFullName(Number(account.owner)),
       address: userModel.findById(Number(account.owner)).email,
     }, 'Banka Transaction Alert', txnAlertTemplate);
