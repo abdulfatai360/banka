@@ -8,20 +8,8 @@ chai.use(chaiHttp);
 describe('Fixed Length Input Validation Rule', () => {
   /*
     Fixed length input validation is a superset for:
-    1. Phone validation rule
-    2. Account number validation rule
+    1. Account number validation rule
    */
-
-  // phone field for this endpoint makes use of the phone validation rule
-  let user;
-
-  const execSignupReq = async () => {
-    const res = await chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send(user);
-
-    return res;
-  };
 
   // accountNumber param for this endpoint makes use of the account number validation rule
   let transactionInfo; let accountNumber;
@@ -44,23 +32,6 @@ describe('Fixed Length Input Validation Rule', () => {
     const res = await execDebitTxnReq();
 
     expect(res).to.have.status(422);
-  });
-
-  describe('Phone Number Validation Rule', () => {
-    it('should return 422 when a field it is applied to contains a value that is not 11 character long', async () => {
-      user = {
-        firstName: 'Abdus',
-        lastName: 'Sobur',
-        otherName: 'Ayomide',
-        phone: '080111111111', // this is 12-char long
-        email: 'abdusobur@domain.com',
-        password: 'abdusobur@domain.com',
-      };
-
-      const res = await execSignupReq();
-
-      expect(res).to.have.status(422);
-    });
   });
 
   describe('Account Number Validation Rule', () => {

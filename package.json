@@ -4,15 +4,16 @@
   "description": "Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.",
   "main": "src/index.js",
   "scripts": {
+    "clean:build": "rm -R dist",
     "build": "babel src --out-dir dist --source-maps",
-    "build:dev": "babel src --watch --out-dir dist --source-maps",
+    "build:dev": "npm run clean:build && babel src --watch --out-dir dist --source-maps",
     "start": "node dist/index.js",
     "start:dev": "nodemon dist/index.js",
     "test": "set ENV_TEST=true &&  nyc --reporter=html --reporter=text mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
     "test:dev": "set ENV_TEST=true && mocha --recursive --colors --inline-diffs --slow 200 --timeout 5000 --exit --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "tables:up": "node ./dist/database/tables/all-tables.js tablesUp",
-    "tables:down": "node ./dist/database/tables/all-tables.js tablesDown"
+    "migration:up": "node ./dist/database/tables/all-tables.js tablesUp",
+    "migration:down": "node ./dist/database/tables/all-tables.js tablesDown"
   },
   "keywords": [],
   "repository": {
@@ -30,6 +31,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "helmet": "^3.16.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",

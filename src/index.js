@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import { config } from 'dotenv';
 import mountRoutes from './routes';
+import trimString from './middlewares/trim-string';
 
 config();
 const app = express();
@@ -12,6 +13,7 @@ const serverMsg = `Starting development server... http://localhost:${port}\n`;
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(trimString);
 
 // routes
 mountRoutes(app);

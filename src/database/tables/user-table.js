@@ -1,14 +1,4 @@
-import db from '..';
-
-const setUserType = async () => {
-  try {
-    await db.query("CREATE TYPE usertype AS ENUM('Staff', 'staff', 'Client', 'client');");
-  } catch (err) {
-    console.log('Err from setting custom data type: ', err.message);
-  }
-};
-
-setUserType();
+// CREATE TYPE usertype AS ENUM('Staff', 'staff', 'Client', 'client');
 
 const createTable = `
   CREATE TABLE IF NOT EXISTS users(
@@ -16,15 +6,14 @@ const createTable = `
     email VARCHAR (254) UNIQUE NOT NULL,
     first_name VARCHAR (50) NOT NULL,
     last_name VARCHAR (50) NOT NULL,
-    other_name VARCHAR (50),
-    phone VARCHAR (11) NOT NULL,
+    phone VARCHAR (15) NOT NULL,
     password VARCHAR (254) NOT NULL,
     type USERTYPE NOT NULL,
     is_admin BOOLEAN
   );
 `;
 
-const dropTable = 'DROP TABLE IF EXISTS users;';
+const dropTable = 'DROP TABLE IF EXISTS users CASCADE;';
 
-export { createTable, dropTable, setUserType };
+export { createTable, dropTable };
 require('make-runnable');

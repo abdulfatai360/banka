@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import faker from 'faker';
 import app from '../../../src/index';
 
 const { expect } = chai;
@@ -13,6 +14,7 @@ describe('Simple Input Validation Rule', () => {
     3. Required string validation rule
     4. Account type validation rule
     5. Transaction type validation rule
+    7. Phone validation rule
    */
 
   // owner and accountType field of this endpoint make use
@@ -47,6 +49,17 @@ describe('Simple Input Validation Rule', () => {
     const res = await chai.request(app)
       .patch(`/api/v1/accounts/${accountNumber}`)
       .send(reqBody);
+
+    return res;
+  };
+
+  // phone field for this endpoint makes use of the phone validation rule
+  let user;
+
+  const execSignupReq = async () => {
+    const res = await chai.request(app)
+      .post('/api/v1/auth/signup')
+      .send(user);
 
     return res;
   };
@@ -133,6 +146,22 @@ describe('Simple Input Validation Rule', () => {
       reqBody = { status: 'hello1' };
 
       const res = await execChangeStatusReq();
+
+      expect(res).to.have.status(422);
+    });
+  });
+
+  describe('Phone Number Validation Rule', () => {
+    it('should return 422 when a field it is applied to contains a value that is not valid', async () => {
+      user = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        phone: '080111111111', // vaid format: +234xxxxxxxxxx or 234xxxxxxxxxx
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+      };
+
+      const res = await execSignupReq();
 
       expect(res).to.have.status(422);
     });

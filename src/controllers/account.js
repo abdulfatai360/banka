@@ -1,43 +1,62 @@
-import { userModel } from '../models/user';
-import { accountModel } from '../models/account';
+import accountModel from '../database/models/account';
+import userModel from '../database/models/user';
 import HttpResponse from '../utilities/http-response';
+import accountNumberGen from '../utilities/bank-acct-num';
 
-const accountData = (req) => {
-  // default values
-  const status = 'draft'; const openingBalance = 0;
+const accountData = (req, acctOwner) => ({
+  account_number: accountNumberGen(acctOwner),
+  created_on: new Date(),
+  owner_id: Number(req.body.ownerId),
+  account_type: req.body.accountType,
+  account_status: 'draft',
+  opening_balance: req.body.openingBalance,
+  balance: 0,
+});
+
+const returnAccountInfo = (acctOwner, acctInfo) => {
+  const {
+    id, account_number, account_type, opening_balance,
+  } = acctInfo[0];
+  const { first_name, last_name, email } = acctOwner;
 
   return {
-    owner: Number(req.body.owner),
-    type: req.body.type,
-    status,
-    openingBalance,
-    balance: openingBalance,
+    id,
+    accountNumber: account_number,
+    firstName: first_name,
+    lastName: last_name,
+    email,
+    accountType: account_type,
+    openingBalance: opening_balance,
   };
 };
 
 const accountController = {
-  create(req, res) {
-    const accountOwner = userModel.findById(Number(req.body.owner));
+  async createAccount(req, res) {
+    let data;
 
-    if (!accountOwner) {
-      return HttpResponse.send(res, 400, {
-        error: 'The client you tried to open an account for does not exist',
-      });
+    try {
+      const { rowCount, rows } = await userModel
+        .findById(Number(req.body.ownerId));
+      const [accountOwner] = rows;
+
+      if (!rowCount) {
+        return HttpResponse.send(res, 400, {
+          error: 'The specified account owner id is incorrect',
+        });
+      }
+
+      const accountInfo = await accountModel
+        .create(accountData(req, accountOwner));
+
+      data = returnAccountInfo(accountOwner, accountInfo);
+      console.log(data);
+    } catch (err) {
+      console.log('Error from creating account: ', err);
+
+      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
     }
 
-    const accountInfo = accountModel.create(accountData(req));
-
-    return HttpResponse.send(res, 201, {
-      data: {
-        accountNumber: accountInfo.accountNumber,
-        firstName: accountOwner.firstName,
-        lastName: accountOwner.lastName,
-        otherName: accountOwner.otherName,
-        email: accountOwner.email,
-        type: accountInfo.type,
-        openingBalance: accountInfo.openingBalance,
-      },
-    });
+    return HttpResponse.send(res, 201, { data });
   },
 
   changeStatus(req, res) {

@@ -22,7 +22,6 @@ class Model {
     text = text.replace('{{values}}', valText);
 
     const { rows } = await db.query(text, vals);
-    // console.log(rows[0]);
     return rows;
   }
 
