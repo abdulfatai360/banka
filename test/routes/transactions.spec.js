@@ -1,6 +1,3 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-return-await */
-/* eslint-disable no-await-in-loop */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/index';
@@ -22,17 +19,18 @@ describe('/transactions', () => {
   });
 
   describe('POST /transactions/<account-number>/debit', () => {
-    let transactionInfo; let accountNumber;
+    let transactionInfo; let acctNumber;
 
     const execDebitTxnReq = async () => {
       const res = await chai.request(app)
-        .post(`/api/v1/transactions/${accountNumber}/debit`)
+        .post(`/api/v1/transactions/${acctNumber}/debit`)
         .send(transactionInfo);
 
       return res;
     };
 
-    beforeEach('Populate account database', () => {
+    beforeEach('Populate account database', async () => {
+      await seedUserDb();
       seedAccountDb();
     });
 
@@ -42,7 +40,7 @@ describe('/transactions', () => {
     });
 
     it('should return 400 if account number is invalid', async () => {
-      accountNumber = '0000000000';
+      acctNumber = '0000000000';
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
@@ -56,11 +54,11 @@ describe('/transactions', () => {
     });
 
     it('should return 400 if cashier is invalid', async () => {
-      accountNumber = accountModel.findById(1).accountNumber;
+      acctNumber = accountModel.findById(1).accountNumber;
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
-        cashier: '1',
+        cashier: '0',
       };
 
       const res = await execDebitTxnReq();
@@ -70,7 +68,7 @@ describe('/transactions', () => {
     });
 
     it('should return 400 if account balance is less than the debit amount', async () => {
-      accountNumber = accountModel.findById(1).accountNumber;
+      acctNumber = accountModel.findById(1).accountNumber;
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
@@ -86,7 +84,7 @@ describe('/transactions', () => {
     it('should return 201 if an account is debited', async () => {
       const account = accountModel.findById(1);
 
-      accountNumber = account.accountNumber;
+      acctNumber = account.accountNumber;
       transactionInfo = {
         amount: '50.56',
         type: 'debit',
@@ -104,7 +102,7 @@ describe('/transactions', () => {
     it('should update the balance of the account in the account database', async () => {
       const account = accountModel.findById(1);
 
-      accountNumber = account.accountNumber;
+      acctNumber = account.accountNumber;
       transactionInfo = {
         amount: '50.00',
         type: 'debit',
@@ -114,17 +112,16 @@ describe('/transactions', () => {
       account.balance = 500.00;
 
       await execDebitTxnReq();
-
       expect(account.balance).to.be.below(460);
     });
   });
 
   describe('POST /transactions/<account-number>/credit', () => {
-    let transactionInfo; let accountNumber;
+    let transactionInfo; let acctNumber;
 
     const execCreditTxnReq = async () => {
       const res = await chai.request(app)
-        .post(`/api/v1/transactions/${accountNumber}/credit`)
+        .post(`/api/v1/transactions/${acctNumber}/credit`)
         .send(transactionInfo);
 
       return res;
@@ -140,7 +137,7 @@ describe('/transactions', () => {
     });
 
     it('should return 400 if account number is invalid', async () => {
-      accountNumber = '0000000000';
+      acctNumber = '0000000000';
       transactionInfo = {
         amount: '1000.56',
         type: 'credit',
@@ -154,11 +151,11 @@ describe('/transactions', () => {
     });
 
     it('should return 400 if cashier is invalid', async () => {
-      accountNumber = accountModel.findById(1).accountNumber;
+      acctNumber = accountModel.findById(1).accountNumber;
       transactionInfo = {
         amount: '1000.56',
         type: 'credit',
-        cashier: '1',
+        cashier: '0',
       };
 
       const res = await execCreditTxnReq();
@@ -170,7 +167,7 @@ describe('/transactions', () => {
     it('should return 201 if an account is credited', async () => {
       const account = accountModel.findById(1);
 
-      accountNumber = account.accountNumber;
+      acctNumber = account.accountNumber;
       transactionInfo = {
         amount: '1000.56',
         type: 'credit',
@@ -184,9 +181,7 @@ describe('/transactions', () => {
     });
 
     it('should update the balance of the account in the account database', async () => {
-      const account = accountModel.findById(1);
-
-      accountNumber = account.accountNumber;
+      acctNumber = accountModel.findById(1).accountNumber;
       transactionInfo = {
         amount: '1000.56',
         type: 'debit',
@@ -195,7 +190,8 @@ describe('/transactions', () => {
 
       await execCreditTxnReq();
 
-      expect(account.balance).to.be.above(1000);
+      const newBalance = accountModel.findById(1).balance;
+      expect(newBalance).to.be.above(1000);
     });
   });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { userModel } from '../models/user';
 import { accountModel } from '../models/account';
 import HttpResponse from '../utilities/http-response';

@@ -1,7 +1,6 @@
-/* eslint-disable no-param-reassign */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
-const shuffle = (array) => {
+const shuffle = (arr) => {
+  const array = arr;
   let currentIndex = array.length; let temporaryValue; let randomIndex;
 
   while (currentIndex !== 0) {

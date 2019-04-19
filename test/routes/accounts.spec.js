@@ -1,6 +1,3 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-return-await */
-/* eslint-disable no-await-in-loop */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/index';
@@ -93,11 +90,11 @@ describe('/accounts', () => {
   });
 
   describe('PATCH /accounts/<account-number>', () => {
-    let accountNumber; let reqBody;
+    let acctNumber; let reqBody;
 
     const execChangeStatusReq = async () => {
       const res = await chai.request(app)
-        .patch(`/api/v1/accounts/${accountNumber}`)
+        .patch(`/api/v1/accounts/${acctNumber}`)
         .send(reqBody);
 
       return res;
@@ -113,7 +110,7 @@ describe('/accounts', () => {
     });
 
     it('should return 400 if an invalid account number is supplied', async () => {
-      accountNumber = '0000000000';
+      acctNumber = '0000000000';
       reqBody = { status: 'active' };
 
       const res = await execChangeStatusReq();
@@ -123,9 +120,9 @@ describe('/accounts', () => {
     });
 
     it('should return 200 when an account status is changed', async () => {
-      const accountRecord = accountModel.findById(1);
+      const { accountNumber } = accountModel.findById(1);
+      acctNumber = accountNumber;
 
-      accountNumber = accountRecord.accountNumber;
       reqBody = { status: 'active' };
 
       const res = await execChangeStatusReq();
@@ -136,8 +133,7 @@ describe('/accounts', () => {
 
     it('should change the account status and returns its new status', async () => {
       const accountRecord = accountModel.findById(1);
-
-      accountNumber = accountRecord.accountNumber;
+      acctNumber = accountRecord.accountNumber;
       reqBody = { status: 'dormant' };
 
       const res = await execChangeStatusReq();
@@ -150,11 +146,11 @@ describe('/accounts', () => {
   });
 
   describe('DELETE /accounts/<account-number>', () => {
-    let accountNumber;
+    let acctNumber;
 
     const execDeleteReq = async () => {
       const res = await chai.request(app)
-        .delete(`/api/v1/accounts/${accountNumber}`);
+        .delete(`/api/v1/accounts/${acctNumber}`);
 
       return res;
     };
@@ -167,7 +163,7 @@ describe('/accounts', () => {
     });
 
     it('should return 400 for invalid account number', async () => {
-      accountNumber = '1111111111';
+      acctNumber = '1111111111';
       const res = await execDeleteReq();
 
       expect(res).to.have.status(400);
@@ -175,8 +171,8 @@ describe('/accounts', () => {
     });
 
     it('should return 200 when an account is deleted', async () => {
-      const account = accountModel.findById(1);
-      accountNumber = account.accountNumber;
+      const { accountNumber } = accountModel.findById(1);
+      acctNumber = accountNumber;
 
       const res = await execDeleteReq();
 
@@ -186,13 +182,12 @@ describe('/accounts', () => {
 
     it('should delete the account in the database', async () => {
       let account = accountModel.findById(1);
-      accountNumber = account.accountNumber;
+      acctNumber = account.accountNumber;
 
       await execDeleteReq();
 
       account = accountModel.findById(1);
-      // eslint-disable-next-line no-unused-expressions
-      expect(account).to.be.undefined;
+      expect(account).to.equal(undefined);
     });
   });
 });
