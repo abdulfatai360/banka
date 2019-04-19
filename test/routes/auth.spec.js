@@ -1,5 +1,3 @@
-/* eslint-disable no-return-await */
-/* eslint-disable no-await-in-loop */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';

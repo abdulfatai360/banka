@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import Sequence from '../utilities/sequence';
 import removeObjectProp from '../utilities/remove-object-prop';
 
@@ -34,10 +33,7 @@ class User {
   }
 
   findCashierById(id) {
-    // eslint-disable-next-line arrow-body-style
-    const cashier = this.database.find((user) => {
-      return user.id === id && user.isAdmin === false;
-    });
+    const cashier = this.database.find(user => user.id === id && user.isAdmin === false);
 
     return cashier;
   }

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import Joi from 'joi';
 import HttpResponse from './http-response';
 import * as validationRule from './validation-rules';
@@ -23,7 +22,8 @@ const userSignup = (req, res, next) => {
   const { error } = Joi.validate(clientInputs, schema);
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 const userSignin = (req, res, next) => {
@@ -40,7 +40,8 @@ const userSignin = (req, res, next) => {
   const { error } = Joi.validate(loginCredentials, schema);
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 const createAccount = (req, res, next) => {
@@ -59,7 +60,8 @@ const createAccount = (req, res, next) => {
   const { error } = Joi.validate(clientInputs, schema);
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 const changeAccountStatus = (req, res, next) => {
@@ -72,7 +74,8 @@ const changeAccountStatus = (req, res, next) => {
   }));
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 const deleteAccount = (req, res, next) => {
@@ -83,7 +86,8 @@ const deleteAccount = (req, res, next) => {
   }));
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 const postTransaction = (req, res, next) => {
@@ -104,7 +108,8 @@ const postTransaction = (req, res, next) => {
   const { error } = Joi.validate(clientInputs, schema);
 
   if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-  next();
+
+  return next();
 };
 
 

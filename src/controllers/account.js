@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable consistent-return */
 import accountModel from '../database/models/account';
 import userModel from '../database/models/user';
 import HttpResponse from '../utilities/http-response';

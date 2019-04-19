@@ -1,6 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable default-case */
-/* eslint-disable no-case-declarations */
 import * as validationInit from '../utilities/validation-init';
 
 const validateInputs = (entity) => {
@@ -24,6 +21,7 @@ const validateInputs = (entity) => {
       case 'postTransaction':
         validationInit.postTransaction(req, res, next);
         break;
+      default:
     }
   };
 
