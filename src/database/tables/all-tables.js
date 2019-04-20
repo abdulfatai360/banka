@@ -16,7 +16,7 @@ const tablesUp = async () => {
   try {
     await db.query(createAllTables);
   } catch (err) {
-    console.log('Tables creation error: ', err.message);
+    console.log('Create-All-Tables-Error: ', err.message);
   }
 };
 
@@ -24,7 +24,7 @@ const tablesDown = async () => {
   try {
     await db.query(dropAllTables);
   } catch (err) {
-    console.log('Tables drop error: ', err.message);
+    console.log('Drop-All-Tables-Error: ', err.message);
   }
 };
 

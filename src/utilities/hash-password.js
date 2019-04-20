@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs';
 
 const hashPassword = {
-  async generateHash(input = '') {
-    const hash = await bcrypt.hash(input, 10);
+  generateHash(input = '') {
+    const hash = bcrypt.hashSync(input, 10);
     return hash;
   },
 
-  async verifyPassword(input = '', hash = '') {
-    const result = await bcrypt.compare(input, hash);
+  verifyPassword(input = '', hash = '') {
+    const result = bcrypt.compareSync(input, hash);
     return result;
   },
 };

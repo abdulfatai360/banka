@@ -8,7 +8,7 @@ const createTable = `
     last_name VARCHAR (50) NOT NULL,
     phone VARCHAR (15) NOT NULL,
     password VARCHAR (254) NOT NULL,
-    type USERTYPE NOT NULL,
+    type VARCHAR NOT NULL,
     is_admin BOOLEAN
   );
 `;
