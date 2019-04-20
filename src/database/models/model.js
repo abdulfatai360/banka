@@ -29,30 +29,23 @@ class Model {
     const { rows } = await db.query(`
       SELECT *
       FROM ${this.table}
-      ORDER BY id DESC;
+      ORDER BY id ASC;
     `);
 
     return rows;
   }
 
   async findById(id) {
-    const { rowCount, rows } = await db.query(`
+    const text = `
       SELECT *
       FROM ${this.table}
       WHERE id = $1;
-    `, [id]);
+    `;
 
-    return { rowCount, rows };
-  }
+    const value = [id];
+    const { rows } = await db.query(text, value);
 
-  async findByEmail(email) {
-    const { rowCount, rows } = await db.query(`
-      SELECT *
-      FROM ${this.table}
-      WHERE email = $1;
-    `, [email]);
-
-    return { rowCount, rows };
+    return rows;
   }
 
   async findByIdAndUpdate(id, updatedData) {
@@ -69,19 +62,22 @@ class Model {
     const setText = cols.map((col, i) => `${col} = $${i + 1}`);
 
     text = text.replace('{{cols:vals}}', setText.join(', '));
-    const { rowCount, rows } = await db.query({ text, vals });
+    const { rows } = await db.query({ text, vals });
 
-    return { rowCount, rows };
+    return rows;
   }
 
-  async deleteOne(id) {
-    const { rowCount, rows } = await db.query(`
+  async deleteOne(keyConfig = {}) {
+    const text = `
       DELETE FROM ${this.table}
-      WHERE id = ${id}
+      WHERE ${Object.keys(keyConfig).join('')} = $1
       RETURNING *;
-    `);
+    `;
 
-    return { rowCount, rows };
+    const value = Object.values(keyConfig);
+    const { rows } = await db.query(text, value);
+
+    return rows;
   }
 }
 

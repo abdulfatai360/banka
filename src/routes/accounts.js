@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/', validateInputs('createBankAccount'), account.createAccount);
 router.patch('/:accountNumber', validateInputs('changeBankAccountStatus'), account.changeStatus);
-router.delete('/:accountNumber', validateInputs('deleteBankAccount'), account.delete);
+router.delete('/:accountNumber', validateInputs('deleteBankAccount'), account.deleteAccount);
 
 export default router;

@@ -1,5 +1,5 @@
 class HttpResponse {
-  static send(res, status, body) {
+  static send(res, status, body = {}) {
     res.status(status).json({ status, ...body });
   }
 

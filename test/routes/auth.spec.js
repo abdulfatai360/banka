@@ -3,13 +3,13 @@ import chaiHttp from 'chai-http';
 import faker from 'faker';
 import app from '../../src/index';
 import db from '../../src/database';
-import userSeeder from '../../src/database/seeders/users';
+import seedUsers from '../../src/database/seeders/seed-users';
 import * as userTable from '../../src/database/tables/user-table';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe.only('/auth', () => {
+describe('/auth', () => {
   describe('POST /auth/signup', () => {
     let user;
 
@@ -21,19 +21,19 @@ describe.only('/auth', () => {
       return res;
     };
 
-    before('Migrations Up', async () => {
+    before('User-Signup-Migration-Up', async () => {
       try {
         await db.query(userTable.createTable);
       } catch (err) {
-        console.log('Migrations up in test: ', err.message);
+        console.log('User-Signup-Migration-Up-Test: ', err.message);
       }
     });
 
-    after('Migration Down', async () => {
+    after('User-Signup-Migration-Down', async () => {
       try {
         await db.query(userTable.dropTable);
       } catch (err) {
-        console.log('Migrations down in test: ', err.message);
+        console.log('User-Signup-Migration-Down-Test: ', err.message);
       }
     });
 
@@ -62,7 +62,7 @@ describe.only('/auth', () => {
       };
 
       const res = await execSignupReq();
-      const userDetails = res.body.data;
+      const userDetails = res.body.data[0];
 
       expect(userDetails).to.be.an('object');
       expect(userDetails.email).to.match(/sample@domain.com/i);
@@ -94,20 +94,20 @@ describe.only('/auth', () => {
       return res;
     };
 
-    before('Migrations Up', async () => {
+    before('User-Signin-Migration-Up', async () => {
       try {
         await db.query(userTable.createTable);
-        await userSeeder();
+        await seedUsers();
       } catch (err) {
-        console.log('Migrations up in test: ', err.message);
+        console.log('User-Signin-Migration-Up-Test: ', err.message);
       }
     });
 
-    after('Migration Down', async () => {
+    after('User-Signin-Migration-Down', async () => {
       try {
         await db.query(userTable.dropTable);
       } catch (err) {
-        console.log('Migrations down in test: ', err.message);
+        console.log('User-Signin-Migration-Down-Test: ', err.message);
       }
     });
 
@@ -142,7 +142,7 @@ describe.only('/auth', () => {
       };
 
       const res = await execSigninReq();
-      expect(res.body.data.email).to.match(/admin@domain.com/i);
+      expect(res.body.data[0].email).to.match(/admin@domain.com/i);
     });
   });
 });

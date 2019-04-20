@@ -16,9 +16,9 @@ const shuffle = (arr) => {
 
 // use account's owner first and last name to generate a serial number
 const acctOwnerSerial = (userEntity) => {
-  const { first_name, last_name } = userEntity;
-  const fnameCode = first_name.toLowerCase().charCodeAt(1).toString();
-  const lnameCode = last_name.toLowerCase().charCodeAt(1).toString();
+  const { firstName, lastName } = userEntity;
+  const fnameCode = firstName.toLowerCase().charCodeAt(1).toString();
+  const lnameCode = lastName.toLowerCase().charCodeAt(1).toString();
 
   const nameCodeArr = fnameCode.concat(lnameCode).split('');
   const nameCode = shuffle(nameCodeArr).join('');
@@ -31,7 +31,7 @@ const acctNumberGenerator = (owner) => {
   const bankId = '10';
   const acctNameCode = acctOwnerSerial(owner);
 
-  let acctNumTemp = `acctId${bankId}${acctNameCode}`;
+  let acctNumTemp = `${bankId}acctId${acctNameCode}`;
 
   const currLen = (bankId + acctNameCode).length;
   const remLen = 10 - currLen;

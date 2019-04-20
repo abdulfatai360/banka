@@ -1,9 +1,9 @@
-/* eslint-disable no-restricted-syntax */
 import hashPassword from '../utilities/hash-password';
 import authToken from '../utilities/auth-token';
 import removeObjectProp from '../utilities/remove-object-prop';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
+import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
 const loginErrHandler = res => (
   HttpResponse.send(res, 400, {
@@ -16,12 +16,12 @@ const signUpErrHandler = (res, error) => {
     return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
   }
 
-  console.log('Error from signing up: ', error.message);
+  console.log('Signup-Controller-Error: ', error.message);
   return HttpResponse.send(res, 500, { error: 'Sorry,something went wrong. We can not complete your request now. Please contact site administrator' });
 };
 
-const userData = async (req) => {
-  const password = await hashPassword.generateHash(req.body.password);
+const userData = (req) => {
+  const password = hashPassword.generateHash(req.body.password);
   const type = req.body.type || 'Client';
 
   return {
@@ -37,7 +37,7 @@ const userData = async (req) => {
 const userController = {
   async createUser(req, res) {
     let isAdmin;
-    let userEntity = await userData(req);
+    let userEntity = userData(req);
     let user;
 
     if ((/^Staff$/i).test(userEntity.type)) {
@@ -59,7 +59,7 @@ const userController = {
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 201, {
-      data: Object.assign({ token }, user),
+      data: [changeKeysToCamelCase(Object.assign({ token }, user))],
     });
   },
 
@@ -67,11 +67,11 @@ const userController = {
     const emailCred = req.body.email.toLowerCase();
     const passCred = req.body.password;
 
-    const { rowCount, rows } = await userModel.findByEmail(emailCred);
+    const rows = await userModel.findByEmail(emailCred);
 
-    if (!rowCount) return loginErrHandler(res);
+    if (!rows.length) return loginErrHandler(res);
 
-    const isPasswordValid = await hashPassword
+    const isPasswordValid = hashPassword
       .verifyPassword(passCred, rows[0].password);
 
     if (!isPasswordValid) return loginErrHandler(res);
@@ -83,7 +83,7 @@ const userController = {
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 200, {
-      data: Object.assign({ token }, user),
+      data: [changeKeysToCamelCase(Object.assign({ token }, user))],
     });
   },
 };

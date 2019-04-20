@@ -2,6 +2,7 @@ import accountModel from '../database/models/account';
 import userModel from '../database/models/user';
 import HttpResponse from '../utilities/http-response';
 import accountNumberGen from '../utilities/bank-acct-num';
+import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
 const accountData = (req, acctOwner) => ({
   account_number: accountNumberGen(acctOwner),
@@ -13,45 +14,29 @@ const accountData = (req, acctOwner) => ({
   balance: 0,
 });
 
-const returnAccountInfo = (acctOwner, acctInfo) => {
-  const {
-    id, account_number, account_type, opening_balance,
-  } = acctInfo[0];
-  const { first_name, last_name, email } = acctOwner;
-
-  return {
-    id,
-    accountNumber: account_number,
-    firstName: first_name,
-    lastName: last_name,
-    email,
-    accountType: account_type,
-    openingBalance: opening_balance,
-  };
-};
-
 const accountController = {
   async createAccount(req, res) {
     let data;
 
     try {
-      const { rowCount, rows } = await userModel
+      const rows = await userModel
         .findById(Number(req.body.ownerId));
-      const [accountOwner] = rows;
 
-      if (!rowCount) {
+      if (!rows.length) {
         return HttpResponse.send(res, 400, {
           error: 'The specified account owner id is incorrect',
         });
       }
 
+      const accountOwner = changeKeysToCamelCase(rows[0]);
+
       const accountInfo = await accountModel
         .create(accountData(req, accountOwner));
 
-      data = returnAccountInfo(accountOwner, accountInfo);
-      console.log(data);
+      accountInfo[0] = changeKeysToCamelCase(accountInfo[0]);
+      data = accountInfo;
     } catch (err) {
-      console.log('Error from creating account: ', err);
+      console.log('Create-Bank-Account-Error: ', err);
 
       return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
     }
@@ -59,32 +44,47 @@ const accountController = {
     return HttpResponse.send(res, 201, { data });
   },
 
-  changeStatus(req, res) {
+  async changeStatus(req, res) {
     const { accountNumber } = req.params;
-    const newStatus = req.body.status;
-    const account = accountModel.findByAccountNumber(accountNumber);
+    const newStatus = req.body.accountStatus;
+    let data;
 
-    if (!account) {
-      return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
+    try {
+      const rows = await accountModel.changeAccountStatus(accountNumber, newStatus);
+
+      if (!rows.length) {
+        return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
+      }
+
+      rows[0] = changeKeysToCamelCase(rows[0]);
+      data = rows;
+    } catch (err) {
+      console.log('Change-Account-Status-Error: ', err);
+
+      return HttpResponse.handleError(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
     }
 
-    account.status = newStatus;
-    return HttpResponse.send(res, 200, {
-      data: { accountNumber, status: account.status },
-    });
+    return HttpResponse.send(res, 200, { data });
   },
 
-  delete(req, res) {
+  async deleteAccount(req, res) {
     const { accountNumber } = req.params;
-    const account = accountModel.findByAccountNumber(accountNumber);
 
-    if (!account) {
-      return HttpResponse.send(res, 400, {
-        error: 'The account you wanted to delete is invalid',
-      });
+    try {
+      const account = await accountModel
+        .deleteOne({ account_number: accountNumber });
+
+      if (!account.length) {
+        return HttpResponse.send(res, 400, {
+          error: 'The account you wanted to delete is invalid',
+        });
+      }
+    } catch (err) {
+      console.log('Delete-Bank-Account-Error: ', err);
+
+      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
     }
 
-    accountModel.deleteOne({ accountNumber });
     return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
   },
 };

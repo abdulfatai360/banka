@@ -7,14 +7,14 @@ const createTable = `
     account_number VARCHAR (10) PRIMARY KEY,
     created_on TIMESTAMPTZ NOT NULL,
     owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    account_type ACCOUNTTYPE NOT NULL,
-    account_status STATUSTYPE NOT NULL,
-    opening_balance NUMERIC (19, 4) NOT NULL,
-    balance NUMERIC (19, 4) NOT NULL
+    account_type VARCHAR NOT NULL,
+    account_status VARCHAR NOT NULL,
+    opening_balance NUMERIC (19, 2) NOT NULL,
+    balance NUMERIC (19, 2) NOT NULL
   );
 `;
 
-const dropTable = 'DROP TABLE IF EXISTS account;';
+const dropTable = 'DROP TABLE IF EXISTS account CASCADE;';
 
 export { createTable, dropTable };
 require('make-runnable');
