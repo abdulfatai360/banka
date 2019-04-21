@@ -127,6 +127,25 @@ const transactionController = {
     const resp = await createNReturnTxn(req, res, oldBalance, newBalance);
     return resp;
   },
+
+  async getOneTransaction(req, res) {
+    const id = Number(req.params.id); let data;
+
+    try {
+      const transaction = await transactionModel.findByOne({ id });
+
+      if (!transaction.length) return HttpResponse.send(res, 404, { error: 'The transaction with the specified id is not available.' });
+
+      transaction[0] = changeKeysToCamelCase(transaction[0]);
+      data = transaction;
+    } catch (err) {
+      console.log('Get-One-Transaction-Error: ', err);
+
+      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
+    }
+
+    return HttpResponse.send(res, 200, { data });
+  },
 };
 
 export default transactionController;

@@ -4,12 +4,12 @@ import Joi from 'joi';
 const simpleData = (input, pattern, type) => {
   let msg;
 
-  if (type === 'int') msg = `${input} should be an integer`;
-  if (type === 'float') msg = `${input} should be a number in 2 decimal places`;
-  if (type === 'simpleStr') msg = `${input} should contain alphabets only`;
-  if (type === 'acctType') msg = `${input} should be either 'Savings' or 'Current'`;
-  if (type === 'txnType') msg = `${input} should be either 'Debit' or 'Credit`;
-  if (type === 'phone') msg = `${input} should be a valid phone number. It should be of this format: '+234xxxxxxxxxx' or '234xxxxxxxxxx'`;
+  if (type === 'int') msg = `${input} should be an integer and should not have space(s).`;
+  if (type === 'float') msg = `${input} should be a number in 2 decimal places.`;
+  if (type === 'simpleStr') msg = `${input} should contain alphabets only.`;
+  if (type === 'acctType') msg = `${input} should be either 'Savings' or 'Current'.`;
+  if (type === 'txnType') msg = `${input} should be either 'Debit' or 'Credit'.`;
+  if (type === 'phone') msg = `${input} should be a valid phone number. It should be of this format: '+234xxxxxxxxxx' or '234xxxxxxxxxx'.`;
 
   return Joi.string().required().regex(pattern)
     .error((errors) => {

@@ -78,18 +78,6 @@ const changeAccountStatus = (req, res, next) => {
   return next();
 };
 
-const accountNumberParam = (req, res, next) => {
-  const { error } = Joi.validate({
-    accountNumber: req.params.accountNumber,
-  }, Joi.object().keys({
-    accountNumber: validationRule.accountNumber('The specified account number'),
-  }));
-
-  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
-
-  return next();
-};
-
 const postTransaction = (req, res, next) => {
   const clientInputs = {
     accountNumber: req.params.accountNumber,
@@ -112,12 +100,41 @@ const postTransaction = (req, res, next) => {
   return next();
 };
 
+const accountNumberParam = (req, res, next) => {
+  const { error } = Joi.validate({
+    accountNumber: req.params.accountNumber,
+  }, Joi.object().keys({
+    accountNumber: validationRule.accountNumber('The specified account number'),
+  }));
+
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+
+  return next();
+};
+
+const idParam = (req, res, next) => {
+  const clientInputs = {
+    id: req.params.id,
+  };
+
+  const schema = Joi.object().keys({
+    id: validationRule.integer('The id value'),
+  });
+
+  const { error } = Joi.validate(clientInputs, schema);
+
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+
+  return next();
+};
+
 
 export {
   userSignup,
   userSignin,
   createAccount,
   changeAccountStatus,
-  accountNumberParam,
   postTransaction,
+  accountNumberParam,
+  idParam,
 };
