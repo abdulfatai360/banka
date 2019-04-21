@@ -6,8 +6,8 @@ const seedTransactionTable = async () => {
   INSERT INTO transaction
     (created_on, transaction_type, account_number, cashier_id,  amount, old_balance, new_balance)
   VALUES
-    ('${moment().tz('Africa/Lagos').format()}', 'credit', '1111111111', 2, 5000.00, 0.00, 5000.00),
-    ('${moment().tz('Africa/Lagos').format()}', 'debit', '1111111111', 2, 1500.00, 5000.00, 3500.00);
+    ('${moment().tz('Africa/Lagos').format()}', 'credit', '2222222222', 2, 5000.00, 0.00, 5000.00),
+    ('${moment().tz('Africa/Lagos').format()}', 'debit', '2222222222', 2, 1500.00, 5000.00, 3500.00);
 `;
 
   try {
