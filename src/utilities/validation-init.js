@@ -78,7 +78,7 @@ const changeAccountStatus = (req, res, next) => {
   return next();
 };
 
-const deleteAccount = (req, res, next) => {
+const accountNumberParam = (req, res, next) => {
   const { error } = Joi.validate({
     accountNumber: req.params.accountNumber,
   }, Joi.object().keys({
@@ -118,6 +118,6 @@ export {
   userSignin,
   createAccount,
   changeAccountStatus,
-  deleteAccount,
+  accountNumberParam,
   postTransaction,
 };

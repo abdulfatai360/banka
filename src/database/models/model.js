@@ -35,14 +35,15 @@ class Model {
     return rows;
   }
 
-  async findById(id) {
+  async findByOne(config = {}) {
     const text = `
       SELECT *
       FROM ${this.table}
-      WHERE id = $1;
+      WHERE ${Object.keys(config).join('')} = $1;
     `;
 
-    const value = [id];
+    const value = Object.values(config);
+
     const { rows } = await db.query(text, value);
 
     return rows;

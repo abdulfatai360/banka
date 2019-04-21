@@ -90,7 +90,7 @@ describe('/accounts', () => {
 
       const res = await execCreateAccountReq();
 
-      const acctOwner = await userModel.findById(3);
+      const acctOwner = await userModel.findByOne({ id: 3 });
       const resBody = res.body.data[0];
 
       expect(resBody.firstName).to.have.string(acctOwner[0].first_name);
@@ -203,7 +203,7 @@ describe('/accounts', () => {
       acctNumber = '1111111111';
 
       await execDeleteReq();
-      const account = await accountModel.findById(1);
+      const account = await accountModel.findByOne({ id: 1 });
 
       expect(account[0]).to.equal(undefined);
     });
