@@ -19,25 +19,20 @@ const accountController = {
     let data;
 
     try {
-      const rows = await userModel
-        .findById(Number(req.body.ownerId));
+      const rows = await userModel.findById(Number(req.body.ownerId));
 
       if (!rows.length) {
-        return HttpResponse.send(res, 400, {
-          error: 'The specified account owner id is incorrect',
-        });
+        return HttpResponse.send(res, 400, { error: 'The specified account owner id is incorrect' });
       }
 
       const accountOwner = changeKeysToCamelCase(rows[0]);
-
-      const accountInfo = await accountModel
-        .create(accountData(req, accountOwner));
+      const accountEntity = accountData(req, accountOwner);
+      const accountInfo = await accountModel.create(accountEntity);
 
       accountInfo[0] = changeKeysToCamelCase(accountInfo[0]);
       data = accountInfo;
     } catch (err) {
       console.log('Create-Bank-Account-Error: ', err);
-
       return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
     }
 
@@ -50,7 +45,7 @@ const accountController = {
     let data;
 
     try {
-      const rows = await accountModel.changeAccountStatus(accountNumber, newStatus);
+      const rows = await accountModel.changeStatus(accountNumber, newStatus);
 
       if (!rows.length) {
         return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
@@ -75,9 +70,7 @@ const accountController = {
         .deleteOne({ account_number: accountNumber });
 
       if (!account.length) {
-        return HttpResponse.send(res, 400, {
-          error: 'The account you wanted to delete is invalid',
-        });
+        return HttpResponse.send(res, 400, { error: 'The account you wanted to delete is invalid' });
       }
     } catch (err) {
       console.log('Delete-Bank-Account-Error: ', err);

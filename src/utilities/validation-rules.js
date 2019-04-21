@@ -101,30 +101,6 @@ const requiredName = (input) => {
   return customJoiError;
 };
 
-const optionalName = (input) => {
-  const customJoiError = Joi
-    .string().allow('').min(2).max(50)
-    .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
-    .error((errors) => {
-      const customMsgs = errors.map((err) => {
-        switch (err.type) {
-          case 'string.min':
-            return `${input} should have at least ${err.context.limit} characters`;
-          case 'string.max':
-            return `${input} should have at most ${err.context.limit} characters`;
-          case 'string.regex.base':
-            return `${input} should be a valid name`;
-          default:
-            return `Sorry, the ${input} you entered is invalid`;
-        }
-      });
-
-      return customMsgs.join(' and ');
-    });
-
-  return customJoiError;
-};
-
 const email = (input) => {
   const customJoiError = Joi.string().required().min(3).max(254)
     .regex(/^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/)
@@ -189,7 +165,6 @@ export {
   phone,
   accountNumber,
   requiredName,
-  optionalName,
   email,
   password,
 };

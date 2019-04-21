@@ -1,123 +1,131 @@
-import { transactionModel } from '../models/transaction';
-import { accountModel } from '../models/account';
-import convertTo2dp from '../utilities/convert-to-2dp';
-import { userModel } from '../models/user';
+import userModel from '../database/models/user';
+import accountModel from '../database/models/account';
+import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
-import EmailTemplates from '../utilities/email-templates';
-import emailSender from '../utilities/email-sender';
-import padWithZero from '../utilities/zero-padding';
+import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
-const emailTemplate = new EmailTemplates().getTxnAlertTemplate();
+let errMsg;
+const txnErrHandler = (res, status) => HttpResponse.send(res, status, { error: errMsg });
 
-const txnInit = (req) => {
+const transactionInit = async (req, res) => {
   const { accountNumber } = req.params;
+  const cashierId = Number(req.body.cashierId);
+  let account; let cashier;
 
-  const account = accountModel.findByAccountNumber(accountNumber);
-  const cashier = userModel.findCashierById(Number(req.body.cashier));
+  try {
+    account = await accountModel.findByAccountNumber(accountNumber);
+    cashier = await userModel.findCashierById(cashierId);
+  } catch (err) {
+    console.log('Transaction-Init-Error:', err);
+    errMsg = 'Sorry, something went wrong. Please contact site admin';
+    return txnErrHandler(res, 500);
+  }
 
   return { account, cashier };
 };
 
-const saveAndReturnTxnEntity = (req, res, oldBalance, account) => {
-  const transactionData = {
-    type: req.body.type,
-    accountNumber: req.params.accountNumber,
-    cashier: Number(req.body.cashier),
-    amount: convertTo2dp(req.body.amount),
-    oldBalance: convertTo2dp(oldBalance),
-    newBalance: convertTo2dp(account.balance),
+const createNReturnTxn = async (req, res, oldBalance, newBalance) => {
+  const { accountNumber } = req.params; const { transactionType } = req.body;
+  const txnEntity = {
+    created_on: new Date(),
+    transaction_type: transactionType,
+    account_number: accountNumber,
+    cashier_id: Number(req.body.cashierId),
+    amount: req.body.amount,
+    old_balance: oldBalance,
+    new_balance: newBalance,
   };
 
-  const txnInfo = transactionModel.create(transactionData);
+  let txnInfo; let account;
 
-  HttpResponse.send(res, 201, { data: txnInfo });
-  return txnInfo;
-};
+  try {
+    txnInfo = await transactionModel.create(txnEntity);
+    txnInfo[0] = changeKeysToCamelCase(txnInfo[0]);
 
-const generateEmailContent = (txnAlertTemplate, txnInfo, account) => {
-  let template = txnAlertTemplate;
+    account = await accountModel.findAndUpdate(
+      { account_number: accountNumber },
+      { balance: newBalance },
+    );
+  } catch (err) {
+    console.log('Return-Txn-Info- / Update-Account-Balance-Error:', err);
+  }
 
-  const txnTimeDate = txnInfo.createdOn;
-  const accountName = userModel.getFullName(Number(account.owner));
+  if (/^draft$/i.test(account[0].account_status) && /^credit$/i.test(transactionType)) {
+    await accountModel.changeStatus(accountNumber, 'active');
+  }
 
-  const txnDate = `${padWithZero(txnTimeDate.getDate())}/${padWithZero(txnTimeDate.getMonth() + 1)}/${txnTimeDate.getFullYear()}`;
-
-  const txnTime = `${padWithZero(txnTimeDate.getHours())}:${padWithZero(txnTimeDate.getMinutes())}`;
-
-  template = template.replace('{{accountName}}', accountName);
-  template = template.replace('{{type}}', txnInfo.transactionType);
-  template = template.replace('{{accountNumber}}', txnInfo.accountNumber);
-  template = template.replace('{{amount}}', convertTo2dp(txnInfo.amount));
-  template = template.replace('{{date}}', txnDate);
-  template = template.replace('{{time}}', txnTime);
-  template = template.replace('{{currentBal}}', convertTo2dp(txnInfo.accountBalance));
-
-  return template;
+  return HttpResponse.send(res, 201, { data: txnInfo });
 };
 
 const transactionController = {
-  debitAccount(req, res) {
-    const init = txnInit(req);
+  async debitAccount(req, res) {
+    const init = await transactionInit(req, res);
 
-    if (!init.cashier) {
-      return HttpResponse.send(res, 400, {
-        error: 'The cashier value you entered is incorrect',
-      });
+    if (!init.account.length) {
+      errMsg = 'The account you wanted to debit is incorrect';
+      return txnErrHandler(res, 400);
     }
 
-    if (!init.account) {
-      return HttpResponse.send(res, 400, {
-        error: 'The account you wanted to debit is incorrect',
-      });
+    if (!init.cashier.length) {
+      errMsg = 'The cashier id you entered is incorrect';
+      return txnErrHandler(res, 400);
     }
 
     const { account } = init;
-    const oldBalance = account.balance;
-    const newBal = Number(account.balance) - Number(req.body.amount);
 
-    if (newBal < 0) {
-      return HttpResponse.send(res, 400, {
-        error: 'Insufficient fund to complete this transaction',
-      });
+    if (/^dormant$/i.test(account[0].account_status)) {
+      errMsg = 'Transaction can not occur on a dormant account. Reactivate this account to enable it for transaction posting.';
+      return txnErrHandler(res, 400);
     }
 
-    account.balance = convertTo2dp(newBal);
-    const txnInfo = saveAndReturnTxnEntity(req, res, oldBalance, account);
-    const txnAlertTemplate = generateEmailContent(emailTemplate, txnInfo, account);
+    if (/^draft$/i.test(account[0].account_status)) {
+      errMsg = 'A debit transaction can not occur on a draft account. Activate this account by crediting it with its specified opening balance.';
+      return txnErrHandler(res, 400);
+    }
 
-    return emailSender({
-      name: userModel.getFullName(Number(account.owner)),
-      address: userModel.findById(Number(account.owner)).email,
-    }, 'Banka Transaction Alert', txnAlertTemplate);
+    const oldBalance = account[0].balance;
+    const newBalance = Number(oldBalance) - Number(req.body.amount);
+
+    if (newBalance < 0) {
+      errMsg = 'Insufficient fund to complete this transaction';
+      return txnErrHandler(res, 400);
+    }
+
+    const resp = await createNReturnTxn(req, res, oldBalance, newBalance);
+    return resp;
   },
 
-  creditAccount(req, res) {
-    const init = txnInit(req);
+  async creditAccount(req, res) {
+    const init = await transactionInit(req, res);
 
-    if (!init.cashier) {
-      return HttpResponse.send(res, 400, {
-        error: 'The cashier value you entered is incorrect',
-      });
+    if (!init.account.length) {
+      errMsg = 'The account you wanted to credit is incorrect';
+      return txnErrHandler(res, 400);
     }
 
-    if (!init.account) {
-      return HttpResponse.send(res, 400, {
-        error: 'The account you wanted to credit is incorrect',
-      });
+    if (!init.cashier.length) {
+      errMsg = 'The cashier id you entered is incorrect';
+      return txnErrHandler(res, 400);
     }
 
     const { account } = init;
-    const oldBalance = account.balance;
 
-    account.balance = convertTo2dp(Number(account.balance) + Number(req.body.amount));
-    const txnInfo = saveAndReturnTxnEntity(req, res, oldBalance, account);
+    if (/^dormant$/i.test(account[0].account_status)) {
+      errMsg = 'Transaction can not occur on a dormant account. Reactivate this account to enable it for transaction posting.';
+      return txnErrHandler(res, 400);
+    }
 
-    const txnAlertTemplate = generateEmailContent(emailTemplate, txnInfo, account);
+    if (/^draft$/i.test(account[0].account_status)) {
+      if (account[0].opening_balance > Number(req.body.amount)) {
+        errMsg = `Sorry, this is a new account. It can only be activated by making a credit transaction equal or more than the opening balance (NGN ${account[0].opening_balance}) you specified when opening the account.`;
+        return txnErrHandler(res, 400);
+      }
+    }
 
-    return emailSender({
-      name: userModel.getFullName(Number(account.owner)),
-      address: userModel.findById(Number(account.owner)).email,
-    }, 'Banka Transaction Alert', txnAlertTemplate);
+    const oldBalance = account[0].balance;
+    const newBalance = Number(oldBalance) + Number(req.body.amount);
+    const resp = await createNReturnTxn(req, res, oldBalance, newBalance);
+    return resp;
   },
 };
 

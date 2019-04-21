@@ -48,33 +48,36 @@ class Model {
     return rows;
   }
 
-  async findByIdAndUpdate(id, updatedData) {
+  async findAndUpdate(config = {}, updatedData = {}) {
     const cols = Object.keys(updatedData);
     const vals = Object.values(updatedData);
+
+    const configKey = Object.keys(config).join('');
+    const configValue = Object.values(config).join('');
 
     let text = `
       UPDATE ${this.table} 
       SET {{cols:vals}} 
-      WHERE id = ${id} 
+      WHERE ${configKey} = '${configValue}'
       RETURNING *;
     `;
 
     const setText = cols.map((col, i) => `${col} = $${i + 1}`);
 
     text = text.replace('{{cols:vals}}', setText.join(', '));
-    const { rows } = await db.query({ text, vals });
 
+    const { rows } = await db.query(text, vals);
     return rows;
   }
 
-  async deleteOne(keyConfig = {}) {
+  async deleteOne(config = {}) {
     const text = `
       DELETE FROM ${this.table}
-      WHERE ${Object.keys(keyConfig).join('')} = $1
+      WHERE ${Object.keys(config).join('')} = $1
       RETURNING *;
     `;
 
-    const value = Object.values(keyConfig);
+    const value = Object.values(config);
     const { rows } = await db.query(text, value);
 
     return rows;
