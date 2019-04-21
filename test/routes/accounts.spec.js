@@ -12,7 +12,7 @@ import * as allTables from '../../src/database/tables/all-tables';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe.only('/accounts', () => {
+describe('/accounts', () => {
   before('Account-Endpoints-Migration-Up-Test', async () => {
     await allTables.tablesUp();
     await seedUsers();

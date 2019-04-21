@@ -94,15 +94,15 @@ const postTransaction = (req, res, next) => {
   const clientInputs = {
     accountNumber: req.params.accountNumber,
     amount: req.body.amount,
-    type: req.body.type,
-    cashier: req.body.cashier,
+    transactionType: req.body.transactionType,
+    cashierId: req.body.cashierId,
   };
 
   const schema = Joi.object().keys({
     accountNumber: validationRule.accountNumber('The specified account number'),
     amount: validationRule.float('The amount to transact with'),
-    type: validationRule.transactionType('Transaction type'),
-    cashier: validationRule.integer('Cashier value'),
+    transactionType: validationRule.transactionType('Transaction type'),
+    cashierId: validationRule.integer('Cashier value'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);

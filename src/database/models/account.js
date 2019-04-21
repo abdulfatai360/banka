@@ -48,7 +48,7 @@ class Account extends Model {
     return rows;
   }
 
-  async changeAccountStatus(accountNumber, status) {
+  async changeStatus(accountNumber, status) {
     const text = `
       UPDATE ${this.table} 
       SET account_status = $1 
