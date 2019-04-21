@@ -1,5 +1,6 @@
 import accountModel from '../database/models/account';
 import userModel from '../database/models/user';
+import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
 import accountNumberGen from '../utilities/bank-acct-num';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
@@ -19,7 +20,7 @@ const accountController = {
     let data;
 
     try {
-      const rows = await userModel.findById(Number(req.body.ownerId));
+      const rows = await userModel.findByOne({ id: Number(req.body.ownerId) });
 
       if (!rows.length) {
         return HttpResponse.send(res, 400, { error: 'The specified account owner id is incorrect' });
@@ -79,6 +80,32 @@ const accountController = {
     }
 
     return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
+  },
+
+  async getAllTransactions(req, res) {
+    const { accountNumber } = req.params; let data;
+
+    try {
+      // to confirm if the account number exist in database
+      const accounts = await accountModel.findByAccountNumber(accountNumber);
+
+      if (!accounts.length) return HttpResponse.send(res, 400, { error: 'Sorry, the account number you wanted to view its transaction history is incorrect' });
+
+      // to check if the account number has any transaction record
+      const transactions = await transactionModel.findByOne({ account_number: accountNumber });
+
+      if (!transactions.length) return HttpResponse.send(res, 404, { error: 'No transaction has occurred on this account yet' });
+
+      transactions.forEach(txn => changeKeysToCamelCase(txn));
+
+      data = transactions;
+    } catch (err) {
+      console.log('Get-All-Account-Transaction-Error: ', err);
+
+      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
+    }
+
+    return HttpResponse.send(res, 200, { data });
   },
 };
 

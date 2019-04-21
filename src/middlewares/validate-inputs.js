@@ -15,11 +15,11 @@ const validateInputs = (entity) => {
       case 'changeBankAccountStatus':
         validationInit.changeAccountStatus(req, res, next);
         break;
-      case 'deleteBankAccount':
-        validationInit.deleteAccount(req, res, next);
-        break;
       case 'postTransaction':
         validationInit.postTransaction(req, res, next);
+        break;
+      case 'accountNumberParam':
+        validationInit.accountNumberParam(req, res, next);
         break;
       default:
     }
