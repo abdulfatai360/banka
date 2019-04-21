@@ -21,6 +21,9 @@ const validateInputs = (entity) => {
       case 'accountNumberParam':
         validationInit.accountNumberParam(req, res, next);
         break;
+      case 'idParam':
+        validationInit.idParam(req, res, next);
+        break;
       default:
     }
   };
