@@ -13,7 +13,7 @@ const transactionInit = async (req, res) => {
   let account; let cashier;
 
   try {
-    account = await accountModel.findByAccountNumber(accountNumber);
+    account = await accountModel.findByOne({ account_number: accountNumber });
     cashier = await userModel.findCashierById(cashierId);
   } catch (err) {
     console.log('Transaction-Init-Error:', err);

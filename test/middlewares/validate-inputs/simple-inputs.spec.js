@@ -64,25 +64,32 @@ describe('Simple Input Validation Rule', () => {
     return res;
   };
 
+  it('should return 422 when a field it is applied to is empty', async () => {
+    accountInfo = { type: '' };
+
+    const res = await execCreateAccountReq();
+    expect(res).to.have.status(422);
+  });
+
   it('should return 422 when a field it is applied to is missing', async () => {
     accountInfo = { type: 'savings' };
-    const res = await execCreateAccountReq();
 
+    const res = await execCreateAccountReq();
     expect(res).to.have.status(422);
   });
 
   describe('Integer Number Validation Rule', () => {
     it('should return 422 when a field it is applied to contains a non-numeric character', async () => {
       accountInfo = { owner: '1xx', type: 'savings' };
-      const res = await execCreateAccountReq();
 
+      const res = await execCreateAccountReq();
       expect(res).to.have.status(422);
     });
 
     it('should return 422 when a field it is applied to contains a floating point number', async () => {
       accountInfo = { owner: '1.2', type: 'savings' };
-      const res = await execCreateAccountReq();
 
+      const res = await execCreateAccountReq();
       expect(res).to.have.status(422);
     });
   });
@@ -92,7 +99,6 @@ describe('Simple Input Validation Rule', () => {
       accountInfo = { owner: '1', type: 'domicilliary' };
 
       const res = await execCreateAccountReq();
-
       expect(res).to.have.status(422);
     });
   });
@@ -107,7 +113,6 @@ describe('Simple Input Validation Rule', () => {
       };
 
       const res = await execDebitTxnReq();
-
       expect(res).to.have.status(422);
     });
 
@@ -120,12 +125,11 @@ describe('Simple Input Validation Rule', () => {
       };
 
       const res = await execDebitTxnReq();
-
       expect(res).to.have.status(422);
     });
   });
 
-  describe('Transaction Type vVlidation Rule', () => {
+  describe('Transaction Type Validation Rule', () => {
     it('should return 422 when a field it is applied to contains value that is neither "debit" nor "credit"', async () => {
       accountNumber = '1111111111';
       transactionInfo = {
@@ -135,7 +139,6 @@ describe('Simple Input Validation Rule', () => {
       };
 
       const res = await execDebitTxnReq();
-
       expect(res).to.have.status(422);
     });
   });
@@ -146,7 +149,6 @@ describe('Simple Input Validation Rule', () => {
       reqBody = { status: 'hello1' };
 
       const res = await execChangeStatusReq();
-
       expect(res).to.have.status(422);
     });
   });
@@ -156,13 +158,12 @@ describe('Simple Input Validation Rule', () => {
       user = {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        phone: '080111111111', // vaid format: +234xxxxxxxxxx or 234xxxxxxxxxx
+        phone: '080111111111', // valid: +234xxxxxxxxxx or 234xxxxxxxxxx
         email: faker.internet.email(),
         password: faker.internet.password(),
       };
 
       const res = await execSignupReq();
-
       expect(res).to.have.status(422);
     });
   });

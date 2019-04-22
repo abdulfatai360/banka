@@ -22,7 +22,7 @@ const simpleData = (input, pattern, type) => {
           case 'string.regex.base':
             return msg;
           default:
-            return `Sorry, the ${input} you entered is invalid`;
+            return `${input} should be a string`;
         }
       });
 
@@ -40,18 +40,14 @@ const fixedLengthData = (input, len, pattern, type) => {
     .error((errors) => {
       const customMsgs = errors.map((err) => {
         switch (err.type) {
-          case 'string.base':
-            return `${input} should be a string`;
           case 'any.empty':
             return `${input} should be not be empty`;
           case 'any.required':
             return `${input} is required`;
           case 'string.length':
             return `${input} should be ${err.context.limit} characters long`;
-          case 'string.regex.base':
-            return msg;
           default:
-            return `Sorry, the ${input} you entered is invalid`;
+            return msg;
         }
       });
 
@@ -91,7 +87,7 @@ const requiredName = (input) => {
           case 'string.regex.base':
             return `${input} should be a valid name`;
           default:
-            return `Sorry, the ${input} you entered is invalid`;
+            return `${input} should be a string`;
         }
       });
 
@@ -107,8 +103,6 @@ const email = (input) => {
     .error((errors) => {
       const customMsgs = errors.map((err) => {
         switch (err.type) {
-          case 'string.base':
-            return `${input} should be a string`;
           case 'any.required':
             return `${input} is required`;
           case 'any.empty':
@@ -120,7 +114,7 @@ const email = (input) => {
           case 'string.regex.base':
             return `${input} should be a valid email address`;
           default:
-            return `Sorry, the ${input} you entered is invalid`;
+            return `${input} should be a string`;
         }
       });
 
@@ -135,8 +129,6 @@ const password = (input) => {
     .error((errors) => {
       const customMsgs = errors.map((err) => {
         switch (err.type) {
-          case 'string.base':
-            return `${input} should be a string`;
           case 'any.required':
             return `${input} is required`;
           case 'any.empty':
@@ -146,7 +138,7 @@ const password = (input) => {
           case 'string.max':
             return `${input} should have at most ${err.context.limit} characters`;
           default:
-            return `Sorry, the ${input} you entered is invalid`;
+            return `${input} should be a string`;
         }
       });
 

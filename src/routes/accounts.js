@@ -12,4 +12,6 @@ router.delete('/:accountNumber', validateInputs('accountNumberParam'), account.d
 
 router.get('/:accountNumber/transactions', validateInputs('accountNumberParam'), account.getAllTransactions);
 
+router.get('/:accountNumber', validateInputs('accountNumberParam'), account.getSpecificAccount);
+
 export default router;

@@ -37,8 +37,20 @@ class Account extends Model {
 
   async findByAccountNumber(accountNumber) {
     const text = `
-      SELECT *
-      FROM ${this.table}
+      SELECT
+        ${this.table}.id, 
+        ${this.table}.created_on, 
+        ${this.table}.account_number, 
+        ${this.table}.owner_id, 
+        users.email, 
+        ${this.table}.account_type, 
+        ${this.table}.account_status, 
+        ${this.table}.balance 
+      FROM
+        account
+      JOIN
+        users 
+      ON ${this.table}.owner_id = users.id 
       WHERE account_number = $1;
     `;
 

@@ -97,7 +97,6 @@ const accountController = {
       if (!transactions.length) return HttpResponse.send(res, 404, { error: 'No transaction has occurred on this account yet' });
 
       transactions.forEach(txn => changeKeysToCamelCase(txn));
-
       data = transactions;
     } catch (err) {
       console.log('Get-All-Account-Transaction-Error: ', err);
@@ -106,6 +105,16 @@ const accountController = {
     }
 
     return HttpResponse.send(res, 200, { data });
+  },
+
+  async getSpecificAccount(req, res) {
+    const { accountNumber } = req.params;
+    const account = await accountModel.findByAccountNumber(accountNumber);
+
+    if (!account.length) return HttpResponse.send(res, 404, { error: 'Sorry, the account number you wanted to view its details could not be found' });
+
+    account[0] = changeKeysToCamelCase(account[0]);
+    return HttpResponse.send(res, 200, { data: account });
   },
 };
 
