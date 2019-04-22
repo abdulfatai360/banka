@@ -30,31 +30,6 @@ const simpleData = (input, pattern, type) => {
     });
 };
 
-const fixedLengthData = (input, len, pattern, type) => {
-  let msg;
-
-  if (type === 'acctNum') msg = `${input} should contain numbers only and be 10 characters long`;
-
-  return Joi.string().required().length(len)
-    .regex(pattern)
-    .error((errors) => {
-      const customMsgs = errors.map((err) => {
-        switch (err.type) {
-          case 'any.empty':
-            return `${input} should be not be empty`;
-          case 'any.required':
-            return `${input} is required`;
-          case 'string.length':
-            return `${input} should be ${err.context.limit} characters long`;
-          default:
-            return msg;
-        }
-      });
-
-      return customMsgs.join(' and ');
-    });
-};
-
 const integer = input => simpleData(input, /^[0-9]+$/, 'int');
 
 const float = input => simpleData(input, /^[0-9]+[.]{1}[0-9]{2}$/, 'float');
@@ -67,8 +42,26 @@ const transactionType = input => simpleData(input, /^(debit)|(credit)$/i, 'txnTy
 
 const phone = input => simpleData(input, /^(\+234|234)[0-9]{10}$/, 'phone');
 
+const accountNumber = (input) => {
+  const customJoiError = Joi.string().required().length(10)
+    .regex(/^[0-9]{10}$/)
+    .error((errors) => {
+      const customMsgs = errors.map((err) => {
+        switch (err.type) {
+          case 'any.required':
+            return `${input} is required`;
+          case 'string.length':
+            return `${input} should be ${err.context.limit} characters long`;
+          default:
+            return `${input} should contain numbers only and be 10 characters long`;
+        }
+      });
 
-const accountNumber = input => fixedLengthData(input, 10, /^[0-9]{10}$/, 'acctNum');
+      return customMsgs.join(' and ');
+    });
+
+  return customJoiError;
+};
 
 const requiredName = (input) => {
   const customJoiError = Joi.string().required().min(2).max(50)

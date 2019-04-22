@@ -15,13 +15,6 @@ const execGetAccountReq = async () => {
 };
 
 describe('Account Number Validation Rule', () => {
-  it('should return 404 when a field it is applied to is empty', async () => {
-    accountNumber = '';
-
-    const res = await execGetAccountReq();
-    expect(res).to.have.status(404);
-  });
-
   it('should return 422 when a field it is applied to is missing', async () => {
     accountNumber = undefined;
 
