@@ -117,10 +117,38 @@ const accountController = {
     return HttpResponse.send(res, 200, { data: account });
   },
 
+  async filterAccounts(req, res) {
+    const { status } = req.query; let accounts;
+
+    if (!status || Object.keys(req.query).length > 1) {
+      return HttpResponse.send(res, 501, { error: "Filtering list of accounts based on other query aside 'status' or multiple queries is not implemented" });
+    }
+
+    if (status === 'active') {
+      accounts = await accountModel.findByOne({ account_status: 'active' });
+    }
+
+    if (status === 'dormant') {
+      accounts = await accountModel.findByOne({ account_status: 'dormant' });
+    }
+
+    if (!accounts.length) {
+      return HttpResponse.send(res, 404, { error: `No record of ${status} accounts found in the database` });
+    }
+
+    accounts.forEach(account => changeKeysToCamelCase(account));
+    return HttpResponse.send(res, 200, { data: accounts });
+  },
+
   async getAllAccounts(req, res) {
     const accounts = await accountModel.findAll();
-    accounts.forEach(account => changeKeysToCamelCase(account));
 
+    // if query is present
+    if (Object.keys(req.query).length) {
+      return accountController.filterAccounts(req, res);
+    }
+
+    accounts.forEach(account => changeKeysToCamelCase(account));
     return HttpResponse.send(res, 200, { data: accounts });
   },
 };
