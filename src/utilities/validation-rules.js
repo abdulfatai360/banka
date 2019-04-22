@@ -30,24 +30,29 @@ const simpleData = (input, pattern, type) => {
     });
 };
 
-const fixedLengthData = (input, len, pattern, type) => {
+const nameNEmail = (input, pattern, type, min, max) => {
   let msg;
 
-  if (type === 'acctNum') msg = `${input} should contain numbers only and be 10 characters long`;
+  if (type === 'name') msg = `${input} should be a valid name`;
+  if (type === 'email') msg = `${input} should be a valid email address`;
 
-  return Joi.string().required().length(len)
+  return Joi.string().required().min(min).max(max)
     .regex(pattern)
     .error((errors) => {
       const customMsgs = errors.map((err) => {
         switch (err.type) {
           case 'any.empty':
-            return `${input} should be not be empty`;
+            return `${input} should not be empty`;
           case 'any.required':
             return `${input} is required`;
-          case 'string.length':
-            return `${input} should be ${err.context.limit} characters long`;
-          default:
+          case 'string.min':
+            return `${input} should have at least ${err.context.limit} characters`;
+          case 'string.max':
+            return `${input} should have at most ${err.context.limit} characters`;
+          case 'string.regex.base':
             return msg;
+          default:
+            return `${input} should be a string`;
         }
       });
 
@@ -61,67 +66,46 @@ const float = input => simpleData(input, /^[0-9]+[.]{1}[0-9]{2}$/, 'float');
 
 const requiredStr = input => simpleData(input, /^[a-zA-Z]+$/, 'simpleStr');
 
-const bankAccountType = input => simpleData(input, /^(savings)|(current)$/i, 'acctType');
+const bankAccountType = (input) => {
+  const pattern = /^(savings)|(current)$/i;
+  return simpleData(input, pattern, 'acctType');
+};
 
-const transactionType = input => simpleData(input, /^(debit)|(credit)$/i, 'txnType');
+const transactionType = (input) => {
+  const pattern = /^(debit)|(credit)$/i;
+  return simpleData(input, pattern, 'txnType');
+};
 
-const phone = input => simpleData(input, /^(\+234|234)[0-9]{10}$/, 'phone');
+const phone = (input) => {
+  const pattern = /^(\+234|234)[0-9]{10}$/;
+  return simpleData(input, pattern, 'phone');
+};
 
-
-const accountNumber = input => fixedLengthData(input, 10, /^[0-9]{10}$/, 'acctNum');
-
-const requiredName = (input) => {
-  const customJoiError = Joi.string().required().min(2).max(50)
-    .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
-    .error((errors) => {
-      const customMsgs = errors.map((err) => {
-        switch (err.type) {
-          case 'any.empty':
-            return `${input} should not be empty`;
-          case 'any.required':
-            return `${input} is required`;
-          case 'string.min':
-            return `${input} should have at least ${err.context.limit} characters`;
-          case 'string.max':
-            return `${input} should have at most ${err.context.limit} characters`;
-          case 'string.regex.base':
-            return `${input} should be a valid name`;
-          default:
-            return `${input} should be a string`;
-        }
-      });
-
-      return customMsgs.join(' and ');
+const accountNumber = input => Joi.string().required().length(10)
+  .regex(/^[0-9]{10}$/)
+  .error((errors) => {
+    const customMsgs = errors.map((err) => {
+      switch (err.type) {
+        case 'any.required':
+          return `${input} is required`;
+        case 'string.length':
+          return `${input} should be ${err.context.limit} characters long`;
+        default:
+          return `${input} should contain numbers only and be 10 characters long`;
+      }
     });
 
-  return customJoiError;
+    return customMsgs.join(' and ');
+  });
+
+const requiredName = (input) => {
+  const pattern = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+  return nameNEmail(input, pattern, 'name', 2, 50);
 };
 
 const email = (input) => {
-  const customJoiError = Joi.string().required().min(3).max(254)
-    .regex(/^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/)
-    .error((errors) => {
-      const customMsgs = errors.map((err) => {
-        switch (err.type) {
-          case 'any.required':
-            return `${input} is required`;
-          case 'any.empty':
-            return `${input} should be not be empty`;
-          case 'string.min':
-            return `${input} should have at least ${err.context.limit} characters`;
-          case 'string.max':
-            return `${input} should have at most ${err.context.limit} characters`;
-          case 'string.regex.base':
-            return `${input} should be a valid email address`;
-          default:
-            return `${input} should be a string`;
-        }
-      });
-
-      return customMsgs.join(' and ');
-    });
-
-  return customJoiError;
+  const pattern = /^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/;
+  return nameNEmail(input, pattern, 'email', 3, 254);
 };
 
 const password = (input) => {

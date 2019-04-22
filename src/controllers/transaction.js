@@ -72,6 +72,8 @@ const transactionController = {
     }
 
     const { account } = init;
+    const oldBalance = account[0].balance;
+    const newBalance = Number(oldBalance) - Number(req.body.amount);
 
     if (/^dormant$/i.test(account[0].account_status)) {
       errMsg = 'Transaction can not occur on a dormant account. Reactivate this account to enable it for transaction posting.';
@@ -82,9 +84,6 @@ const transactionController = {
       errMsg = 'A debit transaction can not occur on a draft account. Activate this account by crediting it with its specified opening balance.';
       return txnErrHandler(res, 400);
     }
-
-    const oldBalance = account[0].balance;
-    const newBalance = Number(oldBalance) - Number(req.body.amount);
 
     if (newBalance < 0) {
       errMsg = 'Insufficient fund to complete this transaction';

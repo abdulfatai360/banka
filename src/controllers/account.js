@@ -116,6 +116,13 @@ const accountController = {
     account[0] = changeKeysToCamelCase(account[0]);
     return HttpResponse.send(res, 200, { data: account });
   },
+
+  async getAllAccounts(req, res) {
+    const accounts = await accountModel.findAll();
+    accounts.forEach(account => changeKeysToCamelCase(account));
+
+    return HttpResponse.send(res, 200, { data: accounts });
+  },
 };
 
 export default accountController;
