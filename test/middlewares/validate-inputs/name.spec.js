@@ -6,22 +6,41 @@ import app from '../../../src/index';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe('Name Input Validation Rule', () => {
-  /*
-    Name input validation is a superset for:
-    1. Required name validation rule
-    2. Optional name validation rule
-   */
+let user;
 
-  let user;
+const execSignupReq = async () => {
+  const res = await chai.request(app)
+    .post('/api/v1/auth/signup')
+    .send(user);
 
-  const execSignupReq = async () => {
-    const res = await chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send(user);
+  return res;
+};
 
-    return res;
-  };
+describe('User Name Input Validation Rule', () => {
+  it('should return 422 when a field it is applied to is empty', async () => {
+    user = {
+      firstName: '',
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+
+    const res = await execSignupReq();
+    expect(res).to.have.status(422);
+  });
+
+  it('should return 422 when a field it is applied to is missing', async () => {
+    user = {
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+
+    const res = await execSignupReq();
+    expect(res).to.have.status(422);
+  });
 
   it('should return 422 when a field it is applied to contains a value that is less than 2 character long', async () => {
     user = {
@@ -33,7 +52,6 @@ describe('Name Input Validation Rule', () => {
     };
 
     const res = await execSignupReq();
-
     expect(res).to.have.status(422);
   });
 
@@ -47,7 +65,6 @@ describe('Name Input Validation Rule', () => {
     };
 
     const res = await execSignupReq();
-
     expect(res).to.have.status(422);
   });
 
@@ -61,22 +78,19 @@ describe('Name Input Validation Rule', () => {
     };
 
     const res = await execSignupReq();
-
     expect(res).to.have.status(422);
   });
 
-  describe('Required Name Validation Rule', () => {
-    it('should return 422 when a field it is applied to is missing', async () => {
-      user = {
-        lastName: faker.name.lastName(),
-        phone: '2341111111111',
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-      };
+  it('should return 422 when a field it is applied to contains a value that is not formatted as a string', async () => {
+    user = {
+      firstName: 111,
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
 
-      const res = await execSignupReq();
-
-      expect(res).to.have.status(422);
-    });
+    const res = await execSignupReq();
+    expect(res).to.have.status(422);
   });
 });
