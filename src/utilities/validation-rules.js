@@ -34,7 +34,7 @@ const nameNEmail = (input, pattern, type, min, max) => {
   let msg;
 
   if (type === 'name') msg = `${input} should be a valid name`;
-  if (type === 'email') msg = `${input} should be a valid email address`;
+  if (type === 'email') msg = `${input} should be a valid email address and should not contain space(s)`;
 
   return Joi.string().required().min(min).max(max)
     .regex(pattern)

@@ -17,12 +17,6 @@ const validateInputs = entity => (req, res, next) => {
     case 'postTransaction':
       validationInit.postTransaction(req, res, next);
       break;
-    case 'accountNumberParam':
-      validationInit.accountNumberParam(req, res, next);
-      break;
-    case 'idParam':
-      validationInit.idParam(req, res, next);
-      break;
     default:
   }
 };

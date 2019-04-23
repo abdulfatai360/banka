@@ -4,6 +4,7 @@ import db from '..';
 const adminHash = hashPassword.generateHash('admin@domain.com');
 const cashierHash = hashPassword.generateHash('cashier@domain.com');
 const clientHash = hashPassword.generateHash('client@domain.com');
+const client2Hash = hashPassword.generateHash('client2@domain.com');
 
 const seedUsersTable = async () => {
   const query = `
@@ -12,7 +13,8 @@ const seedUsersTable = async () => {
   VALUES
     ('Admin', 'Banka', '2341111111111', 'admin@domain.com', '${adminHash}', 'Staff', 'true'),
     ('Cashier', 'Banka', '2341111111111', 'cashier@domain.com', '${cashierHash}', 'Staff', 'false'),
-    ('Client', 'Banka', '2341111111111', 'client@domain.com', '${clientHash}', 'Client', null);
+    ('Client', 'Banka', '2341111111111', 'client@domain.com', '${clientHash}', 'Client', null),
+    ('Client', 'Banka', '2341111111111', 'client2@domain.com', '${client2Hash}', 'Client', null);
 `;
 
   try {
