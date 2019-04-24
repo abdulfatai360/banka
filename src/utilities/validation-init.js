@@ -128,6 +128,22 @@ const idParam = (req, res, next) => {
   return next();
 };
 
+const emailParam = (req, res, next) => {
+  const clientInputs = {
+    email: req.params.userEmailAddress,
+  };
+
+  const schema = Joi.object().keys({
+    email: validationRule.email('The email parameter'),
+  });
+
+  const { error } = Joi.validate(clientInputs, schema);
+
+  if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+
+  return next();
+};
+
 
 export {
   userSignup,
@@ -137,4 +153,5 @@ export {
   postTransaction,
   accountNumberParam,
   idParam,
+  emailParam,
 };

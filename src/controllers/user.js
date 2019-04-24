@@ -3,6 +3,7 @@ import authToken from '../utilities/auth-token';
 import removeObjectProp from '../utilities/remove-object-prop';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
+import accountModel from '../database/models/account';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
 const loginErrHandler = res => (
@@ -85,6 +86,32 @@ const userController = {
     return HttpResponse.sendWithHeader(res, header, 200, {
       data: [changeKeysToCamelCase(Object.assign({ token }, user))],
     });
+  },
+
+  async getMyAccounts(req, res) {
+    const { userEmailAddress } = req.params;
+    const user = await userModel.findByEmail(userEmailAddress);
+
+    if (!user.length) {
+      return HttpResponse.send(res, 400, { error: 'The email address you specified is incorrect' });
+    }
+
+    let accounts = await accountModel.findByOne({ owner_id: user[0].id });
+
+    if (!accounts.length) {
+      return HttpResponse.send(res, 404, { error: 'This user has not opened an account yet' });
+    }
+
+    accounts = accounts.map((acct) => {
+      let account = acct;
+      changeKeysToCamelCase(account);
+      account = removeObjectProp('id', account);
+      account = removeObjectProp('openingBalance', account);
+      account = Object.assign({ ownerEmail: user[0].email }, account);
+      return account;
+    });
+
+    return HttpResponse.send(res, 200, { data: accounts });
   },
 };
 
