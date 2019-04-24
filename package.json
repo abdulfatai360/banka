@@ -13,7 +13,8 @@
     "test:dev": "set ENV_TEST=true && mocha --recursive --colors --inline-diffs --slow 400 --timeout 5000 --exit --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migration:up": "node ./dist/database/tables/all-tables.js tablesUp",
-    "migration:down": "node ./dist/database/tables/all-tables.js tablesDown"
+    "migration:down": "node ./dist/database/tables/all-tables.js tablesDown",
+    "seed:user": "node ./dist/database/tables/all-tables.js seedUsers"
   },
   "keywords": [],
   "repository": {

@@ -1,4 +1,5 @@
 import db from '..';
+import seedUsers from '../seeders/seed-users';
 import * as userTable from './user-table';
 import * as accountTable from './account-table';
 import * as transactionTable from './transaction-table';
@@ -31,5 +32,5 @@ const tablesDown = async () => {
   }
 };
 
-export { tablesUp, tablesDown };
+export { tablesUp, tablesDown, seedUsers };
 require('make-runnable');

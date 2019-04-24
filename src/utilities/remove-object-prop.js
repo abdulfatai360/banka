@@ -1,4 +1,4 @@
-const removeObjectProp = (prop = '', object = {}) => (
+const removeObjectProperty = (prop = '', object = {}) => (
   Object.keys(object)
     .reduce((newObject, key) => {
       const newObj = newObject;
@@ -8,4 +8,4 @@ const removeObjectProp = (prop = '', object = {}) => (
     }, {})
 );
 
-export default removeObjectProp;
+export default removeObjectProperty;
