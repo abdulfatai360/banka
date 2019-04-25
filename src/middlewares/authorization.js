@@ -2,7 +2,7 @@ import authToken from '../utilities/auth-token';
 import HttpResponse from '../utilities/http-response';
 
 const authorization = {
-  allowUser(req, res, next) {
+  basic(req, res, next) {
     const token = req.header('x-auth-token');
 
     if (!token) {
@@ -20,33 +20,31 @@ const authorization = {
     return next();
   },
 
+  allowUser(req, res, next) {
+    if (/^client$/i.test(req.user.type)) return next();
+
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a client can perform this operation.' });
+  },
+
   allowStaff(req, res, next) {
-    console.log(req.user);
+    if (/^staff$/i.test(req.user.type)) return next();
 
-    if (!/^staff$/i.test(req.user.type)) {
-      return HttpResponse.send(res, 403, { error: 'You do not have the right access route. Only a staff member can perform this operation.' });
-    }
-
-    return next();
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a staff can perform this operation.' });
   },
 
   allowCashier(req, res, next) {
-    if (!/^staff$/i.test(req.user.type) && req.user.isAdmin) {
-      return HttpResponse.send(res, 403, { error: 'You do not have the right access to this route. Only a cashier can perform this operation.' });
+    if (/^staff$/i.test(req.user.type) && !req.user.isAdmin) {
+      req.body.cashierId = String(req.user.id);
+      return next();
     }
 
-    req.body.cashierId = String(req.user.id);
-    console.log(req.body.cashierId);
-
-    return next();
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a cashier can perform this operation.' });
   },
 
   allowAdmin(req, res, next) {
-    if (!req.user.isAdmin) {
-      return HttpResponse.send(res, 403, { error: 'You do not have the right access to this endpoint. Only an admin can perform this operation.' });
-    }
+    if (/^staff$/i.test(req.user.type) && req.user.isAdmin) return next();
 
-    return next();
+    return HttpResponse.send(res, 403, { error: 'Sorry, only an admin can perform this operation.' });
   },
 };
 

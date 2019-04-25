@@ -22,15 +22,18 @@ describe('/accounts', () => {
   });
 
   describe('POST /accounts', () => {
-    let accountInfo;
+    let newAccountInfo; let userAuthToken;
 
-    const execCreateAccountReq = async () => {
-      const res = await chai.request(app)
-        .post('/api/v1/accounts')
-        .send(accountInfo);
+    before('Create-Account-Endpoint-Login-Client', async () => {
+      const response = await chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'client@domain.com',
+          password: 'client@domain.com',
+        });
 
-      return res;
-    };
+      userAuthToken = response.body.data[0].token;
+    });
 
     beforeEach('Create-Account-Create-Account-Table-Test', async () => {
       await db.query(accountTable.createTable);
@@ -40,20 +43,17 @@ describe('/accounts', () => {
       await db.query(accountTable.dropTable);
     });
 
-    it('should return 400 when specified account owner is invalid', async () => {
-      accountInfo = {
-        ownerId: '0',
-        accountType: 'savings',
-        openingBalance: '1000.00',
-      };
+    const execCreateAccountReq = async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/accounts')
+        .set('x-auth-token', userAuthToken)
+        .send(newAccountInfo);
 
-      const res = await execCreateAccountReq();
-      expect(res).to.have.status(400);
-    });
+      return res;
+    };
 
     it('should create a new account and save it in account DB', async () => {
-      accountInfo = {
-        ownerId: '3',
+      newAccountInfo = {
         accountType: 'savings',
         openingBalance: '1000.00',
       };
@@ -70,8 +70,7 @@ describe('/accounts', () => {
     });
 
     it('should return 201 for when a new account is created', async () => {
-      accountInfo = {
-        ownerId: '3',
+      newAccountInfo = {
         accountType: 'savings',
         openingBalance: '1000.00',
       };
@@ -81,8 +80,7 @@ describe('/accounts', () => {
     });
 
     it('should return some info about the account and its owner', async () => {
-      accountInfo = {
-        ownerId: '3',
+      newAccountInfo = {
         accountType: 'savings',
         openingBalance: '1000.00',
       };

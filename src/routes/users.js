@@ -5,6 +5,6 @@ import authorization from '../middlewares/authorization';
 
 const router = express.Router();
 
-router.get('/:userEmailAddress/accounts', authorization.allowStaff, validateParams('email'), user.getMyAccounts);
+router.get('/:userEmailAddress/accounts', validateParams('email'), authorization.basic, authorization.allowStaff, user.getMyAccounts);
 
 export default router;

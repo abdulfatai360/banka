@@ -22,11 +22,23 @@ describe('/accounts', () => {
   });
 
   describe('DELETE /accounts/<account-number>', () => {
-    let acctNumber;
+    let accountNumber; let staffAuthToken;
+
+    before('Change-Account-Status-Login-Staff', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'admin@domain.com',
+          password: 'admin@domain.com',
+        });
+
+      staffAuthToken = res.body.data[0].token;
+    });
 
     const execDeleteReq = async () => {
       const res = await chai.request(app)
-        .delete(`/api/v1/accounts/${acctNumber}`);
+        .delete(`/api/v1/accounts/${accountNumber}`)
+        .set('x-auth-token', staffAuthToken);
 
       return res;
     };
@@ -41,7 +53,7 @@ describe('/accounts', () => {
     });
 
     it('should return 400 for an invalid account number', async () => {
-      acctNumber = '0000000000';
+      accountNumber = '0000000000';
 
       const res = await execDeleteReq();
 
@@ -52,7 +64,7 @@ describe('/accounts', () => {
     });
 
     it('should return 200 when an account is deleted', async () => {
-      acctNumber = '1111111111';
+      accountNumber = '1111111111';
 
       const res = await execDeleteReq();
 
@@ -63,7 +75,7 @@ describe('/accounts', () => {
     });
 
     it('should delete the account in the database', async () => {
-      acctNumber = '1111111111';
+      accountNumber = '1111111111';
 
       await execDeleteReq();
       const account = await accountModel.findByOne({ id: 1 });

@@ -46,13 +46,11 @@ const userSignin = (req, res, next) => {
 
 const createAccount = (req, res, next) => {
   const clientInputs = {
-    ownerId: req.body.ownerId,
     accountType: req.body.accountType,
     openingBalance: req.body.openingBalance,
   };
 
   const schema = Joi.object({
-    ownerId: validationRule.integer('Bank account owner'),
     accountType: validationRule.bankAccountType('Bank account type'),
     openingBalance: validationRule.float('Opening balance'),
   });
@@ -83,14 +81,12 @@ const postTransaction = (req, res, next) => {
     accountNumber: req.params.accountNumber,
     amount: req.body.amount,
     transactionType: req.body.transactionType,
-    cashierId: req.body.cashierId,
   };
 
   const schema = Joi.object().keys({
     accountNumber: validationRule.accountNumber('The specified account number'),
     amount: validationRule.float('The amount to transact with'),
     transactionType: validationRule.transactionType('Transaction type'),
-    cashierId: validationRule.integer('Cashier value'),
   });
 
   const { error } = Joi.validate(clientInputs, schema);

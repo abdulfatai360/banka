@@ -23,11 +23,23 @@ describe('/transactions', () => {
   });
 
   describe('GET /transactions/<id>', () => {
-    let transactionId;
+    let transactionId; let clientAuthToken;
+
+    before('Get-One-Transaction-Login-Client', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'client@domain.com',
+          password: 'client@domain.com',
+        });
+
+      clientAuthToken = res.body.data[0].token;
+    });
 
     const execGetOneTxnReq = async () => {
       const res = await chai.request(app)
-        .get(`/api/v1/transactions/${transactionId}`);
+        .get(`/api/v1/transactions/${transactionId}`)
+        .set('x-auth-token', clientAuthToken);
 
       return res;
     };

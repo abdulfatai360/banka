@@ -21,9 +21,23 @@ describe('/accounts', () => {
   });
 
   describe('GET /accounts', () => {
+    let staffAuthToken;
+
+    before('Get-All-Accounts-Login-Staff', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'admin@domain.com',
+          password: 'admin@domain.com',
+        });
+
+      staffAuthToken = res.body.data[0].token;
+    });
+
     const execGetAllAccountReq = async () => {
       const res = await chai.request(app)
-        .get('/api/v1/accounts');
+        .get('/api/v1/accounts')
+        .set('x-auth-token', staffAuthToken);
 
       return res;
     };
