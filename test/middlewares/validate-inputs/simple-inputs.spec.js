@@ -9,17 +9,20 @@ chai.use(chaiHttp);
 describe('Simple Input Validation Rule', () => {
   /*
     Simple input validation is a superset for:
-    1. Integer number validation rule
-    2. Floating point number validation rule
-    3. Required string validation rule
-    4. Account type validation rule
-    5. Transaction type validation rule
-    7. Phone validation rule
+    1. Integer number
+    2. Floating point number
+    3. Required string
+    4. Account type
+    5. Transaction type
+    7. Phone
    */
 
-  // owner and accountType field of this endpoint make use
-  // Intger number and Account type validation rules respectively
   let accountInfo;
+  let transactionInfo;
+  let accountNumber;
+  let reqBody;
+  let user;
+  let transactionId;
 
   const execCreateAccountReq = async () => {
     const res = await chai.request(app)
@@ -29,10 +32,6 @@ describe('Simple Input Validation Rule', () => {
     return res;
   };
 
-  // amount and transactionType field for this endpoint
-  // make use of Float and Transaction type validation rules respectively
-  let transactionInfo; let accountNumber;
-
   const execDebitTxnReq = async () => {
     const res = await chai.request(app)
       .post(`/api/v1/transactions/${accountNumber}/debit`)
@@ -40,10 +39,6 @@ describe('Simple Input Validation Rule', () => {
 
     return res;
   };
-
-  // status field for this endpoint makes use of
-  // Required string validation rules
-  let reqBody;
 
   const execChangeStatusReq = async () => {
     const res = await chai.request(app)
@@ -53,9 +48,6 @@ describe('Simple Input Validation Rule', () => {
     return res;
   };
 
-  // phone field for this endpoint makes use of the phone validation rule
-  let user;
-
   const execSignupReq = async () => {
     const res = await chai.request(app)
       .post('/api/v1/auth/signup')
@@ -64,78 +56,67 @@ describe('Simple Input Validation Rule', () => {
     return res;
   };
 
+  const execGetTransactionReq = async () => {
+    const res = await chai.request(app)
+      .get(`/api/v1/transactions/${transactionId}`);
+
+    return res;
+  };
+
   it('should return 422 when a field it is applied to is empty', async () => {
-    accountInfo = { type: '' };
+    accountInfo = { accountType: '', openingBalance: '100.00' };
 
     const res = await execCreateAccountReq();
     expect(res).to.have.status(422);
   });
 
   it('should return 422 when a field it is applied to is missing', async () => {
-    accountInfo = { type: 'savings' };
+    accountInfo = { openingBalance: '100.00' };
 
     const res = await execCreateAccountReq();
     expect(res).to.have.status(422);
   });
 
-  describe('Integer Number Validation Rule', () => {
+  describe('Integer Number', () => {
     it('should return 422 when a field it is applied to contains a non-numeric character', async () => {
-      accountInfo = { owner: '1xx', type: 'savings' };
+      transactionId = '1xx';
 
-      const res = await execCreateAccountReq();
+      const res = await execGetTransactionReq();
       expect(res).to.have.status(422);
     });
 
     it('should return 422 when a field it is applied to contains a floating point number', async () => {
-      accountInfo = { owner: '1.2', type: 'savings' };
+      transactionId = '1.2';
 
-      const res = await execCreateAccountReq();
+      const res = await execGetTransactionReq();
       expect(res).to.have.status(422);
     });
   });
 
-  describe('Account Type Validation Rule', () => {
+  describe('Account Type', () => {
     it('should return 422 when a field it is applied to contains a value that is neither "current" nor "savings"', async () => {
-      accountInfo = { owner: '1', type: 'domicilliary' };
+      accountInfo = { accountType: 'loan', openingBalance: '100.00' };
 
       const res = await execCreateAccountReq();
       expect(res).to.have.status(422);
     });
   });
 
-  describe('Floating Point Number Validation Rule', () => {
+  describe('Floating Point Number', () => {
     it('should return 422 when a field it is applied to contains a non-numeric character', async () => {
-      accountNumber = '1111111111';
-      transactionInfo = {
-        amount: '2xx',
-        type: 'debit',
-        cashier: '1',
-      };
+      accountInfo = { accountType: 'loan', openingBalance: '-100.00' };
 
-      const res = await execDebitTxnReq();
-      expect(res).to.have.status(422);
-    });
-
-    it('should return 422 when a field it is applied to contains an integer number', async () => {
-      accountNumber = '1111111111';
-      transactionInfo = {
-        amount: '200',
-        type: 'debit',
-        cashier: '1',
-      };
-
-      const res = await execDebitTxnReq();
+      const res = await execCreateAccountReq();
       expect(res).to.have.status(422);
     });
   });
 
-  describe('Transaction Type Validation Rule', () => {
+  describe('Transaction Type', () => {
     it('should return 422 when a field it is applied to contains value that is neither "debit" nor "credit"', async () => {
       accountNumber = '1111111111';
       transactionInfo = {
         amount: '200.00',
-        type: 'loan',
-        cashier: '1',
+        transactionType: 'loan',
       };
 
       const res = await execDebitTxnReq();
@@ -143,17 +124,17 @@ describe('Simple Input Validation Rule', () => {
     });
   });
 
-  describe('Required String Validation Rule', () => {
+  describe('Required String', () => {
     it('should return 422 when a field it is applied to contains a non-alphabetical character', async () => {
       accountNumber = '1111111111';
-      reqBody = { status: 'hello1' };
+      reqBody = { accountStatus: 'hello1' };
 
       const res = await execChangeStatusReq();
       expect(res).to.have.status(422);
     });
   });
 
-  describe('Phone Number Validation Rule', () => {
+  describe('Phone Number', () => {
     it('should return 422 when a field it is applied to contains a value that is not valid', async () => {
       user = {
         firstName: faker.name.firstName(),

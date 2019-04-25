@@ -15,7 +15,7 @@ const seedUsersTable = async () => {
     ('Cashier', 'Banka', '2341111111111', 'cashier@domain.com', '${cashierHash}', 'Staff', 'false'),
     ('Client', 'Banka', '2341111111111', 'client@domain.com', '${clientHash}', 'Client', null),
     ('Client', 'Banka', '2341111111111', 'client2@domain.com', '${client2Hash}', 'Client', null);
-`;
+  `;
 
   try {
     await db.query(query);

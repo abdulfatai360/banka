@@ -31,9 +31,23 @@ describe('/accounts', () => {
   });
 
   describe('GET /accounts?status=dormant', () => {
+    let staffAuthToken;
+
+    before('Get-Dormant-Accounts-Login-Staff', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'admin@domain.com',
+          password: 'admin@domain.com',
+        });
+
+      staffAuthToken = res.body.data[0].token;
+    });
+
     const execGetDormantAccountReq = async () => {
       const res = await chai.request(app)
-        .get('/api/v1/accounts?status=dormant');
+        .get('/api/v1/accounts?status=dormant')
+        .set('x-auth-token', staffAuthToken);
 
       return res;
     };

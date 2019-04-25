@@ -1,16 +1,10 @@
 import hashPassword from '../utilities/hash-password';
 import authToken from '../utilities/auth-token';
-import removeObjectProp from '../utilities/remove-object-prop';
+import removeObjectProperty from '../utilities/remove-object-prop';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
-
-const loginErrHandler = res => (
-  HttpResponse.send(res, 400, {
-    error: 'Sorry, the email or password you entered is incorrect',
-  })
-);
 
 const signUpErrHandler = (res, error) => {
   if (error.code === '23505') {
@@ -20,6 +14,12 @@ const signUpErrHandler = (res, error) => {
   console.log('Signup-Controller-Error: ', error.message);
   return HttpResponse.send(res, 500, { error: 'Sorry,something went wrong. We can not complete your request now. Please contact site administrator' });
 };
+
+const loginErrHandler = res => (
+  HttpResponse.send(res, 400, {
+    error: 'Sorry, the email or password you entered is incorrect',
+  })
+);
 
 const userData = (req) => {
   const password = hashPassword.generateHash(req.body.password);
@@ -42,6 +42,25 @@ const userController = {
     let user;
 
     if ((/^Staff$/i).test(userEntity.type)) {
+      const token = req.header('x-auth-token');
+      let loggedInUser;
+
+      if (!token) {
+        return HttpResponse.send(res, 401, { error: 'You are not authorized to perform this operation' });
+      }
+
+      try {
+        loggedInUser = authToken.verifyToken(token);
+      } catch (err) {
+        return HttpResponse.send(res, 400, { error: 'You do not have the right credentials to perform this request' });
+      }
+
+      console.log(loggedInUser);
+
+      if (!loggedInUser.isAdmin) {
+        return HttpResponse.send(res, 403, { error: 'You do not have the right access; only an admin can register a staff account' });
+      }
+
       isAdmin = (/^true$/i).test(req.body.isAdmin) || false;
       userEntity = Object.assign(userEntity, { is_admin: isAdmin });
     }
@@ -50,17 +69,18 @@ const userController = {
       const rows = await userModel.create(userEntity);
       [user] = rows;
 
-      if (!user.is_admin) user = removeObjectProp('is_admin', user);
-      user = removeObjectProp('password', user);
+      if (!user.is_admin) user = removeObjectProperty('is_admin', user);
+      user = removeObjectProperty('password', user);
     } catch (error) {
       return signUpErrHandler(res, error);
     }
 
+    user = changeKeysToCamelCase(user);
     const token = authToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 201, {
-      data: [changeKeysToCamelCase(Object.assign({ token }, user))],
+      data: [Object.assign({ token }, user)],
     });
   },
 
@@ -77,14 +97,15 @@ const userController = {
 
     if (!isPasswordValid) return loginErrHandler(res);
 
-    let user = removeObjectProp('password', rows[0]);
-    if (!user.is_admin) user = removeObjectProp('is_admin', user);
+    let user = removeObjectProperty('password', rows[0]);
+    if (!user.is_admin) user = removeObjectProperty('is_admin', user);
 
+    user = changeKeysToCamelCase(user);
     const token = authToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
 
     return HttpResponse.sendWithHeader(res, header, 200, {
-      data: [changeKeysToCamelCase(Object.assign({ token }, user))],
+      data: [Object.assign({ token }, user)],
     });
   },
 
@@ -105,8 +126,8 @@ const userController = {
     accounts = accounts.map((acct) => {
       let account = acct;
       changeKeysToCamelCase(account);
-      account = removeObjectProp('id', account);
-      account = removeObjectProp('openingBalance', account);
+      account = removeObjectProperty('id', account);
+      account = removeObjectProperty('openingBalance', account);
       account = Object.assign({ ownerEmail: user[0].email }, account);
       return account;
     });

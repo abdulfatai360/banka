@@ -22,15 +22,18 @@ describe('/accounts', () => {
   });
 
   describe('PATCH /accounts/<account-number>', () => {
-    let acctNumber; let reqBody;
+    let accountNumber; let httpRequestBody; let adminAuthToken;
 
-    const execChangeStatusReq = async () => {
+    before('Change-Account-Status-Login-Admin', async () => {
       const res = await chai.request(app)
-        .patch(`/api/v1/accounts/${acctNumber}`)
-        .send(reqBody);
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'admin@domain.com',
+          password: 'admin@domain.com',
+        });
 
-      return res;
-    };
+      adminAuthToken = res.body.data[0].token;
+    });
 
     beforeEach('Create-Account-Create-Account-Table-Test', async () => {
       await db.query(accountTable.createTable);
@@ -41,9 +44,18 @@ describe('/accounts', () => {
       await db.query(accountTable.dropTable);
     });
 
+    const execChangeStatusReq = async () => {
+      const res = await chai.request(app)
+        .patch(`/api/v1/accounts/${accountNumber}`)
+        .set('x-auth-token', adminAuthToken)
+        .send(httpRequestBody);
+
+      return res;
+    };
+
     it('should return 400 if an invalid account number is supplied', async () => {
-      acctNumber = '0000000000';
-      reqBody = { accountStatus: 'active' };
+      accountNumber = '0000000000';
+      httpRequestBody = { accountStatus: 'active' };
 
       const res = await execChangeStatusReq();
 
@@ -54,8 +66,8 @@ describe('/accounts', () => {
     });
 
     it('should return 200 when an account status is changed', async () => {
-      acctNumber = '1111111111'; // value in seeded data
-      reqBody = { accountStatus: 'active' };
+      accountNumber = '1111111111'; // value in seeded data
+      httpRequestBody = { accountStatus: 'active' };
 
       const res = await execChangeStatusReq();
 
@@ -64,8 +76,8 @@ describe('/accounts', () => {
     });
 
     it('should return the account new status and update it in the database', async () => {
-      acctNumber = '1111111111';
-      reqBody = { accountStatus: 'dormant' };
+      accountNumber = '1111111111';
+      httpRequestBody = { accountStatus: 'dormant' };
 
       const res = await execChangeStatusReq();
       let account = await accountModel.findByAccountNumber('1111111111');
