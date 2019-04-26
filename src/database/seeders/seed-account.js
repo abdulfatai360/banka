@@ -1,6 +1,11 @@
 import db from '..';
 import moment from 'moment-timezone';
 
+/**
+ * Populate the account entity table in the database with some data
+ *
+ * @async
+ */
 const seedAccountTable = async () => {
   const query = `
   INSERT INTO account
@@ -9,13 +14,9 @@ const seedAccountTable = async () => {
     ('1111111111', '${moment().tz('Africa/Lagos').format()}', 3, 'savings', 'draft', 500.00, 0.00),
     ('2222222222', '${moment().tz('Africa/Lagos').format()}', 3, 'savings', 'active', 500.00, 500.00),
     ('3333333333', '${moment().tz('Africa/Lagos').format()}', 3, 'current', 'dormant', 500.00, 0.00);
-`;
+  `;
 
-  try {
-    await db.query(query);
-  } catch (err) {
-    console.log('Seed-Account-Table-Error: ', err.message);
-  }
+  await db.query(query);
 };
 
 export default seedAccountTable;

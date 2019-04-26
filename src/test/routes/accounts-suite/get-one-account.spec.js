@@ -1,22 +1,22 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../../src/index';
-import seedUsers from '../../../src/database/seeders/seed-users';
-import seedAccount from '../../../src/database/seeders/seed-account';
-import * as allTables from '../../../src/database/tables/all-tables';
+import app from '../../../index';
+import seedUsersTable from '../../../database/seeders/seed-users';
+import seedAccountTable from '../../../database/seeders/seed-account';
+import * as allTables from '../../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/accounts', () => {
   before('Account-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
-    await seedAccount();
+    await allTables.createAllTables();
+    await seedUsersTable();
+    await seedAccountTable();
   });
 
   after('Account-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   describe('GET /accounts/<account-number>', () => {
@@ -41,12 +41,12 @@ describe('/accounts', () => {
       return res;
     };
 
-    it('should return 404 for an invalid account number', async () => {
+    it('should return 400 for an invalid account number', async () => {
       accountNumber = '0000000000'; // invalid account number
 
       const res = await execGetAccountReq();
 
-      expect(res).to.have.status(404);
+      expect(res).to.have.status(400);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');

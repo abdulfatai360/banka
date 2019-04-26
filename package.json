@@ -9,12 +9,12 @@
     "build:dev": "npm run clean:build && babel src --watch --out-dir dist --source-maps",
     "start": "node dist/index.js",
     "start:dev": "nodemon dist/index.js",
-    "test": "set ENV_TEST=true &&  nyc --reporter=html --reporter=text mocha --recursive --colors --inline-diffs --slow 400 --timeout 5000 --exit --require @babel/register",
-    "test:dev": "set ENV_TEST=true && mocha --recursive --colors --inline-diffs --slow 400 --timeout 5000 --exit --require @babel/register",
+    "test": "set ENV_TEST=true &&  nyc --reporter=html --reporter=text mocha src --recursive --colors --inline-diffs --slow 400 --timeout 5000 --exit --require @babel/register",
+    "test:dev": "set ENV_TEST=true && mocha src --recursive --colors --inline-diffs --slow 400 --timeout 5000 --exit --require @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "migration:up": "node ./dist/database/tables/all-tables.js tablesUp",
-    "migration:down": "node ./dist/database/tables/all-tables.js tablesDown",
-    "seed:user": "node ./dist/database/tables/all-tables.js seedUsers"
+    "create:tables": "node ./dist/database/tables/all-tables.js createAllTables",
+    "drop:tables": "node ./dist/database/tables/all-tables.js dropAllTables",
+    "seed:users": "node ./dist/database/tables/all-tables.js seedUsersTable"
   },
   "keywords": [],
   "repository": {
@@ -32,6 +32,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "express-async-errors": "^3.1.1",
     "faker": "^4.1.0",
     "helmet": "^3.16.0",
     "joi": "^14.3.1",
@@ -40,7 +41,8 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "nodemailer": "^6.1.0",
-    "pg": "^7.9.0"
+    "pg": "^7.9.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

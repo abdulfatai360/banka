@@ -1,21 +1,21 @@
 import express from 'express';
 import validateInputs from '../middlewares/validate-inputs';
 import validateParams from '../middlewares/validate-params';
-import account from '../controllers/account';
-import authorization from '../middlewares/authorization';
+import Account from '../controllers/account';
+import UserAuth from '../middlewares/authorization';
 
 const router = express.Router();
 
-router.post('/', validateInputs('createAccount'), authorization.basic, authorization.allowUser, account.createAccount);
+router.post('/', validateInputs('createAccount'), UserAuth.clientOnly, Account.createAccount);
 
-router.patch('/:accountNumber', validateInputs('changeAccountStatus'), authorization.basic, authorization.allowAdmin, account.changeStatus);
+router.patch('/:accountNumber', validateInputs('changeAccountStatus'), UserAuth.adminOnly, Account.changeStatus);
 
-router.delete('/:accountNumber', authorization.basic, authorization.allowStaff, validateParams('accountNumber'), account.deleteAccount);
+router.delete('/:accountNumber', validateParams('accountNumber'), UserAuth.staffOnly, Account.deleteAccount);
 
-router.get('/:accountNumber/transactions', validateParams('accountNumber'), authorization.basic, authorization.allowUser, account.getAllTransactions);
+router.get('/:accountNumber/transactions', validateParams('accountNumber'), UserAuth.clientOnly, Account.getAllTransactions);
 
-router.get('/:accountNumber', validateParams('accountNumber'), authorization.basic, authorization.allowUser, account.getSpecificAccount);
+router.get('/:accountNumber', validateParams('accountNumber'), UserAuth.clientOnly, Account.getSpecificAccount);
 
-router.get('/', authorization.basic, authorization.allowStaff, account.getAllAccounts);
+router.get('/', UserAuth.staffOnly, Account.getAllAccounts);
 
 export default router;

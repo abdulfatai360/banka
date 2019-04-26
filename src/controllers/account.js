@@ -2,11 +2,18 @@ import accountModel from '../database/models/account';
 import userModel from '../database/models/user';
 import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
-import accountNumberGen from '../utilities/bank-acct-num';
+import generateAccountNumber from '../utilities/bank-acct-num';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
-const accountData = (req, acctOwner) => ({
-  account_number: accountNumberGen(acctOwner),
+/**
+ * Forms and returns an object that represents an account entity
+ *
+ * @param {object} req - HTTP request object
+ * @param {object} accountOwner - Object representing the owner of the account
+ * @returns {object} Object representing an account entity
+ */
+const formulateAccountEntity = (req, accountOwner) => ({
+  account_number: generateAccountNumber(accountOwner),
   created_on: new Date(),
   owner_id: Number(req.body.ownerId),
   account_type: req.body.accountType,
@@ -15,109 +22,134 @@ const accountData = (req, acctOwner) => ({
   balance: 0,
 });
 
-const accountController = {
-  async createAccount(req, res) {
-    let data;
-
-    try {
-      const rows = await userModel.findByOne({ id: Number(req.body.ownerId) });
-
-      if (!rows.length) {
-        return HttpResponse.send(res, 400, { error: 'The specified account owner id is incorrect' });
-      }
-
-      const accountOwner = changeKeysToCamelCase(rows[0]);
-      const accountEntity = accountData(req, accountOwner);
-      const accountInfo = await accountModel.create(accountEntity);
-
-      accountInfo[0] = changeKeysToCamelCase(accountInfo[0]);
-      data = accountInfo;
-    } catch (err) {
-      console.log('Create-Bank-Account-Error: ', err);
-      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
+/**
+ * Contains methods for creating, getting, updating, and deleting an account entity
+ *
+ * @class AccountController
+ */
+class AccountController {
+  /**
+   * Creates and returns details of an account to client
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async createAccount(req, res) {
+    const users = await userModel.findByOne({ id: Number(req.body.ownerId) });
+    if (!users.length) {
+      return HttpResponse.send(res, 400, { error: 'The specified account owner is incorrect' });
     }
 
-    return HttpResponse.send(res, 201, { data });
-  },
+    const accountOwner = changeKeysToCamelCase(users[0]);
+    const accountEntity = formulateAccountEntity(req, accountOwner);
+    const accountInfo = await accountModel.create(accountEntity);
 
-  async changeStatus(req, res) {
+    accountInfo[0] = changeKeysToCamelCase(accountInfo[0]);
+    return HttpResponse.send(res, 201, { data: accountInfo });
+  }
+
+  /**
+   * Updates the status of an account and returns the new status value
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async changeStatus(req, res) {
     const { accountNumber } = req.params;
     const newStatus = req.body.accountStatus;
-    let data;
 
-    try {
-      const rows = await accountModel.changeStatus(accountNumber, newStatus);
-
-      if (!rows.length) {
-        return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
-      }
-
-      rows[0] = changeKeysToCamelCase(rows[0]);
-      data = rows;
-    } catch (err) {
-      console.log('Change-Account-Status-Error: ', err);
-
-      return HttpResponse.handleError(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
+    const info = await accountModel.changeStatus(accountNumber, newStatus);
+    if (!info.length) {
+      return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
     }
 
-    return HttpResponse.send(res, 200, { data });
-  },
+    info[0] = changeKeysToCamelCase(info[0]);
+    return HttpResponse.send(res, 200, { data: info });
+  }
 
-  async deleteAccount(req, res) {
+  /**
+   * Deletes an account and returns a message to client
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async deleteAccount(req, res) {
     const { accountNumber } = req.params;
 
-    try {
-      const account = await accountModel
-        .deleteOne({ account_number: accountNumber });
-
-      if (!account.length) {
-        return HttpResponse.send(res, 400, { error: 'The account you wanted to delete is invalid' });
-      }
-    } catch (err) {
-      console.log('Delete-Bank-Account-Error: ', err);
-
-      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
+    const accounts = await accountModel.deleteOne({ account_number: accountNumber });
+    if (!accounts.length) {
+      return HttpResponse.send(res, 400, { error: 'The account you wanted to delete is invalid' });
     }
 
-    return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
-  },
+    return HttpResponse.send(res, 204, { message: 'Account successfully deleted' });
+  }
 
-  async getAllTransactions(req, res) {
-    const { accountNumber } = req.params; let data;
-
-    try {
-      // to confirm if the account number exist in database
-      const accounts = await accountModel.findByAccountNumber(accountNumber);
-
-      if (!accounts.length) return HttpResponse.send(res, 400, { error: 'Sorry, the account number you wanted to view its transaction history is incorrect' });
-
-      // to check if the account number has any transaction record
-      const transactions = await transactionModel.findByOne({ account_number: accountNumber });
-
-      if (!transactions.length) return HttpResponse.send(res, 404, { error: 'No transaction has occurred on this account yet' });
-
-      transactions.forEach(txn => changeKeysToCamelCase(txn));
-      data = transactions;
-    } catch (err) {
-      console.log('Get-All-Account-Transaction-Error: ', err);
-
-      return HttpResponse.send(res, 500, { error: 'Sorry, something went wrong. Please contact the site administrator' });
-    }
-
-    return HttpResponse.send(res, 200, { data });
-  },
-
-  async getSpecificAccount(req, res) {
+  /**
+   * Gets and returns a list of all transactions an account has made
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async getAllTransactions(req, res) {
     const { accountNumber } = req.params;
-    const account = await accountModel.findByAccountNumber(accountNumber);
 
-    if (!account.length) return HttpResponse.send(res, 404, { error: 'Sorry, the account number you wanted to view its details could not be found' });
+    const accounts = await accountModel.findByAccountNumber(accountNumber);
+    if (!accounts.length) {
+      return HttpResponse.send(res, 400, { error: 'Sorry, the account number is incorrect' });
+    }
 
-    account[0] = changeKeysToCamelCase(account[0]);
-    return HttpResponse.send(res, 200, { data: account });
-  },
+    const transactions = await transactionModel.findByOne({ account_number: accountNumber });
+    if (!transactions.length) {
+      return HttpResponse.send(res, 204, { error: 'No transaction has occurred on this account yet' });
+    }
 
-  async filterAccounts(req, res) {
+    transactions.forEach(txn => changeKeysToCamelCase(txn));
+    return HttpResponse.send(res, 200, { data: transactions });
+  }
+
+  /**
+   * Gets and returns a specific account details
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async getSpecificAccount(req, res) {
+    const { accountNumber } = req.params;
+
+    const accounts = await accountModel.findByAccountNumber(accountNumber);
+    if (!accounts.length) {
+      return HttpResponse.send(res, 400, { error: 'Sorry, the account number is incorrect' });
+    }
+
+    accounts[0] = changeKeysToCamelCase(accounts[0]);
+    return HttpResponse.send(res, 200, { data: accounts });
+  }
+
+  /**
+   * Filters and returns a list of account based on the value of the account's status
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async filterAccounts(req, res) {
     const { status } = req.query; let accounts;
 
     if (!status || Object.keys(req.query).length > 1) {
@@ -138,19 +170,27 @@ const accountController = {
 
     accounts.forEach(account => changeKeysToCamelCase(account));
     return HttpResponse.send(res, 200, { data: accounts });
-  },
+  }
 
-  async getAllAccounts(req, res) {
+  /**
+   * Gets and returns details of all accounts
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof AccountController
+   */
+  static async getAllAccounts(req, res) {
     const accounts = await accountModel.findAll();
 
-    // if query is present
     if (Object.keys(req.query).length) {
-      return accountController.filterAccounts(req, res);
+      return AccountController.filterAccounts(req, res);
     }
 
     accounts.forEach(account => changeKeysToCamelCase(account));
     return HttpResponse.send(res, 200, { data: accounts });
-  },
-};
+  }
+}
 
-export default accountController;
+export default AccountController;

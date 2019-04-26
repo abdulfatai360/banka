@@ -1,10 +1,10 @@
 import express from 'express';
 import validateParams from '../middlewares/validate-params';
-import user from '../controllers/user';
-import authorization from '../middlewares/authorization';
+import User from '../controllers/user';
+import UserAuth from '../middlewares/authorization';
 
 const router = express.Router();
 
-router.get('/:userEmailAddress/accounts', validateParams('email'), authorization.basic, authorization.allowStaff, user.getMyAccounts);
+router.get('/:userEmailAddress/accounts', validateParams('email'), UserAuth.staffOnly, User.getMyAccounts);
 
 export default router;

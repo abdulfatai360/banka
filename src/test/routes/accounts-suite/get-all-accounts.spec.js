@@ -1,23 +1,23 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../../src/index';
-import accountModel from '../../../src/database/models/account';
-import seedUsers from '../../../src/database/seeders/seed-users';
-import seedAccount from '../../../src/database/seeders/seed-account';
-import * as allTables from '../../../src/database/tables/all-tables';
+import app from '../../../index';
+import accountModel from '../../../database/models/account';
+import seedUsersTable from '../../../database/seeders/seed-users';
+import seedAccountTable from '../../../database/seeders/seed-account';
+import * as allTables from '../../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/accounts', () => {
   before('Account-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
-    await seedAccount();
+    await allTables.createAllTables();
+    await seedUsersTable();
+    await seedAccountTable();
   });
 
   after('Account-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   describe('GET /accounts', () => {

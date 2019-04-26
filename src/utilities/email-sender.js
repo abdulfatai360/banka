@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import winston from 'winston';
 
 dotenv.config({ path: '../../.env' });
 
@@ -27,9 +28,9 @@ const sendEmail = (to = {}, subject = '', message = '') => {
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
-    if (err) console.log(err.message);
+    if (err) winston.error(err.message);
 
-    console.log(`Message sent: ${info.response}`);
+    winston.info(`Message sent: ${info.response}`);
   });
 };
 

@@ -1,11 +1,16 @@
-import hashPassword from '../../utilities/hash-password';
+import PasswordHasher from '../../utilities/hash-password';
 import db from '..';
 
-const adminHash = hashPassword.generateHash('admin@domain.com');
-const cashierHash = hashPassword.generateHash('cashier@domain.com');
-const clientHash = hashPassword.generateHash('client@domain.com');
-const client2Hash = hashPassword.generateHash('client2@domain.com');
+const adminHash = PasswordHasher.generateHash('admin@domain.com');
+const cashierHash = PasswordHasher.generateHash('cashier@domain.com');
+const clientHash = PasswordHasher.generateHash('client@domain.com');
+const client2Hash = PasswordHasher.generateHash('client2@domain.com');
 
+/**
+ * Populate the users entity table in the database with some data
+ *
+ * @async
+ */
 const seedUsersTable = async () => {
   const query = `
   INSERT INTO users
@@ -17,11 +22,7 @@ const seedUsersTable = async () => {
     ('Client', 'Banka', '2341111111111', 'client2@domain.com', '${client2Hash}', 'Client', null);
   `;
 
-  try {
-    await db.query(query);
-  } catch (err) {
-    console.log('Seed-Users-Table-Error: ', err.message);
-  }
+  await db.query(query);
 };
 
 export default seedUsersTable;

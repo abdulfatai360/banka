@@ -1,9 +1,10 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import winston from 'winston';
 
 dotenv.config();
 
-const conninfo = {
+const databaseConnectionInfo = {
   development: {
     host: process.env.PG_HOST || 'localhost',
     port: process.env.PG_PORT || 5432,
@@ -18,9 +19,9 @@ const conninfo = {
 };
 
 const env = (process.env.ENV === 'heroku') ? 'heroku' : 'development';
-const pool = new Pool(conninfo[env]);
+const pool = new Pool(databaseConnectionInfo[env]);
 
-console.log('Current database: ', conninfo[env].database);
+winston.info(`Connected database: ${databaseConnectionInfo[env].database}`);
 
 export default {
   query(text, values) {

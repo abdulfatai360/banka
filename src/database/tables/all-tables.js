@@ -1,36 +1,28 @@
 import db from '..';
-import seedUsers from '../seeders/seed-users';
+import seedUsersTable from '../seeders/seed-users';
 import * as userTable from './user-table';
 import * as accountTable from './account-table';
 import * as transactionTable from './transaction-table';
 
-const createAllTables = `
+const createAllTablesQuery = `
   ${userTable.createTable}
   ${accountTable.createTable}
   ${transactionTable.createTable}
 `;
 
-const dropAllTables = `
+const dropAllTablesQuery = `
   ${userTable.dropTable}
   ${accountTable.dropTable}
   ${transactionTable.dropTable}
 `;
 
-const tablesUp = async () => {
-  try {
-    await db.query(createAllTables);
-  } catch (err) {
-    console.log('Create-All-Tables-Error: ', err.message);
-  }
+const createAllTables = async () => {
+  await db.query(createAllTablesQuery);
 };
 
-const tablesDown = async () => {
-  try {
-    await db.query(dropAllTables);
-  } catch (err) {
-    console.log('Drop-All-Tables-Error: ', err.message);
-  }
+const dropAllTables = async () => {
+  await db.query(dropAllTablesQuery);
 };
 
-export { tablesUp, tablesDown, seedUsers };
+export { createAllTables, dropAllTables, seedUsersTable };
 require('make-runnable');
