@@ -1,26 +1,21 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
+import winston from 'winston';
 
 dotenv.config();
 
-const conninfo = {
-  development: {
-    host: process.env.PG_HOST || 'localhost',
-    port: process.env.PG_PORT || 5432,
-    database: (process.env.ENV_TEST) ? process.env.PG_DATABASE_TEST : process.env.PG_DATABASE,
-    user: process.env.PG_USER || 'postgres',
-    password: process.env.PG_PASSWORD || null,
-  },
-  heroku: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  },
-};
+let connectionString;
 
-const env = (process.env.ENV === 'heroku') ? 'heroku' : 'development';
-const pool = new Pool(conninfo[env]);
+if (process.env.ENV_TEST) {
+  connectionString = process.env.DATABASE_URL_TEST;
+} else {
+  connectionString = process.env.DATABASE_URL;
+}
 
-console.log('Current database: ', conninfo[env].database);
+const pool = new Pool({ connectionString });
+const baseUrl = process.env.BASE_URL;
+
+winston.info(`Connected database: ${connectionString.replace(`${baseUrl}`, '')}`);
 
 export default {
   query(text, values) {

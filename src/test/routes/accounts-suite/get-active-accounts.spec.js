@@ -1,29 +1,29 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../../src/index';
-import db from '../../../src/database';
-import accountModel from '../../../src/database/models/account';
-import seedUsers from '../../../src/database/seeders/seed-users';
-import seedAccount from '../../../src/database/seeders/seed-account';
-import * as accountTable from '../../../src/database/tables/account-table';
-import * as allTables from '../../../src/database/tables/all-tables';
+import app from '../../../index';
+import db from '../../../database';
+import accountModel from '../../../database/models/account';
+import seedUsersTable from '../../../database/seeders/seed-users';
+import seedAccountTable from '../../../database/seeders/seed-account';
+import * as accountTable from '../../../database/tables/account-table';
+import * as allTables from '../../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/accounts', () => {
   before('Account-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
+    await allTables.createAllTables();
+    await seedUsersTable();
   });
 
   after('Account-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   beforeEach('Filter-Account-Create-Account-Table-Test', async () => {
     await db.query(accountTable.createTable);
-    await seedAccount();
+    await seedAccountTable();
   });
 
   afterEach('Filter-Account-Drop-Account-Table-Test', async () => {

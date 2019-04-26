@@ -1,21 +1,26 @@
-import * as validationInit from '../utilities/validation-init';
+import ActionsToValidate from '../utilities/validation-init';
 
-const validateInputs = entity => (req, res, next) => {
-  switch (entity) {
+/**
+ * Validates inputs from request body and parameters depending on an action a user performs
+ *
+ * @param {string} action - Name of the action user wants to perform
+ */
+const validateInputs = action => (req, res, next) => {
+  switch (action) {
     case 'createUser':
-      validationInit.userSignup(req, res, next);
+      ActionsToValidate.userSignup(req, res, next);
       break;
     case 'loginUser':
-      validationInit.userSignin(req, res, next);
+      ActionsToValidate.userSignin(req, res, next);
       break;
     case 'createAccount':
-      validationInit.createAccount(req, res, next);
+      ActionsToValidate.createAccount(req, res, next);
       break;
     case 'changeAccountStatus':
-      validationInit.changeAccountStatus(req, res, next);
+      ActionsToValidate.changeAccountStatus(req, res, next);
       break;
     case 'postTransaction':
-      validationInit.postTransaction(req, res, next);
+      ActionsToValidate.postTransaction(req, res, next);
       break;
     default:
   }

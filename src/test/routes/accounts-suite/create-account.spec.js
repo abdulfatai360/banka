@@ -1,24 +1,24 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../../src/index';
-import db from '../../../src/database';
-import userModel from '../../../src/database/models/user';
-import accountModel from '../../../src/database/models/account';
-import seedUsers from '../../../src/database/seeders/seed-users';
-import * as accountTable from '../../../src/database/tables/account-table';
-import * as allTables from '../../../src/database/tables/all-tables';
+import app from '../../../index';
+import db from '../../../database';
+import userModel from '../../../database/models/user';
+import accountModel from '../../../database/models/account';
+import seedUsersTable from '../../../database/seeders/seed-users';
+import * as accountTable from '../../../database/tables/account-table';
+import * as allTables from '../../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/accounts', () => {
   before('Account-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
+    await allTables.createAllTables();
+    await seedUsersTable();
   });
 
   after('Account-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   describe('POST /accounts', () => {
@@ -55,7 +55,7 @@ describe('/accounts', () => {
     it('should create a new account and save it in account DB', async () => {
       newAccountInfo = {
         accountType: 'savings',
-        openingBalance: '1000.00',
+        openingBalance: '1000',
       };
 
       const res = await execCreateAccountReq();
@@ -72,7 +72,7 @@ describe('/accounts', () => {
     it('should return 201 for when a new account is created', async () => {
       newAccountInfo = {
         accountType: 'savings',
-        openingBalance: '1000.00',
+        openingBalance: '1000',
       };
 
       const res = await execCreateAccountReq();
@@ -82,11 +82,12 @@ describe('/accounts', () => {
     it('should return some info about the account and its owner', async () => {
       newAccountInfo = {
         accountType: 'savings',
-        openingBalance: '1000.00',
+        openingBalance: '1000',
       };
 
       const res = await execCreateAccountReq();
 
+      // id of login client is 3 in seeded data
       const acctOwner = await userModel.findByOne({ id: 3 });
       const resBody = res.body.data[0];
 

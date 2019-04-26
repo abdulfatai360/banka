@@ -1,25 +1,25 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../../src/index';
-import db from '../../../src/database';
-import accountModel from '../../../src/database/models/account';
-import seedUsers from '../../../src/database/seeders/seed-users';
-import seedAccount from '../../../src/database/seeders/seed-account';
-import * as txnTable from '../../../src/database/tables/transaction-table';
-import * as accountTable from '../../../src/database/tables/account-table';
-import * as allTables from '../../../src/database/tables/all-tables';
+import app from '../../../index';
+import db from '../../../database';
+import accountModel from '../../../database/models/account';
+import seedUsersTable from '../../../database/seeders/seed-users';
+import seedAccountTable from '../../../database/seeders/seed-account';
+import * as transactionTable from '../../../database/tables/transaction-table';
+import * as accountTable from '../../../database/tables/account-table';
+import * as allTables from '../../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/transactions', () => {
   before('Transactions-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
+    await allTables.createAllTables();
+    await seedUsersTable();
   });
 
   after('Transactions-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   describe('POST /transactions/<account-number>/credit', () => {
@@ -38,13 +38,13 @@ describe('/transactions', () => {
 
     beforeEach('Create-Credit-Transaction-Seed-Account/Txn-Test', async () => {
       await db.query(accountTable.createTable);
-      await db.query(txnTable.createTable);
-      await seedAccount();
+      await db.query(transactionTable.createTable);
+      await seedAccountTable();
     });
 
     afterEach('Create-Credit-Transaction-Drop-Account/Txn-Test', async () => {
       await db.query(accountTable.dropTable);
-      await db.query(txnTable.dropTable);
+      await db.query(transactionTable.dropTable);
     });
 
     const execCreditTxnReq = async () => {
@@ -59,7 +59,7 @@ describe('/transactions', () => {
     it('should return 400 if account number is invalid', async () => {
       accountNumber = '0000000000';
       transactionInfo = {
-        amount: '1000.56',
+        amount: '1000',
         transactionType: 'credit',
       };
 
@@ -74,7 +74,7 @@ describe('/transactions', () => {
     it('should return 400 if the account is dormant', async () => {
       accountNumber = '3333333333'; // dormant in the seeded account data
       transactionInfo = {
-        amount: '1000.56',
+        amount: '1000',
         transactionType: 'credit',
       };
 
@@ -89,7 +89,7 @@ describe('/transactions', () => {
     it('should return 400 if account is draft and credit amount is less than specified opening balance', async () => {
       accountNumber = '1111111111'; // draft in the seeded account data
       transactionInfo = {
-        amount: '400.00', // 500.00 is opening balance in the seeded data
+        amount: '400', // 500 is opening balance in the seeded data
         transactionType: 'credit',
       };
 
@@ -104,7 +104,7 @@ describe('/transactions', () => {
     it('should return 201 if an account is credited', async () => {
       accountNumber = '2222222222';
       transactionInfo = {
-        amount: '500.00',
+        amount: '500',
         transactionType: 'credit',
       };
 
@@ -119,7 +119,7 @@ describe('/transactions', () => {
     it('should return the transaction info in response body', async () => {
       accountNumber = '2222222222';
       transactionInfo = {
-        amount: '400.00', // 500.00 is the balance in the seeded data
+        amount: '400', // 500 is the balance in the seeded data
         transactionType: 'credit',
       };
 
@@ -136,7 +136,7 @@ describe('/transactions', () => {
     it('should update the balance of the account in the database', async () => {
       accountNumber = '2222222222';
       transactionInfo = {
-        amount: '400.00', // 500.00 is the balance in the seeded data
+        amount: '400', // 500.00 is the balance in the seeded data
         transactionType: 'credit',
       };
 

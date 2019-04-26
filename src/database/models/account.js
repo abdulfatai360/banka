@@ -1,12 +1,24 @@
 import Model from './model';
 import db from '..';
 
+/**
+ * Inherits from Model class and contains method for creating an account entity
+ *
+ * @class Account
+ * @extends {Model}
+ */
 class Account extends Model {
   // eslint-disable-next-line no-useless-constructor
   constructor(tableName) {
     super(tableName);
   }
 
+  /**
+   * Returns details of most recently craeted account and some details about its owner
+   *
+   * @returns {array} Contains an object showing details of an account and its owner
+   * @memberof Account
+   */
   async returnAccountInfo() {
     const text = `
       SELECT 
@@ -29,12 +41,26 @@ class Account extends Model {
     return rows;
   }
 
-  async create(data) {
-    await Model.prototype.create.call(this, data);
+  /**
+   * Creates and returns an account entity
+   *
+   * @param {object} entityObject - Account entity object
+   * @returns {array} Contains the entity object representation
+   * @memberof Account
+   */
+  async create(entityObject) {
+    await Model.prototype.create.call(this, entityObject);
     const rows = await this.returnAccountInfo();
     return rows;
   }
 
+  /**
+   * Finds an account by its account number and returns the account details
+   *
+   * @param {string} accountNumber Account number value
+   * @returns {array} Contains the entity object representation
+   * @memberof Account
+   */
   async findByAccountNumber(accountNumber) {
     const text = `
       SELECT
@@ -60,6 +86,14 @@ class Account extends Model {
     return rows;
   }
 
+  /**
+   * Finds an account based on its account number value, updates its status, and returns its details
+   *
+   * @param {string} accountNumber Account number value
+   * @param {string} status Value of the new status
+   * @returns {array} Contains the entity object representation
+   * @memberof Account
+   */
   async changeStatus(accountNumber, status) {
     const text = `
       UPDATE ${this.table} 

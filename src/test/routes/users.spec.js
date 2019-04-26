@@ -1,22 +1,22 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../src/index';
-import seedUsers from '../../src/database/seeders/seed-users';
-import seedAccount from '../../src/database/seeders/seed-account';
-import * as allTables from '../../src/database/tables/all-tables';
+import app from '../../index';
+import seedUsersTable from '../../database/seeders/seed-users';
+import seedAccountTable from '../../database/seeders/seed-account';
+import * as allTables from '../../database/tables/all-tables';
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('/user', () => {
   before('User-Endpoints-Migration-Up-Test', async () => {
-    await allTables.tablesUp();
-    await seedUsers();
-    await seedAccount();
+    await allTables.createAllTables();
+    await seedUsersTable();
+    await seedAccountTable();
   });
 
   after('User-Endpoints-Migration-Down-Test', async () => {
-    await allTables.tablesDown();
+    await allTables.dropAllTables();
   });
 
   describe('GET /user/<user-email-address>/accounts', () => {
@@ -52,15 +52,13 @@ describe('/user', () => {
       expect(res.body.error).to.be.a('string');
     });
 
-    it('should return 404 if the user does not have an account', async () => {
+    it('should return 204 if the user does not have an account', async () => {
       userEmailAddress = 'client2@domain.com'; // user with no account in seeded data
 
       const res = await execGetUsersAccountReq();
 
-      expect(res).to.have.status(404);
+      expect(res).to.have.status(204);
       expect(res.status).to.be.a('number');
-      expect(res.body).to.have.own.property('error');
-      expect(res.body.error).to.be.a('string');
     });
 
     it('should return 200 and the accounts associated to the email', async () => {

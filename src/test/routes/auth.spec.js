@@ -1,10 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import faker from 'faker';
-import app from '../../src/index';
-import db from '../../src/database';
-import seedUsers from '../../src/database/seeders/seed-users';
-import * as userTable from '../../src/database/tables/user-table';
+import app from '../../index';
+import db from '../../database';
+import seedUsersTable from '../../database/seeders/seed-users';
+import * as userTable from '../../database/tables/user-table';
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -22,19 +22,11 @@ describe('/auth', () => {
     };
 
     before('User-Signup-Migration-Up', async () => {
-      try {
-        await db.query(userTable.createTable);
-      } catch (err) {
-        console.log('User-Signup-Migration-Up-Test: ', err.message);
-      }
+      await db.query(userTable.createTable);
     });
 
     after('User-Signup-Migration-Down', async () => {
-      try {
-        await db.query(userTable.dropTable);
-      } catch (err) {
-        console.log('User-Signup-Migration-Down-Test: ', err.message);
-      }
+      await db.query(userTable.dropTable);
     });
 
     it('should return 201 when a user account is created', async () => {
@@ -95,20 +87,12 @@ describe('/auth', () => {
     };
 
     before('User-Signin-Migration-Up', async () => {
-      try {
-        await db.query(userTable.createTable);
-        await seedUsers();
-      } catch (err) {
-        console.log('User-Signin-Migration-Up-Test: ', err.message);
-      }
+      await db.query(userTable.createTable);
+      await seedUsersTable();
     });
 
     after('User-Signin-Migration-Down', async () => {
-      try {
-        await db.query(userTable.dropTable);
-      } catch (err) {
-        console.log('User-Signin-Migration-Down-Test: ', err.message);
-      }
+      await db.query(userTable.dropTable);
     });
 
     it('should return 400 any of the login credentials is invalid', async () => {

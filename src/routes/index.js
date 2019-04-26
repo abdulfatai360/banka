@@ -6,7 +6,7 @@ import transactions from './transactions';
 import undefinedRoute from './undefined';
 
 /**
- * Mountseach routes on an express application instance
+ * Mounts each routes on an express application instance
  * @param {object} app - Express application instance
  */
 const mountRoutes = (app) => {

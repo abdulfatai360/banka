@@ -1,3 +1,9 @@
+/**
+ * Changes the keys of an object from an underscore to camel case
+ *
+ * @param {object} input - Object with underscore case keys
+ * @returns {object} - Object with camel case keys
+ */
 const changeKeysToCamelCase = (input) => {
   const object = input;
 

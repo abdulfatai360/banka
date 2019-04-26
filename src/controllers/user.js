@@ -1,28 +1,20 @@
-import hashPassword from '../utilities/hash-password';
-import authToken from '../utilities/auth-token';
+import PasswordHasher from '../utilities/hash-password';
+import AuthToken from '../utilities/auth-token';
 import removeObjectProperty from '../utilities/remove-object-prop';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
+import UserAuth from '../middlewares/authorization';
 
-const signUpErrHandler = (res, error) => {
-  if (error.code === '23505') {
-    return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
-  }
-
-  console.log('Signup-Controller-Error: ', error.message);
-  return HttpResponse.send(res, 500, { error: 'Sorry,something went wrong. We can not complete your request now. Please contact site administrator' });
-};
-
-const loginErrHandler = res => (
-  HttpResponse.send(res, 400, {
-    error: 'Sorry, the email or password you entered is incorrect',
-  })
-);
-
-const userData = (req) => {
-  const password = hashPassword.generateHash(req.body.password);
+/**
+ * Forms and returns an object that represents a user entity
+ *
+ * @param {object} req - HTTP request object
+ * @returns {object} Object representing a user entity
+ */
+const formulatesUserEntity = (req) => {
+  const password = PasswordHasher.generateHash(req.body.password);
   const type = req.body.type || 'Client';
 
   return {
@@ -35,92 +27,107 @@ const userData = (req) => {
   };
 };
 
-const userController = {
-  async createUser(req, res) {
+/**
+ * Contains methods for creating, loging in, and getting the accounts associated to a user
+ *
+ * @class UserController
+ */
+class UserController {
+  /**
+   * Creates and returns details of a user to client
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof UserController
+   */
+  static async createUser(req, res) {
     let isAdmin;
-    let userEntity = userData(req);
-    let user;
+    let userEntity = formulatesUserEntity(req);
+
+    const existingUser = await userModel.findByEmail(userEntity.email);
+    if (existingUser.length) {
+      return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
+    }
 
     if ((/^Staff$/i).test(userEntity.type)) {
-      const token = req.header('x-auth-token');
-      let loggedInUser;
-
-      if (!token) {
-        return HttpResponse.send(res, 401, { error: 'You are not authorized to perform this operation' });
-      }
-
-      try {
-        loggedInUser = authToken.verifyToken(token);
-      } catch (err) {
-        return HttpResponse.send(res, 400, { error: 'You do not have the right credentials to perform this request' });
-      }
-
-      console.log(loggedInUser);
-
-      if (!loggedInUser.isAdmin) {
-        return HttpResponse.send(res, 403, { error: 'You do not have the right access; only an admin can register a staff account' });
+      req.user = UserAuth.getLoggedInUser(req, res);
+      if (!req.user.isAdmin) {
+        return HttpResponse.send(res, 403, { error: 'Sorry, only an admin can register a staff account' });
       }
 
       isAdmin = (/^true$/i).test(req.body.isAdmin) || false;
       userEntity = Object.assign(userEntity, { is_admin: isAdmin });
     }
 
-    try {
-      const rows = await userModel.create(userEntity);
-      [user] = rows;
+    const rows = await userModel.create(userEntity);
+    let user = changeKeysToCamelCase(rows[0]);
 
-      if (!user.is_admin) user = removeObjectProperty('is_admin', user);
-      user = removeObjectProperty('password', user);
-    } catch (error) {
-      return signUpErrHandler(res, error);
-    }
+    if (!user.isAdmin) user = removeObjectProperty('isAdmin', user);
+    user = removeObjectProperty('password', user);
+    const token = AuthToken.generateToken(user);
 
-    user = changeKeysToCamelCase(user);
-    const token = authToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
-
     return HttpResponse.sendWithHeader(res, header, 201, {
       data: [Object.assign({ token }, user)],
     });
-  },
+  }
 
-  async loginUser(req, res) {
-    const emailCred = req.body.email.toLowerCase();
-    const passCred = req.body.password;
+  /**
+   * Logins a user into his/her account
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof UserController
+   */
+  static async loginUser(req, res) {
+    const email = req.body.email.toLowerCase();
+    const pass = req.body.password;
 
-    const rows = await userModel.findByEmail(emailCred);
+    const users = await userModel.findByEmail(email);
+    if (!users.length) {
+      return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
+    }
 
-    if (!rows.length) return loginErrHandler(res);
+    const isPasswordValid = PasswordHasher.verifyPassword(pass, users[0].password);
+    if (!isPasswordValid) {
+      return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
+    }
 
-    const isPasswordValid = hashPassword
-      .verifyPassword(passCred, rows[0].password);
+    let user = changeKeysToCamelCase(users[0]);
+    user = removeObjectProperty('password', user);
+    if (!user.isAdmin) user = removeObjectProperty('isAdmin', user);
 
-    if (!isPasswordValid) return loginErrHandler(res);
-
-    let user = removeObjectProperty('password', rows[0]);
-    if (!user.is_admin) user = removeObjectProperty('is_admin', user);
-
-    user = changeKeysToCamelCase(user);
-    const token = authToken.generateToken(user);
+    const token = AuthToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
-
     return HttpResponse.sendWithHeader(res, header, 200, {
       data: [Object.assign({ token }, user)],
     });
-  },
+  }
 
-  async getMyAccounts(req, res) {
+  /**
+   * Returns list of accounts associated to a user
+   *
+   * @static
+   * @param {object} req - HTTP request object
+   * @param {object} res - HTTP response object
+   * @returns {object}
+   * @memberof UserController
+   */
+  static async getMyAccounts(req, res) {
     const { userEmailAddress } = req.params;
-    const user = await userModel.findByEmail(userEmailAddress);
 
-    if (!user.length) {
+    const users = await userModel.findByEmail(userEmailAddress);
+    if (!users.length) {
       return HttpResponse.send(res, 400, { error: 'The email address you specified is incorrect' });
     }
 
-    let accounts = await accountModel.findByOne({ owner_id: user[0].id });
-
+    let accounts = await accountModel.findByOne({ owner_id: users[0].id });
     if (!accounts.length) {
-      return HttpResponse.send(res, 404, { error: 'This user has not opened an account yet' });
+      return HttpResponse.send(res, 204, { error: 'This user has not opened an account yet' });
     }
 
     accounts = accounts.map((acct) => {
@@ -128,12 +135,12 @@ const userController = {
       changeKeysToCamelCase(account);
       account = removeObjectProperty('id', account);
       account = removeObjectProperty('openingBalance', account);
-      account = Object.assign({ ownerEmail: user[0].email }, account);
+      account = Object.assign({ ownerEmail: users[0].email }, account);
       return account;
     });
 
     return HttpResponse.send(res, 200, { data: accounts });
-  },
-};
+  }
+}
 
-export default userController;
+export default UserController;
