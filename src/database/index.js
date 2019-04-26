@@ -12,16 +12,16 @@ const databaseConnectionInfo = {
     user: process.env.PG_USER || 'postgres',
     password: process.env.PG_PASSWORD || null,
   },
-  heroku: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  },
+  // heroku: {
+  //   connectionString: process.env.DATABASE_URL,
+  //   ssl: true,
+  // },
 };
 
-const env = (process.env.ENV === 'heroku') ? 'heroku' : 'development';
-const pool = new Pool(databaseConnectionInfo[env]);
+// const env = (process.env.ENV === 'heroku') ? 'heroku' : 'development';
+const pool = new Pool(databaseConnectionInfo.development);
 
-winston.info(`Connected database: ${databaseConnectionInfo[env].database}`);
+winston.info(`Connected database: ${databaseConnectionInfo.development.database}`);
 
 export default {
   query(text, values) {
