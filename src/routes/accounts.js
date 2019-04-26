@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/', validateInputs('createAccount'), UserAuth.clientOnly, Account.createAccount);
 
-router.patch('/:accountNumber', validateInputs('changeAccountStatus'), UserAuth.adminOnly, Account.changeStatus);
+router.patch('/:accountNumber', validateInputs('changeAccountStatus'), UserAuth.staffOnly, Account.changeStatus);
 
 router.delete('/:accountNumber', validateParams('accountNumber'), UserAuth.staffOnly, Account.deleteAccount);
 
