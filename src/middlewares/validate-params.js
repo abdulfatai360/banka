@@ -1,4 +1,4 @@
-import ActionsToValidate from '../utilities/validation-init';
+import ValidateParams from '../utilities/validation-init';
 
 /**
  * Validates inputs from request parameters only depending on the parameter name
@@ -8,13 +8,13 @@ import ActionsToValidate from '../utilities/validation-init';
 const validateParams = paramName => (req, res, next) => {
   switch (paramName) {
     case 'email':
-      ActionsToValidate.emailParam(req, res, next);
+      ValidateParams.emailParam(req, res, next);
       break;
     case 'accountNumber':
-      ActionsToValidate.accountNumberParam(req, res, next);
+      ValidateParams.accountNumberParam(req, res, next);
       break;
     case 'id':
-      ActionsToValidate.idParam(req, res, next);
+      ValidateParams.idParam(req, res, next);
       break;
     default:
   }

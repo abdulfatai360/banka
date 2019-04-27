@@ -38,7 +38,7 @@ class TransactionController {
 
     const accounts = await accountModel.findByOne({ account_number: accountNumber });
     if (!accounts.length) {
-      return HttpResponse.send(res, 400, { error: 'The account you wanted to debit is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
     const oldBalance = accounts[0].balance;
@@ -63,7 +63,7 @@ class TransactionController {
 
     const accounts = await accountModel.findByOne({ account_number: accountNumber });
     if (!accounts.length) {
-      return HttpResponse.send(res, 400, { error: 'The account you wanted to credit is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
     if (/^dormant$/i.test(accounts[0].account_status)) {
@@ -89,7 +89,7 @@ class TransactionController {
 
     const transactions = await transactionModel.findByOne({ id });
     if (!transactions.length) {
-      return HttpResponse.send(res, 404, { error: 'The transaction with the specified id is not available.' });
+      return HttpResponse.send(res, 404, { error: 'Transaction does not exist' });
     }
 
     transactions[0] = changeKeysToCamelCase(transactions[0]);

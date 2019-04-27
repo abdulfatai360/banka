@@ -53,13 +53,13 @@ describe('/accounts', () => {
       return res;
     };
 
-    it('should return 400 if an invalid account number is supplied', async () => {
+    it('should return 404 for invalid account', async () => {
       accountNumber = '0000000000';
       httpRequestBody = { accountStatus: 'active' };
 
       const res = await execChangeStatusReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.an('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');

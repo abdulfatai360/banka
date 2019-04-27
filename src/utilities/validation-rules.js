@@ -215,6 +215,7 @@ class ValidationRules {
    */
   static password(input) {
     return Joi.string().required().min(6).max(254)
+      .regex(/\s/, { invert: true })
       .error((errors) => {
         const customMsgs = errors.map((err) => {
           switch (err.type) {
@@ -226,6 +227,8 @@ class ValidationRules {
               return `${input} should have at least ${err.context.limit} characters`;
             case 'string.max':
               return `${input} should have at most ${err.context.limit} characters`;
+            case 'string.regex.invert.base':
+              return `${input} should not contain whitespaces`;
             default:
               return `${input} should be a string`;
           }

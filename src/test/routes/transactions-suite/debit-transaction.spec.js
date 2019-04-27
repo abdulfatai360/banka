@@ -56,7 +56,7 @@ describe('/transactions', () => {
       await db.query(transactionTable.dropTable);
     });
 
-    it('should return 400 if account number is invalid', async () => {
+    it('should return 404 if account is invalid', async () => {
       accountNumber = '0000000000';
       transactionInfo = {
         amount: '1000',
@@ -65,22 +65,7 @@ describe('/transactions', () => {
 
       const res = await execDebitTxnReq();
 
-      expect(res).to.have.status(400);
-      expect(res.status).to.be.a('number');
-      expect(res.body).to.have.own.property('error');
-      expect(res.body.error).to.be.a('string');
-    });
-
-    it('should return 400 if cashier is invalid', async () => {
-      accountNumber = '2222222222'; // active in the seeded account table
-      transactionInfo = {
-        amount: '1000',
-        transactionType: 'debit',
-      };
-
-      const res = await execDebitTxnReq();
-
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');

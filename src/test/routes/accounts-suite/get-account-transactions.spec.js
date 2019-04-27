@@ -43,23 +43,23 @@ describe('/accounts', () => {
       return res;
     };
 
-    it('should return 400 for an invalid account number', async () => {
+    it('should return 404 for invalid account', async () => {
       accountNumber = '0000000000'; // invalid account number
 
       const res = await execGetTransactionsReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');
     });
 
-    it('should return 204 when an account has no transaction history', async () => {
+    it('should return 200 when an account has no transaction history', async () => {
       accountNumber = '1111111111'; // no transaction in seeded data
 
       const res = await execGetTransactionsReq();
 
-      expect(res).to.have.status(204);
+      expect(res).to.have.status(200);
       expect(res.status).to.be.a('number');
     });
 

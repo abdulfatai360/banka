@@ -1,4 +1,4 @@
-const txnAlertTemplate = /* html */`
+const transactionEmailHtml = /* html */`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" style="box-sizing: inherit; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; outline: 0; line-height: inherit; margin: 0; padding: 0;">
   <head>
@@ -68,4 +68,4 @@ const txnAlertTemplate = /* html */`
 </html>
 `;
 
-export default txnAlertTemplate;
+export default transactionEmailHtml;

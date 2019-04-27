@@ -41,12 +41,12 @@ describe('/accounts', () => {
       return res;
     };
 
-    it('should return 400 for an invalid account number', async () => {
+    it('should return 404 for an invalid account', async () => {
       accountNumber = '0000000000'; // invalid account number
 
       const res = await execGetAccountReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');

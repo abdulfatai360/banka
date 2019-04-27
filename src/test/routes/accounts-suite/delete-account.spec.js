@@ -52,23 +52,23 @@ describe('/accounts', () => {
       await db.query(accountTable.dropTable);
     });
 
-    it('should return 400 for an invalid account number', async () => {
+    it('should return 404 for invalid account', async () => {
       accountNumber = '0000000000';
 
       const res = await execDeleteReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');
     });
 
-    it('should return 204 when an account is deleted', async () => {
+    it('should return 200 when an account is deleted', async () => {
       accountNumber = '1111111111';
 
       const res = await execDeleteReq();
 
-      expect(res).to.have.status(204);
+      expect(res).to.have.status(200);
       expect(res.status).to.be.a('number');
     });
 
