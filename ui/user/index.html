@@ -16,14 +16,11 @@
   <link rel="stylesheet" href="../css/user/u-dashboard.css">
 </head>
 
-<body>
+<body class="body">
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
-        <a href="./index.html" class="app-logo">
-          <span class="tp">Ban</span><br>
-          <span class="bt">ka</span>
-        </a>
+        <a href="./index.html" class="app-logo">Banka</a>
         <span class="navicon navicon-open">
           <i class="fas fa-bars"></i>
         </span>
@@ -54,7 +51,7 @@
           <div class="user-info">
             <p class="name">Chelsey Dietrich Kamren</p>
             <p class="email" data-type="email:">Lucio_Hettinger@annie.ca</p>
-            <p class="phone" data-type="phone:">08025495412</p>
+            <p class="phone" data-type="phone:">+2348025495412</p>
             <p class="role" data-type="role:">Client</p>
     
             <button type="button" class="btn btn-form btn-edit-profile">
@@ -74,28 +71,21 @@
               <label for="first-name">
                 First Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter first name" id="first-name" value="Chelsey" autofocus>
+              <input type="text" placeholder="First name" id="first-name" value="Chelsey" autofocus>
             </div>
     
             <div class="form-field">
               <label for="last-name">
                 Last Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter last name" id="last-name" value="Dietrich">
-            </div>
-    
-            <div class="form-field">
-              <label for="other-name">
-                Other Name
-              </label>
-              <input type="text" placeholder="Enter other name" id="other-name" value="Kamren">
+              <input type="text" placeholder="Last name" id="last-name" value="Dietrich">
             </div>
     
             <div class="form-field">
               <label for="phone">
                 Phone Number <abbr title="required">*</abbr>
               </label>
-              <input type="tel" placeholder="Enter phone number" id="phone" value="08025495412">
+              <input type="tel" placeholder="+2348012345678" id="phone" value="+2348025495412">
             </div>
     
             <div class="form-field">
@@ -207,9 +197,9 @@
         <table class="">
           <thead>
             <tr>
-              <th scope="col">Transaction Date</th>
-              <th scope="col">Transaction Account</th>
-              <th scope="col">Transaction Amount/Time</th>
+              <th scope="col">Date</th>
+              <th scope="col">Amount/Time</th>
+              <th scope="col">New Balance</th>
             </tr>
           </thead>
 
@@ -221,15 +211,15 @@
                 <span class="year">2019</span>
               </th>
 
-              <td class="txn-desc">
-                Cash transfer from 0123456789
-              </td>
-
               <td class="txn-amnt-time">
                 <span class="type debit" data-sign="+">
                   1,000.00
                 </span>
                 <span class="time">10:12am</span>
+              </td>
+
+              <td class="curr-bal">
+                NGN 1,000
               </td>
             </tr>
 
@@ -240,15 +230,15 @@
                 <span class="year">2019</span>
               </th>
             
-              <td class="txn-desc">
-                Cash transfer to 0123456789
-              </td>
-            
               <td class="txn-amnt-time">
                 <span class="type credit" data-sign="-">
                   1,000.00
                 </span>
                 <span class="time">10:12am</span>
+              </td>
+
+              <td class="curr-bal">
+                NGN 1,000
               </td>
             </tr>
           </tbody>

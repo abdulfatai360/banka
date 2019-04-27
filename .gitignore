@@ -5,11 +5,15 @@
 
 # testing
 /coverage
+.nyc_output/
 
 # production
 /build
+/dist
+.env
 
 # misc
+.vscode/
 .DS_Store
 .env.local
 .env.development.local

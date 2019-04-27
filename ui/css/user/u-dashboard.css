@@ -16,11 +16,12 @@
 /* *** account overview card component *** */
 .accts-overview__item {
   width: 100%;
-  max-width: 300px;
+  max-width: 325px;
   padding: 10px 20px;
   margin-top: 11px;
   border-radius: 5px;
   color: goldenrod;
+  background: black;
   background: url(../../images/acct-card-bg.jpg) no-repeat center;
   background-size: cover;
 }
@@ -84,7 +85,7 @@
 /* *** buttons on user (client) dashboard *** */
 .btn-user-dashboard {
   width: 100%;
-  max-width: 300px;
+  max-width: 325px;
 }
 
 /* *** transactions overview section *** */
@@ -95,9 +96,9 @@ table {
   line-height: 1.3;
 }
 
-thead {
+/* thead {
   display: none;
-}
+} */
 
 td {
   vertical-align: top;

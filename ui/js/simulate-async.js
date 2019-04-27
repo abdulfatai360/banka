@@ -59,7 +59,7 @@ if (pageUrl.includes('cashier/index.html')) {
 
 if (pageUrl.includes('cashier/bank-accounts.html') || pageUrl.includes('admin/bank-accounts.html')) {
   console.log('cashier/bank-accounts.html or admin/bank-accounts.html');
-  const btns = document.querySelectorAll('.btn-table');
+  const btns = document.querySelectorAll('.btn-yes');
 
   btns.forEach(btn => {
     destination = 'bank-accounts.html';

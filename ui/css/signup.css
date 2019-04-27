@@ -1,7 +1,15 @@
 /* *** signup page content container *** */
-.signup-page-content {
-  min-height: 100vh;
+.body {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.signin-page-content {
+  flex-grow: 1;
   font-size: 1em;
+  display: flex;
+  align-items: center;
 }
 
 /* *** heading *** */
@@ -15,4 +23,5 @@ h1 {
 /* *** signup form and its elements *** */
 .form p:last-of-type {
   margin-bottom: 0;
+  font-size: 1.05em;
 }

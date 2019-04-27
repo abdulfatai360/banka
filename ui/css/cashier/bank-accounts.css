@@ -21,14 +21,46 @@ td[class*=-bal]::before {
   color: #dd2C00;
 }
 
-/* *** overlay for viewing a specific bank acct record container *** */
-.specific-bank-acct {
+/* *** action icons in table *** */
+.active-row .icon-activate,
+.dormant-row .icon-deactivate {
+  pointer-events: none;
+  background: #6d6969;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.icon-table {
+  font-size: 1.5em;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.icon-activate {
+  color: #3ca374;
+}
+
+.icon-deactivate {
+  color: #14213d;
+}
+
+.icon-delete {
+  color: #dd2C00;
+}
+
+/* *** overlay for viewing a confirmation dialog box *** */
+.confirmation-dialog {
   display: none;
   color: #14213d;
 }
 
 /* *** swtiching the overlay on or off *** */
-.specific-bank-acct-visible .specific-bank-acct {
+.confirmation-dialog-visible .confirmation-dialog {
   display: block;
 }
 
@@ -42,23 +74,17 @@ td[class*=-bal]::before {
   background-color: rgba(0, 0, 0, 0.88);
 }
 
-.specific-bank-acct__inner {
-  width: 90%;
-  max-width: 440px;
-  padding: 10px;
+.confirmation-dialog__inner {
+  width: 80%;
+  max-width: 330px;
+  padding: 40px;
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 3;
   transform: translate(-50%, -50%);
   background-color: #fff;
-}
-
-.acct-detail {
-  margin: 0 auto;
-  padding: 10px;
-  position: relative;
-  border: 2px solid #fca311;
+  font-size: 1.5em;
 }
 
 .overlay-close {
@@ -82,33 +108,16 @@ td[class*=-bal]::before {
   color: #fff;
 }
 
-.profile-photo {
-  margin-bottom: 22px;
+.overlay p {
+  margin-bottom: 33px;
 }
 
-.profile-photo__inner {
-  width: 170px;
-  height: 170px;
-  margin: 0 auto;
-  padding: 7px;
-  border: 1px solid;
-  border-radius: 50%;
-  background: url(../../images/erica-decker.jpg) no-repeat center;
-  background-size: cover;
-  background-clip: content-box;
+/* *** action buttons in user acct type table *** */
+.btn-yes, 
+.btn-no {
+  min-width: 88px;
 }
 
-.acct-detail .user-info {
-  text-align: center;
-}
-
-.acct-detail .user-info p {
-  margin-bottom: 0;
-  font-weight: 400;
-  padding: 0;
-}
-
-.acct-detail .user-info .name {
-  font-size: 1.1em;
-  font-weight: 700;
+.btn-yes:hover {
+  box-shadow: 0 0 2px #fff, 0 0 5px #3ca374, 0 0 10px #3ca374;
 }
