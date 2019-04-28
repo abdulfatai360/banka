@@ -3,6 +3,7 @@
   body {
     display: flex;
     flex-flow: row nowrap;
+    position: relative;
   }
 
   .container-inner {
@@ -12,10 +13,17 @@
   header {
     min-width: 250px;
     width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: #14213d;
+    border-top: 4px solid #fca311;
   }
 
   main {
-    min-width: calc(100vw - 250px);
+    min-width: 100vw;
+    padding-left: 250px;
   }
 
   .navicon {

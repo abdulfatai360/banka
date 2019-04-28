@@ -21,7 +21,7 @@
   margin-top: 11px;
   border-radius: 5px;
   color: goldenrod;
-  background: black;
+  background: #000;
   background: url(../../images/acct-card-bg.jpg) no-repeat center;
   background-size: cover;
 }

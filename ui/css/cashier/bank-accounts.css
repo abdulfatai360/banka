@@ -15,30 +15,35 @@ td[class*=-bal]::before {
   padding-left: 7px;
 }
 
-/* *** delete button in accts display table *** */
+/* *** delete button in accts display table for cashier *** */
 .btn-danger {
   min-width: 65px;
   color: #dd2C00;
 }
 
 /* *** action icons in table *** */
-.active-row .icon-activate,
-.dormant-row .icon-deactivate {
-  pointer-events: none;
-  background: #6d6969;
+.active-account .icon-activate,
+.dormant-account .icon-deactivate {
   color: #fff;
+  background: #8f8a8a;
+  pointer-events: none;
   cursor: not-allowed;
 }
 
 .icon-table {
-  font-size: 1.5em;
-  width: 40px;
-  height: 40px;
+  font-size: 1.2em;
+  width: 1.7em;
+  height: 1.7em;
   background: transparent;
   border: 1px solid;
-  border-radius: 2px;
-  padding: 2px;
+  border-radius: 4px;
+  padding: 3px;
   margin-right: 5px;
+  text-align: center;
+}
+
+.icon-table i {
+  display: inline-block;
 }
 
 .icon-activate {
@@ -71,53 +76,62 @@ td[class*=-bal]::before {
   top: 0;
   left: 0;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.88);
+  background-color: rgba(255, 255, 255, 0.44);
 }
 
 .confirmation-dialog__inner {
   width: 80%;
   max-width: 330px;
-  padding: 40px;
+  padding: 30px;
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 3;
   transform: translate(-50%, -50%);
-  background-color: #fff;
-  font-size: 1.5em;
+  background-color: #e5e5e5;
+  border: 2px solid;
+  text-rendering: optimizeLegibility;
 }
 
 .overlay-close {
   width: 25px;
   height: 25px;
+  padding: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   top: 0;
   right: 0;
-  cursor: pointer;
-  font-size: 1.7em;
+  font-size: 1.6em;
   text-align: center;
   font-weight: 900;
+  cursor: pointer;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .overlay-close:hover {
-  background-color: #dd2C00;
-  color: #fff;
+  color: #dd2C00;
 }
 
-.overlay p {
-  margin-bottom: 33px;
+.confirmation-dialog__inner p {
+  margin-bottom: 44px;
 }
 
-/* *** action buttons in user acct type table *** */
-.btn-yes, 
-.btn-no {
-  min-width: 88px;
+.btn-dialog-yes,
+.btn-dialog-no {
+  width: 45%;
+  padding: 3px;
+  margin-top: 0;
+  font-size: 1.1em;
 }
 
-.btn-yes:hover {
-  box-shadow: 0 0 2px #fff, 0 0 5px #3ca374, 0 0 10px #3ca374;
+.btn-dialog-yes {
+  color: #dd2C00;
+  background: transparent;
+  border: 1px solid;
+}
+
+.btn-dialog-yes:hover {
+  box-shadow: 0 0 2px #fff, 0 0 5px #dd2C00, 0 0 10px #dd2C00;
 }
