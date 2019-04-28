@@ -8,8 +8,9 @@
 .nyc_output/
 
 # production
-/build
 /dist
+
+#environment variables
 .env
 
 # misc
