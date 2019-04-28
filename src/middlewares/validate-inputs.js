@@ -1,4 +1,4 @@
-import ActionsToValidate from '../utilities/validation-init';
+import ValidateActions from '../utilities/validation-init';
 
 /**
  * Validates inputs from request body and parameters depending on an action a user performs
@@ -8,19 +8,19 @@ import ActionsToValidate from '../utilities/validation-init';
 const validateInputs = action => (req, res, next) => {
   switch (action) {
     case 'createUser':
-      ActionsToValidate.userSignup(req, res, next);
+      ValidateActions.validateSignup(req, res, next);
       break;
     case 'loginUser':
-      ActionsToValidate.userSignin(req, res, next);
+      ValidateActions.validateSignin(req, res, next);
       break;
     case 'createAccount':
-      ActionsToValidate.createAccount(req, res, next);
+      ValidateActions.validateAccountCreation(req, res, next);
       break;
     case 'changeAccountStatus':
-      ActionsToValidate.changeAccountStatus(req, res, next);
+      ValidateActions.validateAccountStatusChange(req, res, next);
       break;
     case 'postTransaction':
-      ActionsToValidate.postTransaction(req, res, next);
+      ValidateActions.validationTransactionCreation(req, res, next);
       break;
     default:
   }

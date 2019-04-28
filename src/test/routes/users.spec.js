@@ -41,23 +41,23 @@ describe('/user', () => {
       return res;
     };
 
-    it('should return 400 for invalid email address', async () => {
+    it('should return 404 for invalid user', async () => {
       userEmailAddress = 'invalid@domain.com'; // invalid email
 
       const res = await execGetUsersAccountReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(404);
       expect(res.status).to.be.a('number');
       expect(res.body).to.have.own.property('error');
       expect(res.body.error).to.be.a('string');
     });
 
-    it('should return 204 if the user does not have an account', async () => {
+    it('should return 200 if the user does not have an account', async () => {
       userEmailAddress = 'client2@domain.com'; // user with no account in seeded data
 
       const res = await execGetUsersAccountReq();
 
-      expect(res).to.have.status(204);
+      expect(res).to.have.status(200);
       expect(res.status).to.be.a('number');
     });
 

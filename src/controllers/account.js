@@ -6,7 +6,7 @@ import generateAccountNumber from '../utilities/bank-acct-num';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 
 /**
- * Forms and returns an object that represents an account entity
+ * Returns an object that represents an account entity
  *
  * @param {object} req - HTTP request object
  * @param {object} accountOwner - Object representing the owner of the account
@@ -66,7 +66,7 @@ class AccountController {
 
     const info = await accountModel.changeStatus(accountNumber, newStatus);
     if (!info.length) {
-      return HttpResponse.send(res, 400, { error: 'The account you entered is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
     info[0] = changeKeysToCamelCase(info[0]);
@@ -87,10 +87,10 @@ class AccountController {
 
     const accounts = await accountModel.deleteOne({ account_number: accountNumber });
     if (!accounts.length) {
-      return HttpResponse.send(res, 400, { error: 'The account you wanted to delete is invalid' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
-    return HttpResponse.send(res, 204, { message: 'Account successfully deleted' });
+    return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
   }
 
   /**
@@ -107,15 +107,15 @@ class AccountController {
 
     const accounts = await accountModel.findByAccountNumber(accountNumber);
     if (!accounts.length) {
-      return HttpResponse.send(res, 400, { error: 'Sorry, the account number is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
     const transactions = await transactionModel.findByOne({ account_number: accountNumber });
     if (!transactions.length) {
-      return HttpResponse.send(res, 204, { error: 'No transaction has occurred on this account yet' });
+      return HttpResponse.send(res, 200, { message: 'No transaction history for this account' });
     }
 
-    transactions.forEach(txn => changeKeysToCamelCase(txn));
+    transactions.forEach(transaction => changeKeysToCamelCase(transaction));
     return HttpResponse.send(res, 200, { data: transactions });
   }
 
@@ -133,7 +133,7 @@ class AccountController {
 
     const accounts = await accountModel.findByAccountNumber(accountNumber);
     if (!accounts.length) {
-      return HttpResponse.send(res, 400, { error: 'Sorry, the account number is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
     accounts[0] = changeKeysToCamelCase(accounts[0]);
@@ -153,7 +153,7 @@ class AccountController {
     const { status } = req.query; let accounts;
 
     if (!status || Object.keys(req.query).length > 1) {
-      return HttpResponse.send(res, 501, { error: "Filtering list of accounts based on other query aside 'status' or multiple queries is not implemented" });
+      return HttpResponse.send(res, 400, { error: 'Invalid query' });
     }
 
     if (status === 'active') {
@@ -165,7 +165,7 @@ class AccountController {
     }
 
     if (!accounts.length) {
-      return HttpResponse.send(res, 404, { error: `No record of ${status} accounts found in the database` });
+      return HttpResponse.send(res, 404, { error: `No ${status} accounts found` });
     }
 
     accounts.forEach(account => changeKeysToCamelCase(account));

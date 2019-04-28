@@ -8,7 +8,7 @@ import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 import UserAuth from '../middlewares/authorization';
 
 /**
- * Forms and returns an object that represents a user entity
+ * Returns an object that represents a user entity
  *
  * @param {object} req - HTTP request object
  * @returns {object} Object representing a user entity
@@ -48,7 +48,7 @@ class UserController {
 
     const existingUser = await userModel.findByEmail(userEntity.email);
     if (existingUser.length) {
-      return HttpResponse.send(res, 409, { error: 'The email you entered is already taken. Please consider a new email' });
+      return HttpResponse.send(res, 409, { error: 'Email already exists' });
     }
 
     if ((/^Staff$/i).test(userEntity.type)) {
@@ -122,12 +122,12 @@ class UserController {
 
     const users = await userModel.findByEmail(userEmailAddress);
     if (!users.length) {
-      return HttpResponse.send(res, 400, { error: 'The email address you specified is incorrect' });
+      return HttpResponse.send(res, 404, { error: 'User does not exist' });
     }
 
     let accounts = await accountModel.findByOne({ owner_id: users[0].id });
     if (!accounts.length) {
-      return HttpResponse.send(res, 204, { error: 'This user has not opened an account yet' });
+      return HttpResponse.send(res, 200, { message: 'No account for this user yet' });
     }
 
     accounts = accounts.map((acct) => {

@@ -1,4 +1,4 @@
-import txnAlertTemplate from './email-assets/txn-alert';
+import txnAlertTemplate from './email-assets/transaction';
 
 class EmailTemplates {
   constructor() {

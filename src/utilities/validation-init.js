@@ -7,7 +7,7 @@ import ValidationRules from './validation-rules';
  *
  * @class ActionsToValidate
  */
-class ActionsToValidate {
+class ValidateActions {
   /**
    * Set up schema to validate inputs when user wants to sign up
    *
@@ -16,9 +16,9 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
-  static userSignup(req, res, next) {
+  static validateSignup(req, res, next) {
     const clientInputs = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -35,9 +35,12 @@ class ActionsToValidate {
       password: ValidationRules.password('Password'),
     });
 
-    const { error } = Joi.validate(clientInputs, schema);
-
-    if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+    const { error } = Joi.validate(clientInputs, schema, { abortEarly: false });
+    if (error) {
+      return HttpResponse.send(res, 422, {
+        errors: error.details.map(detail => detail.message),
+      });
+    }
 
     return next();
   }
@@ -50,9 +53,9 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
-  static userSignin(req, res, next) {
+  static validateSignin(req, res, next) {
     const loginCredentials = {
       email: req.body.email,
       password: req.body.password,
@@ -63,9 +66,12 @@ class ActionsToValidate {
       password: ValidationRules.password('Password'),
     });
 
-    const { error } = Joi.validate(loginCredentials, schema);
-
-    if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+    const { error } = Joi.validate(loginCredentials, schema, { abortEarly: false });
+    if (error) {
+      return HttpResponse.send(res, 422, {
+        errors: error.details.map(detail => detail.message),
+      });
+    }
 
     return next();
   }
@@ -78,9 +84,9 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
-  static createAccount(req, res, next) {
+  static validateAccountCreation(req, res, next) {
     const clientInputs = {
       accountType: req.body.accountType,
       openingBalance: req.body.openingBalance,
@@ -91,9 +97,12 @@ class ActionsToValidate {
       openingBalance: ValidationRules.float('Opening balance'),
     });
 
-    const { error } = Joi.validate(clientInputs, schema);
-
-    if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+    const { error } = Joi.validate(clientInputs, schema, { abortEarly: false });
+    if (error) {
+      return HttpResponse.send(res, 422, {
+        errors: error.details.map(detail => detail.message),
+      });
+    }
 
     return next();
   }
@@ -106,18 +115,25 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
-  static changeAccountStatus(req, res, next) {
-    const { error } = Joi.validate({
+  static validateAccountStatusChange(req, res, next) {
+    const inputs = {
       accountNumber: req.params.accountNumber,
       newAccountStatus: req.body.accountStatus,
-    }, Joi.object({
+    };
+
+    const schema = Joi.object({
       accountNumber: ValidationRules.accountNumber('Account number'),
       newAccountStatus: ValidationRules.requiredString('Account status'),
-    }));
+    });
 
-    if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+    const { error } = Joi.validate(inputs, schema, { abortEarly: false });
+    if (error) {
+      return HttpResponse.send(res, 422, {
+        errors: error.details.map(detail => detail.message),
+      });
+    }
 
     return next();
   }
@@ -130,9 +146,9 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
-  static postTransaction(req, res, next) {
+  static validationTransactionCreation(req, res, next) {
     const clientInputs = {
       accountNumber: req.params.accountNumber,
       amount: req.body.amount,
@@ -145,9 +161,12 @@ class ActionsToValidate {
       transactionType: ValidationRules.transactionType('Transaction type'),
     });
 
-    const { error } = Joi.validate(clientInputs, schema);
-
-    if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
+    const { error } = Joi.validate(clientInputs, schema, { abortEarly: false });
+    if (error) {
+      return HttpResponse.send(res, 422, {
+        errors: error.details.map(detail => detail.message),
+      });
+    }
 
     return next();
   }
@@ -160,15 +179,13 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
   static accountNumberParam(req, res, next) {
-    const { error } = Joi.validate({
-      accountNumber: req.params.accountNumber,
-    }, Joi.object().keys({
-      accountNumber: ValidationRules.accountNumber('Account number'),
-    }));
+    const inputs = { accountNumber: req.params.accountNumber };
+    const schema = Joi.object().keys({ accountNumber: ValidationRules.accountNumber('Account number') });
 
+    const { error } = Joi.validate(inputs, schema);
     if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
 
     return next();
@@ -182,15 +199,13 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
   static idParam(req, res, next) {
     const clientInputs = { id: req.params.id };
-
     const schema = Joi.object().keys({ id: ValidationRules.integer('Id') });
 
     const { error } = Joi.validate(clientInputs, schema);
-
     if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
 
     return next();
@@ -204,19 +219,17 @@ class ActionsToValidate {
    * @param {object} res - HTTP response object
    * @param {function} next - Express function for passing control to next middleware
    * @returns {}
-   * @memberof ActionsToValidate
+   * @memberof ValidateActions
    */
   static emailParam(req, res, next) {
     const clientInputs = { email: req.params.userEmailAddress };
-
     const schema = Joi.object().keys({ email: ValidationRules.email('Email') });
 
     const { error } = Joi.validate(clientInputs, schema);
-
     if (error) return HttpResponse.send(res, 422, { error: error.details[0].message });
 
     return next();
   }
 }
 
-export default ActionsToValidate;
+export default ValidateActions;
