@@ -51,7 +51,8 @@ option {
 
 table {
 	width: 100%;
-  min-width: 990px;
+  min-width: 880px;
+  max-width: 1100px;
 	margin-bottom: 22px;
   border-collapse: collapse;
   border-spacing: 0;

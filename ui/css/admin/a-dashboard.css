@@ -55,19 +55,3 @@
 .visible-acct-type-section {
   display: block;
 }
-
-/* *** action buttons in user acct type table *** */
-.btn-activate {
-  color: #fff;
-  background: #3ca374;
-  min-width: 75px;
-}
-
-.btn-activate:hover {
-  box-shadow: 0 0 2px #fff, 0 0 5px #3ca374, 0 0 10px #3ca374;
-}
-
-.btn-deactivate {
-  min-width: 95px;
-  color: #dd2C00;
-}

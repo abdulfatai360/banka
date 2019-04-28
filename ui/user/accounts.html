@@ -16,14 +16,11 @@
   <link rel="stylesheet" href="../css/user/u-accounts.css">
 </head>
 
-<body>
+<body class="body">
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
-        <a href="./index.html" class="app-logo">
-          <span class="tp">Ban</span><br>
-          <span class="bt">ka</span>
-        </a>
+        <a href="./index.html" class="app-logo">Banka</a>
         <span class="navicon navicon-open">
           <i class="fas fa-bars"></i>
         </span>
@@ -51,42 +48,38 @@
         <div class="table-container">
           <table>
             <thead>
-              <th scope="col" class="type-th">Type</th>
-              <th scope="col" class="acct-nm-th">Account Name</th>
-              <th scope="col" class="acct-num-th">Account Number</th>
-              <th scope="col" class="status-th">Status</th>
               <th scope="col" class="created-th">Opened On</th>
-              <th scope="col" class="opn-bal-th">Opening Bal</th>
-              <th scope="col" class="curr-bal-th">Current Bal</th>
+              <th scope="col" class="acct-num-th">Account Number</th>
+              <th scope="col" class="type-th">Type</th>
+              <th scope="col" class="status-th">Status</th>
+              <th scope="col" class="opn-bal-th">Opening Balance</th>
+              <th scope="col" class="curr-bal-th">Current Balance</th>
             </thead>
           
             <tbody>
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="acct-num">0131483939</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
+                <td class="acct-num">0131483939</td>
+                <td class="type">Savings</td>
+                <td class="status">Active</td>
                 <td class="opn-bal">1,000.45</td>
                 <td class="curr-bal">500.37</td>
               </tr>
 
               <tr>
-                <td class="type">Current</td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="acct-num">0131483939</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
+                <td class="acct-num">0131483939</td>
+                <td class="type">Current</td>
+                <td class="status">Active</td>
                 <td class="opn-bal">1,000.13</td>
                 <td class="curr-bal">500.43</td>
               </tr>
 
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="acct-num">0131483939</td>
-                <td class="status">Dormant</td>
                 <td class="created">01/01/2019</td>
+                <td class="acct-num">0131483939</td>
+                <td class="type">Savings</td>
+                <td class="status">Dormant</td>
                 <td class="opn-bal">1,000.77</td>
                 <td class="curr-bal">500.88</td>
               </tr>
@@ -106,21 +99,21 @@
               <label for="first-name">
                 First Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter first name" id="first-name" value="Chelsey" title="Update your profile on dashboard to change this value" readonly>
+              <input type="text" placeholder="Enter first name" id="first-name" value="Chelsey" title="Update your profile on dashboard to change your first name" readonly>
             </div>
           
             <div class="form-field">
               <label for="last-name">
                 Last Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter last name" id="last-name" value="Dietrich" title="Update your profile on dashboard to change this value" readonly>
+              <input type="text" placeholder="Enter last name" id="last-name" value="Dietrich" title="Update your profile on dashboard to change your last name" readonly>
             </div>
-          
+
             <div class="form-field">
-              <label for="other-name">
-                Other Name
+              <label for="last-name">
+                Opening Balance <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter other name" id="other-name" value="Kamren" title="Update your profile on dashboard to change this value" readonly>
+              <input type="text" placeholder="Enter your initial deposit" id="opening-balance">
             </div>
           
             <div class="form-field">

@@ -20,10 +20,7 @@
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
-        <a href="./index.html" class="app-logo">
-          <span class="tp">Ban</span><br>
-          <span class="bt">ka</span>
-        </a>
+        <a href="./index.html" class="app-logo">Banka</a>
         <span class="navicon navicon-open">
           <i class="fas fa-bars"></i>
         </span>
@@ -51,26 +48,22 @@
         <div class="table-container">
           <table>
             <thead>
-              <th scope="col" class="type-th">Type</th>
-              <th scope="col" class="acct-num-th">Account No.</th>
-              <th scope="col" class="acct-nm-th">Account Name</th>
-              <th scope="col" class="status-th">Status</th>
               <th scope="col" class="created-th">Opened On</th>
-              <th scope="col" class="opn-bal-th">Opening Bal</th>
-              <th scope="col" class="curr-bal-th">Current Bal</th>
+              <th scope="col" class="acct-num-th">Account Number</th>
+              <th scope="col" class="acct-nm-th">Account Name</th>
+              <th scope="col" class="type-th">Type</th>
+              <th scope="col" class="status-th">Status</th>
+              <th scope="col" class="curr-bal-th">Current Balance</th>
               <th scope="col" class="action-th">Action</th>
             </thead>
           
             <tbody>
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-num">
-                  <span class="link-in-p">0131483939</span>
-                </td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
-                <td class="opn-bal">1,000.00</td>
+                <td class="acct-num">0131483939</td>
+                <td class="acct-nm">Bauch Samantha</td>
+                <td class="type">Savings</td>
+                <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
                   <button type="button" class="btn btn-table btn-danger">
@@ -83,14 +76,11 @@
               </tr>
           
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-num">
-                  <span class="link-in-p">0131483939</span>
-                </td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
-                <td class="opn-bal">1,000.00</td>
+                <td class="acct-num">0131483939</td>
+                <td class="acct-nm">Samantha Bauch</td>
+                <td class="type">Savings</td>
+                <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
                   <button type="button" class="btn btn-table btn-danger">
@@ -103,14 +93,11 @@
               </tr>
           
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-num">
-                  <span class="link-in-p">0131483939</span>
-                </td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
-                <td class="opn-bal">1,000.00</td>
+                <td class="acct-num">0131483939</td>
+                <td class="acct-nm">Clementine Samantha</td>
+                <td class="type">Savings</td>
+                <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
                   <button type="button" class="btn btn-table btn-danger">
@@ -119,18 +106,14 @@
                       <i class="fas fa-spinner fa-pulse"></i>
                     </span>
                   </button>
-                </td>
               </tr>
           
               <tr>
-                <td class="type">Savings</td>
-                <td class="acct-num">
-                  <span class="link-in-p">0131483939</span>
-                </td>
-                <td class="acct-nm">Clementine Bauch Samantha</td>
-                <td class="status">Active</td>
                 <td class="created">01/01/2019</td>
-                <td class="opn-bal">1,000.00</td>
+                <td class="acct-num">0131483939</td>
+                <td class="acct-nm">Bauch Samantha</td>
+                <td class="type">Savings</td>
+                <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
                   <button type="button" class="btn btn-table btn-danger">
@@ -139,7 +122,6 @@
                       <i class="fas fa-spinner fa-pulse"></i>
                     </span>
                   </button>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -147,23 +129,28 @@
       </div>
     </section>
 
-    <section class="specific-bank-acct">
+    <section class="confirmation-dialog">
       <div class="overlay"></div>
     
-      <div class="specific-bank-acct__inner">
-        <div class="acct-detail">
-          <span class="overlay-close">&times;</span>
+      <div class="confirmation-dialog__inner">
+        <span class="overlay-close">&times;</span>
     
-          <div class="profile-photo">
-            <div class="profile-photo__inner"></div>
-          </div>
+        <p>Do you want to do this?</p>
     
-          <div class="user-info">
-            <p class="name">Clementine Bauch Samantha</p>
-            <p class="email">nathan@yesenia.net</p>
-            <p class="phone">08012345678</p>
-          </div>
-        </div>
+        <button type="button" class="btn btn-table btn-yes">
+          <span class="btn__text">Yes</span>
+          <span class="btn__loading-icon">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        </button>
+    
+        <button type="button" class="btn btn-table btn-no">
+          <span class="btn__text">No</span>
+          <span class="btn__loading-icon">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        </button>
+    
       </div>
     </section>
   </main>

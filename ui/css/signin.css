@@ -1,7 +1,15 @@
 /* *** signin page top-level container *** */
+.body {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
 .signin-page-content {
-  min-height: 100vh;
+  flex-grow: 1;
   font-size: 1em;
+  display: flex;
+  align-items: center;
 }
 
 /* *** heading *** */
@@ -15,4 +23,5 @@ h1 {
 /* *** last paragraph in signin form *** */
 .form p {
   margin-bottom: 0;
+  font-size: 1.05em;
 }

@@ -21,10 +21,7 @@
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
-        <a href="./index.html" class="app-logo">
-          <span class="tp">Ban</span><br>
-          <span class="bt">ka</span>
-        </a>
+        <a href="./index.html" class="app-logo">Banka</a>
         <span class="navicon navicon-open">
           <i class="fas fa-bars"></i>
         </span>
@@ -55,7 +52,7 @@
           <div class="user-info">
             <p class="name">Patricia Lebsack Karianne</p>
             <p class="email" data-type="email:">Julianne.OConner@kory.org</p>
-            <p class="phone" data-type="phone:">08049317096</p>
+            <p class="phone" data-type="phone:">2348049317096</p>
             <p class="role" data-type="role:">Admin</p>
         
             <button type="button" class="btn btn-form btn-edit-profile">
@@ -86,17 +83,10 @@
             </div>
         
             <div class="form-field">
-              <label for="other-name">
-                Other Name
-              </label>
-              <input type="text" placeholder="Enter other name" id="other-name" value="Karianne">
-            </div>
-        
-            <div class="form-field">
               <label for="phone">
                 Phone Number <abbr title="required">*</abbr>
               </label>
-              <input type="tel" placeholder="Enter phone number" id="phone" value="08049317096">
+              <input type="tel" placeholder="Enter phone number" id="phone" value="2348049317096">
             </div>
         
             <div class="form-field">
@@ -142,10 +132,10 @@
     <nav class="acct-type-bar">
       <ul class="acct-type-bar__list container">
         <li class="acct-type-bar__item clients-accts-tab active-tab">
-          Clients Accounts
+          Cashiers
         </li>
         <li class="acct-type-bar__item staff-accts-tab">
-          Staff Accounts
+          Admins
         </li>
       </ul>
     </nav>
@@ -153,129 +143,53 @@
     <section class="row users-accts">
       <div class="users-accts__inner container">
         <section class="clients-accts visible-acct-type-section">
-          <h2>All Clients Accounts</h2>
+          <h2>Cashiers</h2>
 
           <div class="table-container">
             <table>
               <thead>
                 <tr>
-                  <th scope="col" class="name-th">Name</th>
+                  <th scope="col" class="fname-th">First Name</th>
+                  <th scope="col" class="lname-th">Last Name</th>
                   <th scope="col" class="email-th">Email</th>
                   <th scope="col" class="phone-th">Phone</th>
-                  <th scope="col" class="status-th">Status</th>
-                  <th scope="col" class="actions-th">Actions</th>
                 </tr>
               </thead>
           
               <tbody>
                 <tr>
-                  <td class="name">Kurtis Weissnat Elwyn</td>
+                  <td class="fname">Kurtis</td>
+                  <td class="lname">Weissnat</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08021006761</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348021006761</td>
                 </tr>
           
                 <tr>
-                  <td class="name">Patricia Lebsack Karianne</td>
+                  <td class="fname">Patricia</td>
+                  <td class="lname">Karianne</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08049317096</td>
-                  <td class="status">Inactive</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348049317096</td>
                 </tr>
 
                 <tr>
-                  <td class="name">Chelsey Dietrich Kamren</td>
+                  <td class="fname">Chelsey</td>
+                  <td class="lname">Kamren</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08025495412</td>
-                  <td class="status">Inactive</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348025495412</td>
                 </tr>
 
                 <tr>
-                  <td class="name">Kurtis Weissnat Elwyn</td>
+                  <td class="fname">Elwyn</td>
+                  <td class="lname">Kurtis</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08021006761</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348021006761</td>
                 </tr>
 
                 <tr>
-                  <td class="name">Dennis Schulist Leopoldo</td>
+                  <td class="fname">Schulist</td>
+                  <td class="lname">Leopoldo</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08014779358</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348014779358</td>
                 </tr>
               </tbody>
             </table>
@@ -283,129 +197,53 @@
         </section>
 
         <section class="staff-accts">
-          <h2>All Staff Accounts</h2>
+          <h2>Admins</h2>
 
           <div class="table-container">
             <table>
               <thead>
                 <tr>
-                  <th scope="col" class="name-th">Name</th>
+                  <th scope="col" class="fname-th">First Name</th>
+                  <th scope="col" class="lname-th">Last Name</th>
                   <th scope="col" class="email-th">Email</th>
                   <th scope="col" class="phone-th">Phone</th>
-                  <th scope="col" class="status-th">Status</th>
-                  <th scope="col" class="actions-th">Actions</th>
                 </tr>
               </thead>
           
               <tbody>
                 <tr>
-                  <td class="name">Kurtis Weissnat Elwyn</td>
+                  <td class="fname">Dennis</td>
+                  <td class="lname">Kurtis</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08021006761</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-          
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348021006761</td>
                 </tr>
           
                 <tr>
-                  <td class="name">Patricia Lebsack Karianne</td>
+                  <td class="fname">Lebsack</td>
+                  <td class="lname">Karianne</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08049317096</td>
-                  <td class="status">Inactive</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-          
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348049317096</td>
                 </tr>
           
                 <tr>
-                  <td class="name">Chelsey Dietrich Kamren</td>
+                  <td class="fname">Dietrich</td>
+                  <td class="lname">Kamren</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08025495412</td>
-                  <td class="status">Inactive</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-          
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348025495412</td>
                 </tr>
           
                 <tr>
-                  <td class="name">Kurtis Weissnat Elwyn</td>
+                  <td class="fname">Elwyn</td>
+                  <td class="lname">Kurtis</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08021006761</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-          
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348021006761</td>
                 </tr>
           
                 <tr>
-                  <td class="name">Dennis Schulist Leopoldo</td>
+                  <td class="fname">Leopoldo</td>
+                  <td class="lname">Schulist</td>
                   <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">08014779358</td>
-                  <td class="status">Active</td>
-                  <td class="actions">
-                    <button type="button" class="btn btn-table btn-activate">
-                      <span class="btn__text">Activate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-          
-                    <button type="button" class="btn btn-table btn-deactivate">
-                      <span class="btn__text">Deactivate</span>
-                      <span class="btn__loading-icon">
-                        <i class="fas fa-spinner fa-pulse"></i>
-                      </span>
-                    </button>
-                  </td>
+                  <td class="phone">+2348014779358</td>
                 </tr>
               </tbody>
             </table>

@@ -2,3 +2,9 @@
 h1 {
   display: none;
 }
+
+.create-txn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
