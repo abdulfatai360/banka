@@ -13,6 +13,7 @@
 /* *** app intro/hero section *** */
 .app-intro {
   flex-grow: 1;
+  min-height: 100vh;
   padding-top: 100px;
   color: #fff;
   background: linear-gradient(

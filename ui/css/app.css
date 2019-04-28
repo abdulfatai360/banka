@@ -258,7 +258,7 @@ ul {
   color: #fca311;
   padding: 10px 0;
   font-size: 1.4em;
-  line-height: 0.9;
+  line-height: 1.2;
   text-align: center;
   cursor: pointer;
 }
@@ -294,7 +294,7 @@ ul {
   color: #fff;
   background-color: #14213d;
   border-top: 4px solid #fca311;
-  /* transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955); */
+  transition: left 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 
 .navicon-close {
@@ -336,7 +336,7 @@ ul {
 /* *** responsive style rules across app's pages *** */
 @media (min-width: 800px) {
   body {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
   .container {

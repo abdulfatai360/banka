@@ -1,27 +1,26 @@
 const bodyElem = document.body;
-const table = document.querySelector('table');
+const actionButtons = document.querySelectorAll('.action .btn');
 const overlay = document.querySelector('.overlay');
-const noButton = document.querySelector('.btn-no');
+const noButton = document.querySelector('.btn-dialog-no');
 const overlayCloseIcon = document.querySelector('.overlay-close');
 const overlayClosers = [overlay, overlayCloseIcon, noButton];
 
 const statusCells = document.querySelectorAll('tbody .status');
 statusCells.forEach(statusCell => {
-  if (statusCell.textContent === 'Active') {
-    statusCell.parentElement.classList.add('active-row');
+  if (/^active$/i.test(statusCell.textContent)) {
+    statusCell.parentElement.classList.add('active-account');
   }
 
-  if (statusCell.textContent === 'Dormant') {
-    statusCell.parentElement.classList.add('dormant-row');
+  if (/^dormant$/i.test(statusCell.textContent)) {
+    statusCell.parentElement.classList.add('dormant-account');
   }
 });
 
-
-table.addEventListener('click', e => {
-  if (e.target.classList.contains('icon-table__inner') || e.target.classList.contains('btn__text')) {
+actionButtons.forEach(actionButton => {
+  actionButton.addEventListener('click', () => {
     bodyElem.classList.add('confirmation-dialog-visible');
-  }
-}, false);
+  });
+});
 
 overlayClosers.forEach(closer => {
   closer.addEventListener('click', () => {
