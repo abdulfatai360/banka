@@ -64,12 +64,22 @@ class AccountController {
     const { accountNumber } = req.params;
     const newStatus = req.body.accountStatus;
 
-    const info = await accountModel.changeStatus(accountNumber, newStatus);
-    if (!info.length) {
-      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
+    const accounts = await accountModel.findByAccountNumber(accountNumber);
+    if (!accounts.length) return HttpResponse.send(res, 404, { error: 'Account does not exist' });
+
+    if (/^draft$/i.test(accounts[0].account_status)) {
+      if (/^dormant$/i.test(newStatus)) return HttpResponse.send(res, 400, { error: 'Draft account can not be set to dormant' });
+
+      return HttpResponse.send(res, 400, { error: 'Draft account can only be activated by making a credit transaction' });
     }
 
+    if (newStatus.toLowerCase() === accounts[0].account_status.toLowerCase()) {
+      return HttpResponse.send(res, 400, { error: `Account is already in ${newStatus} state` });
+    }
+
+    const info = await accountModel.changeStatus(accountNumber, newStatus);
     info[0] = changeKeysToCamelCase(info[0]);
+
     return HttpResponse.send(res, 200, { data: info });
   }
 
@@ -110,6 +120,10 @@ class AccountController {
       return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
+    if (Number(req.user.id) !== Number(accounts[0].owner_id)) {
+      return HttpResponse.send(res, 400, { error: 'Account does not belong to this user' });
+    }
+
     const transactions = await transactionModel.findByOne({ account_number: accountNumber });
     if (!transactions.length) {
       return HttpResponse.send(res, 200, { message: 'No transaction history for this account' });
@@ -134,6 +148,10 @@ class AccountController {
     const accounts = await accountModel.findByAccountNumber(accountNumber);
     if (!accounts.length) {
       return HttpResponse.send(res, 404, { error: 'Account does not exist' });
+    }
+
+    if (Number(req.user.id) !== Number(accounts[0].owner_id)) {
+      return HttpResponse.send(res, 400, { error: 'Account does not belong to this user' });
     }
 
     accounts[0] = changeKeysToCamelCase(accounts[0]);

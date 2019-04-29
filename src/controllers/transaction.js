@@ -1,7 +1,23 @@
+import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
 import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
 import changeKeysToCamelCase from '../utilities/change-to-camel-case';
+import EmailServices from '../utilities/email-services';
+import removeObjectProperty from '../utilities/remove-object-prop';
+
+const sendEmailToClient = async (accounts, transactionInfo) => {
+  const accountOwner = await userModel.findByOne({ id: accounts[0].owner_id });
+  const accountName = `${accountOwner[0].first_name} ${accountOwner[0].last_name}`;
+
+  const transactionEmailContent = EmailServices
+    .generateTransactionAlert(transactionInfo[0], accountName);
+
+  EmailServices.sendEmail({
+    name: accountName,
+    address: accountOwner[0].email,
+  }, 'Banka Nigeria Transaction Alert', transactionEmailContent);
+};
 
 const createTransaction = async (req, res, oldBalance, newBalance) => {
   const { accountNumber } = req.params;
@@ -16,9 +32,9 @@ const createTransaction = async (req, res, oldBalance, newBalance) => {
     new_balance: newBalance,
   };
 
-
   const transactionInfo = await transactionModel.create(transactionEntity);
   transactionInfo[0] = changeKeysToCamelCase(transactionInfo[0]);
+  transactionInfo[0] = removeObjectProperty('oldBalance', transactionInfo[0]);
 
   const accounts = await accountModel.findAndUpdate(
     { account_number: accountNumber },
@@ -29,7 +45,9 @@ const createTransaction = async (req, res, oldBalance, newBalance) => {
     await accountModel.changeStatus(accountNumber, 'active');
   }
 
-  return HttpResponse.send(res, 201, { data: transactionInfo });
+  await sendEmailToClient(accounts, transactionInfo);
+  transactionInfo[0] = removeObjectProperty('createdOn', transactionInfo[0]);
+  HttpResponse.send(res, 201, { data: transactionInfo });
 };
 
 class TransactionController {
@@ -45,7 +63,7 @@ class TransactionController {
     const newBalance = Number(oldBalance) - Number(req.body.amount);
 
     if (/^dormant$/i.test(accounts[0].account_status)) {
-      return HttpResponse.send(res, 400, { error: 'Your account is dormant. Please reactivate it' });
+      return HttpResponse.send(res, 400, { error: 'Account is dormant; please reactivate' });
     }
 
     if (/^draft$/i.test(accounts[0].account_status)) {
@@ -67,7 +85,7 @@ class TransactionController {
     }
 
     if (/^dormant$/i.test(accounts[0].account_status)) {
-      return HttpResponse.send(res, 400, { error: 'Your account is dormant. Please reactivate it' });
+      return HttpResponse.send(res, 400, { error: 'Account is dormant; please reactivate' });
     }
 
     if (/^draft$/i.test(accounts[0].account_status)) {
@@ -80,6 +98,7 @@ class TransactionController {
 
     const oldBalance = accounts[0].balance;
     const newBalance = Number(oldBalance) + Number(req.body.amount);
+
     const transactionInfo = await createTransaction(req, res, oldBalance, newBalance);
     return transactionInfo;
   }
@@ -87,13 +106,18 @@ class TransactionController {
   static async getOneTransaction(req, res) {
     const id = Number(req.params.id);
 
-    const transactions = await transactionModel.findByOne({ id });
-    if (!transactions.length) {
-      return HttpResponse.send(res, 404, { error: 'Transaction does not exist' });
-    }
+    const accounts = await accountModel.findByOne({ owner_id: Number(req.user.id) });
+    if (!accounts.length) return HttpResponse.send(res, 400, { error: 'User does not have an account yet' });
 
-    transactions[0] = changeKeysToCamelCase(transactions[0]);
-    return HttpResponse.send(res, 200, { data: transactions });
+    const userAccountList = accounts.map(account => account.account_number);
+    const transactions = await transactionModel.findbyMany('account_number', userAccountList);
+    if (!transactions.length) return HttpResponse.send(res, 400, { error: 'No transaction records for this user accounts' });
+
+    const transaction = transactions.filter(txn => txn.id === id);
+    if (!transaction.length) return HttpResponse.send(res, 404, { error: 'Transaction does not exist' });
+
+    transaction[0] = changeKeysToCamelCase(transaction[0]);
+    return HttpResponse.send(res, 200, { data: transaction });
   }
 }
 

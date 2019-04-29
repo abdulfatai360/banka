@@ -74,6 +74,19 @@ class Model {
     return rows;
   }
 
+  async findbyMany(key = '', values = []) {
+    const valText = values.map((value, i) => `$${i + 1}`);
+
+    const text = `
+      SELECT *
+      FROM ${this.table}
+      WHERE ${key} IN (${valText.join(', ')});
+    `;
+
+    const { rows } = await db.query(text, values);
+    return rows;
+  }
+
   /**
    * Finds, update, and returns an entity details based on the search value
    *

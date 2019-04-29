@@ -125,7 +125,7 @@ class ValidateActions {
 
     const schema = Joi.object({
       accountNumber: ValidationRules.accountNumber('Account number'),
-      newAccountStatus: ValidationRules.requiredString('Account status'),
+      newAccountStatus: ValidationRules.accountStatus('Account status'),
     });
 
     const { error } = Joi.validate(inputs, schema, { abortEarly: false });
