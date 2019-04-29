@@ -66,8 +66,8 @@ describe('/accounts', () => {
     });
 
     it('should return 200 when an account status is changed', async () => {
-      accountNumber = '1111111111'; // value in seeded data
-      httpRequestBody = { accountStatus: 'active' };
+      accountNumber = '2222222222'; // value in seeded data
+      httpRequestBody = { accountStatus: 'dormant' };
 
       const res = await execChangeStatusReq();
 
@@ -76,11 +76,11 @@ describe('/accounts', () => {
     });
 
     it('should return the account new status and update it in the database', async () => {
-      accountNumber = '1111111111';
+      accountNumber = '2222222222';
       httpRequestBody = { accountStatus: 'dormant' };
 
       const res = await execChangeStatusReq();
-      let account = await accountModel.findByAccountNumber('1111111111');
+      let account = await accountModel.findByAccountNumber('2222222222');
       [account] = account;
 
       expect(res.body).to.have.own.property('data');
