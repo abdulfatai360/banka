@@ -44,6 +44,7 @@ class UserAuthorization {
    */
   static clientOnly(req, res, next) {
     req.user = UserAuthorization.getLoggedInUser(req, res);
+    console.log(req.user)
     if (/^client$/i.test(req.user.type)) return next();
 
     return HttpResponse.send(res, 403, { error: 'Sorry, only a client can perform this operation.' });
