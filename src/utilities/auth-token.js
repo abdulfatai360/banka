@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const secretKey = process.env.JWT_SECRET;
-const options = { expiresIn: '7d' };
+const options = { expiresIn: '1d' };
 
 /**
  * Contains methods for generating and verifying JsonWebToken

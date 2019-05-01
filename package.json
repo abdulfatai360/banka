@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "clean:build": "rm -R dist",
-    "build": "babel src --out-dir dist --source-maps",
+    "build": "babel src --out-dir dist",
     "build:dev": "npm run clean:build && babel src --watch --out-dir dist --source-maps",
     "start": "node dist/index.js",
     "start:dev": "nodemon dist/index.js",
@@ -16,7 +16,9 @@
     "drop:tables": "node ./dist/database/tables/all-tables.js dropAllTables",
     "seed:users": "node ./dist/database/tables/all-tables.js seedUsersTable"
   },
-  "keywords": [],
+  "keywords": [
+    "node", "express", "banking-application", "postgres", "javascript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abdulfatai360/banka.git"

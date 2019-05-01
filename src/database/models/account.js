@@ -14,12 +14,15 @@ class Account extends Model {
   }
 
   /**
-   * Returns details of most recently craeted account and some details about its owner
+   * Creates and returns an account entity
    *
-   * @returns {array} Contains an object showing details of an account and its owner
+   * @param {object} entityObject - Account entity object
+   * @returns {array} Contains the entity object representation
    * @memberof Account
    */
-  async returnAccountInfo() {
+  async create(entityObject) {
+    await Model.prototype.create.call(this, entityObject);
+
     const text = `
       SELECT 
         ${this.table}.id, 
@@ -38,19 +41,6 @@ class Account extends Model {
     `;
 
     const { rows } = await db.query(text);
-    return rows;
-  }
-
-  /**
-   * Creates and returns an account entity
-   *
-   * @param {object} entityObject - Account entity object
-   * @returns {array} Contains the entity object representation
-   * @memberof Account
-   */
-  async create(entityObject) {
-    await Model.prototype.create.call(this, entityObject);
-    const rows = await this.returnAccountInfo();
     return rows;
   }
 

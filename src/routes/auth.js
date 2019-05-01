@@ -5,6 +5,6 @@ import validateInputs from '../middlewares/validate-inputs';
 const router = express.Router();
 
 router.post('/signup', validateInputs('createUser'), User.createUser);
-router.post('/signin', validateInputs('loginUser'), User.loginUser);
+router.post('/signin', User.loginUser);
 
 export default router;
