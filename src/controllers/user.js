@@ -1,10 +1,9 @@
 import PasswordHasher from '../utilities/hash-password';
 import AuthToken from '../utilities/auth-token';
-import removeObjectProperty from '../utilities/remove-object-prop';
+import ObjectUtils from '../utilities/object-utils';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
-import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 import UserAuth from '../middlewares/authorization';
 
 /**
@@ -46,7 +45,7 @@ class UserController {
     let isAdmin;
     let userEntity = formulatesUserEntity(req);
 
-    const existingUser = await userModel.findByEmail(userEntity.email);
+    const existingUser = await userModel.findByOne({ email: userEntity.email });
     if (existingUser.length) {
       return HttpResponse.send(res, 409, { error: 'Email already exists' });
     }
@@ -62,10 +61,11 @@ class UserController {
     }
 
     const rows = await userModel.create(userEntity);
-    let user = changeKeysToCamelCase(rows[0]);
+    let user = ObjectUtils.changeKeysToCamelCase(rows[0]);
 
-    if (!user.isAdmin) user = removeObjectProperty('isAdmin', user);
-    user = removeObjectProperty('password', user);
+    if (!user.isAdmin) user = ObjectUtils.removeOneProperty('isAdmin', user);
+
+    user = ObjectUtils.removeOneProperty('password', user);
     const token = AuthToken.generateToken(user);
 
     const header = { name: 'x-auth-token', value: token };
@@ -87,7 +87,7 @@ class UserController {
     const email = req.body.email.toLowerCase();
     const pass = req.body.password;
 
-    const users = await userModel.findByEmail(email);
+    const users = await userModel.findByOne({ email });
     if (!users.length) {
       return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
     }
@@ -97,9 +97,9 @@ class UserController {
       return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
     }
 
-    let user = changeKeysToCamelCase(users[0]);
-    user = removeObjectProperty('password', user);
-    if (!user.isAdmin) user = removeObjectProperty('isAdmin', user);
+    let user = ObjectUtils.changeKeysToCamelCase(users[0]);
+    user = ObjectUtils.removeOneProperty('password', user);
+    if (!user.isAdmin) user = ObjectUtils.removeOneProperty('isAdmin', user);
 
     const token = AuthToken.generateToken(user);
     const header = { name: 'x-auth-token', value: token };
@@ -120,7 +120,7 @@ class UserController {
   static async getMyAccounts(req, res) {
     const { userEmailAddress } = req.params;
 
-    const users = await userModel.findByEmail(userEmailAddress);
+    const users = await userModel.findByOne({ email: userEmailAddress });
     if (!users.length) {
       return HttpResponse.send(res, 404, { error: 'User does not exist' });
     }
@@ -132,9 +132,8 @@ class UserController {
 
     accounts = accounts.map((acct) => {
       let account = acct;
-      changeKeysToCamelCase(account);
-      account = removeObjectProperty('id', account);
-      account = removeObjectProperty('openingBalance', account);
+      ObjectUtils.changeKeysToCamelCase(account);
+      account = ObjectUtils.removeManyProperties(['id', 'openingBalance'], account);
       account = Object.assign({ ownerEmail: users[0].email }, account);
       return account;
     });

@@ -3,7 +3,7 @@ import userModel from '../database/models/user';
 import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
 import generateAccountNumber from '../utilities/bank-acct-num';
-import changeKeysToCamelCase from '../utilities/change-to-camel-case';
+import ObjectUtils from '../utilities/object-utils';
 
 /**
  * Returns an object that represents an account entity
@@ -43,11 +43,11 @@ class AccountController {
       return HttpResponse.send(res, 400, { error: 'The specified account owner is incorrect' });
     }
 
-    const accountOwner = changeKeysToCamelCase(users[0]);
+    const accountOwner = ObjectUtils.changeKeysToCamelCase(users[0]);
     const accountEntity = formulateAccountEntity(req, accountOwner);
     const accountInfo = await accountModel.create(accountEntity);
 
-    accountInfo[0] = changeKeysToCamelCase(accountInfo[0]);
+    accountInfo[0] = ObjectUtils.changeKeysToCamelCase(accountInfo[0]);
     return HttpResponse.send(res, 201, { data: accountInfo });
   }
 
@@ -78,7 +78,7 @@ class AccountController {
     }
 
     const info = await accountModel.changeStatus(accountNumber, newStatus);
-    info[0] = changeKeysToCamelCase(info[0]);
+    info[0] = ObjectUtils.changeKeysToCamelCase(info[0]);
 
     return HttpResponse.send(res, 200, { data: info });
   }
@@ -129,7 +129,7 @@ class AccountController {
       return HttpResponse.send(res, 200, { message: 'No transaction history for this account' });
     }
 
-    transactions.forEach(transaction => changeKeysToCamelCase(transaction));
+    transactions.forEach(transaction => ObjectUtils.changeKeysToCamelCase(transaction));
     return HttpResponse.send(res, 200, { data: transactions });
   }
 
@@ -154,7 +154,7 @@ class AccountController {
       return HttpResponse.send(res, 400, { error: 'Account does not belong to this user' });
     }
 
-    accounts[0] = changeKeysToCamelCase(accounts[0]);
+    accounts[0] = ObjectUtils.changeKeysToCamelCase(accounts[0]);
     return HttpResponse.send(res, 200, { data: accounts });
   }
 
@@ -186,7 +186,7 @@ class AccountController {
       return HttpResponse.send(res, 404, { error: `No ${status} accounts found` });
     }
 
-    accounts.forEach(account => changeKeysToCamelCase(account));
+    accounts.forEach(account => ObjectUtils.changeKeysToCamelCase(account));
     return HttpResponse.send(res, 200, { data: accounts });
   }
 
@@ -206,7 +206,7 @@ class AccountController {
       return AccountController.filterAccounts(req, res);
     }
 
-    accounts.forEach(account => changeKeysToCamelCase(account));
+    accounts.forEach(account => ObjectUtils.changeKeysToCamelCase(account));
     return HttpResponse.send(res, 200, { data: accounts });
   }
 }

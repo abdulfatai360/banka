@@ -2,9 +2,8 @@ import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
 import transactionModel from '../database/models/transaction';
 import HttpResponse from '../utilities/http-response';
-import changeKeysToCamelCase from '../utilities/change-to-camel-case';
 import EmailServices from '../utilities/email-services';
-import removeObjectProperty from '../utilities/remove-object-prop';
+import ObjectUtils from '../utilities/object-utils';
 
 const sendEmailToClient = async (accounts, transactionInfo) => {
   const accountOwner = await userModel.findByOne({ id: accounts[0].owner_id });
@@ -33,8 +32,7 @@ const createTransaction = async (req, res, oldBalance, newBalance) => {
   };
 
   const transactionInfo = await transactionModel.create(transactionEntity);
-  transactionInfo[0] = changeKeysToCamelCase(transactionInfo[0]);
-  transactionInfo[0] = removeObjectProperty('oldBalance', transactionInfo[0]);
+  transactionInfo[0] = ObjectUtils.changeKeysToCamelCase(transactionInfo[0]);
 
   const accounts = await accountModel.findAndUpdate(
     { account_number: accountNumber },
@@ -46,7 +44,7 @@ const createTransaction = async (req, res, oldBalance, newBalance) => {
   }
 
   await sendEmailToClient(accounts, transactionInfo);
-  transactionInfo[0] = removeObjectProperty('createdOn', transactionInfo[0]);
+  transactionInfo[0] = ObjectUtils.removeManyProperties(['createdOn', 'oldBalance'], transactionInfo[0]);
   HttpResponse.send(res, 201, { data: transactionInfo });
 };
 
@@ -116,7 +114,7 @@ class TransactionController {
     const transaction = transactions.filter(txn => txn.id === id);
     if (!transaction.length) return HttpResponse.send(res, 404, { error: 'Transaction does not exist' });
 
-    transaction[0] = changeKeysToCamelCase(transaction[0]);
+    transaction[0] = ObjectUtils.changeKeysToCamelCase(transaction[0]);
     return HttpResponse.send(res, 200, { data: transaction });
   }
 }

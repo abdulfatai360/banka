@@ -6,61 +6,78 @@ import app from '../../../index';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-let loginCredentials;
+let user;
 
-const execSigninReq = async () => {
+const execSignupReq = async () => {
   const res = await chai.request(app)
-    .post('/api/v1/auth/signin')
-    .send(loginCredentials);
+    .post('/api/v1/auth/signup')
+    .send(user);
 
   return res;
 };
 
 describe('Password Validation Rule', () => {
   it('should return 422 when a field it is applied to is missing', async () => {
-    loginCredentials = { email: faker.internet.email() };
+    user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
+      email: faker.internet.email(),
+    };
 
-    const res = await execSigninReq();
+    const res = await execSignupReq();
     expect(res).to.have.status(422);
   });
 
   it('should return 422 when a field it is applied to is empty', async () => {
-    loginCredentials = {
+    user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
       email: faker.internet.email(),
       password: '',
     };
 
-    const res = await execSigninReq();
+    const res = await execSignupReq();
     expect(res).to.have.status(422);
   });
 
   it('should return 422 when a field it is applied to contains a value that is less than 6 character long', async () => {
-    loginCredentials = {
+    user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
       email: faker.internet.email(),
       password: 'aaaa',
     };
 
-    const res = await execSigninReq();
+    const res = await execSignupReq();
     expect(res).to.have.status(422);
   });
 
   it('should return 422 when a field it is applied to contains a value that is more than 254 character long', async () => {
-    loginCredentials = {
+    user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
       email: faker.internet.email(),
       password: new Array(256).join('a'),
     };
 
-    const res = await execSigninReq();
+    const res = await execSignupReq();
     expect(res).to.have.status(422);
   });
 
   it('should return 422 when a field it is applied to contains a value that is not formatted as a string', async () => {
-    loginCredentials = {
+    user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      phone: '2341111111111',
       email: faker.internet.email(),
       password: 111,
     };
 
-    const res = await execSigninReq();
+    const res = await execSignupReq();
     expect(res).to.have.status(422);
   });
 });

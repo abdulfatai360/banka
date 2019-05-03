@@ -14,7 +14,7 @@ class HttpResponse {
    * @memberof HttpResponse
    */
   static send(res, status, body) {
-    res.status(status).json({ status, ...body });
+    return res.status(status).json({ status, ...body });
   }
 
   /**
@@ -28,7 +28,7 @@ class HttpResponse {
    * @memberof HttpResponse
    */
   static sendWithHeader(res, header, status, body) {
-    res.header(header.name, header.value)
+    return res.header(header.name, header.value)
       .status(status)
       .json({ status, ...body });
   }

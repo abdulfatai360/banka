@@ -49,7 +49,7 @@ class EmailServices {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) winston.error(err.message);
-      winston.info(`Message sent: ${info.response}`);
+      // winston.info(`Message sent: ${info.response}`);
     });
   }
 }

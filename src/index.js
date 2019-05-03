@@ -1,6 +1,6 @@
+import 'express-async-errors';
 import express from 'express';
 import helmet from 'helmet';
-import 'express-async-errors';
 import winston from 'winston';
 import { config } from 'dotenv';
 import mountRoutes from './routes';

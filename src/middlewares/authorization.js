@@ -20,7 +20,7 @@ class UserAuthorization {
     const token = req.header('x-auth-token');
 
     if (!token) {
-      return HttpResponse.send(res, 401, { error: 'You are not authorized to perform this operation' });
+      return HttpResponse.send(res, 401, { error: 'Please signup or login to your account' });
     }
 
     try {
@@ -28,7 +28,7 @@ class UserAuthorization {
       req.body.ownerId = String(decoded.id);
       return decoded;
     } catch (err) {
-      return HttpResponse.send(res, 400, { error: 'Invalid authorization credentials to perform this operation' });
+      return HttpResponse.send(res, 401, { error: 'Invalid authorization credentials' });
     }
   }
 
@@ -44,10 +44,9 @@ class UserAuthorization {
    */
   static clientOnly(req, res, next) {
     req.user = UserAuthorization.getLoggedInUser(req, res);
-    console.log(req.user)
     if (/^client$/i.test(req.user.type)) return next();
 
-    return HttpResponse.send(res, 403, { error: 'Sorry, only a client can perform this operation.' });
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a client can access this feature.' });
   }
 
   /**
@@ -64,7 +63,7 @@ class UserAuthorization {
     req.user = UserAuthorization.getLoggedInUser(req, res);
     if (/^staff$/i.test(req.user.type)) return next();
 
-    return HttpResponse.send(res, 403, { error: 'Sorry, only a staff can perform this operation.' });
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a staff can access this feature.' });
   }
 
   /**
@@ -84,7 +83,7 @@ class UserAuthorization {
       return next();
     }
 
-    return HttpResponse.send(res, 403, { error: 'Sorry, only a cashier can perform this operation.' });
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a cashier can access this feature.' });
   }
 
   /**
@@ -101,7 +100,7 @@ class UserAuthorization {
     req.user = UserAuthorization.getLoggedInUser(req, res);
     if (/^staff$/i.test(req.user.type) && req.user.isAdmin) return next();
 
-    return HttpResponse.send(res, 403, { error: 'Sorry, only an admin can perform this operation.' });
+    return HttpResponse.send(res, 403, { error: 'Sorry, only an admin can access this feature.' });
   }
 }
 

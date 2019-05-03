@@ -70,7 +70,6 @@ class Model {
     const value = Object.values(paramConfigObject);
 
     const { rows } = await db.query(text, value);
-
     return rows;
   }
 
@@ -110,7 +109,6 @@ class Model {
     `;
 
     const setText = cols.map((col, i) => `${col} = $${i + 1}`);
-
     text = text.replace('{{cols:vals}}', setText.join(', '));
 
     const { rows } = await db.query(text, vals);
