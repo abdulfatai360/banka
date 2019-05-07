@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../css/cashier/bank-accounts.css">
 </head>
 
-<body class="">
+<body class="modal--hidden">
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
@@ -66,15 +66,15 @@
                 <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
-                  <button type="button" class="btn icon-table icon-activate" title="Activate this account">
+                  <button type="button" class="btn icon-table icon-activate modal-trigger" title="Activate this account">
                     <i class="fas fa-power-off"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-deactivate" title="Deactivate this account">
+                  <button type="button" class="btn icon-table icon-deactivate modal-trigger" title="Deactivate this account">
                     <i class="fas fa-ban"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-delete" title="Delete this account">
+                  <button type="button" class="btn icon-table icon-delete modal-trigger" title="Delete this account">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </td>
@@ -88,15 +88,15 @@
                 <td class="status">Dormant</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
-                  <button type="button" class="btn icon-table icon-activate" title="Activate this account">
+                  <button type="button" class="btn icon-table icon-activate modal-trigger" title="Activate this account">
                     <i class="fas fa-power-off"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-deactivate" title="Deactivate this account">
+                  <button type="button" class="btn icon-table icon-deactivate modal-trigger" title="Deactivate this account">
                     <i class="fas fa-ban"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-delete" title="Delete this account">
+                  <button type="button" class="btn icon-table icon-delete modal-trigger" title="Delete this account">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </td>
@@ -110,15 +110,15 @@
                 <td class="status">Active</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
-                  <button type="button" class="btn icon-table icon-activate" title="Activate this account">
+                  <button type="button" class="btn icon-table icon-activate modal-trigger" title="Activate this account">
                     <i class="fas fa-power-off"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-deactivate" title="Deactivate this account">
+                  <button type="button" class="btn icon-table icon-deactivate modal-trigger" title="Deactivate this account">
                     <i class="fas fa-ban"></i>
                   </button>
                 
-                  <button type="button" class="btn icon-table icon-delete" title="Delete this account">
+                  <button type="button" class="btn icon-table icon-delete modal-trigger" title="Delete this account">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </td>
@@ -132,15 +132,15 @@
                 <td class="status">Dormant</td>
                 <td class="curr-bal">500.00</td>
                 <td class="action">
-                  <button type="button" class="btn icon-table icon-activate" title="Activate this account">
+                  <button type="button" class="btn icon-table icon-activate modal-trigger" title="Activate this account">
                     <i class="fas fa-power-off"></i>
                   </button>
                   
-                  <button type="button" class="btn icon-table icon-deactivate" title="Deactivate this account">
+                  <button type="button" class="btn icon-table icon-deactivate modal-trigger" title="Deactivate this account">
                     <i class="fas fa-ban"></i>
                   </button>
 
-                  <button type="button" class="btn icon-table icon-delete" title="Delete this account">
+                  <button type="button" class="btn icon-table icon-delete modal-trigger" title="Delete this account">
                     <i class="far fa-trash-alt"></i>
                   </button>
                 </td>
@@ -151,23 +151,23 @@
       </div>
     </section>
 
-    <section class="confirmation-dialog">
-      <div class="overlay"></div>
+    <section class="modal">
+      <div class="overlay modal-closer"></div>
     
-      <div class="confirmation-dialog__inner">
-        <div class="just-div">
-          <span class="overlay-close">&times;</span>
+      <div class="modal__inner modal-closer">
+        <div class="modal-content">
+          <span class="btn-modal-close modal-closer">&times;</span>
     
           <p>Are you sure you want to perform this action?</p>
     
-          <button type="button" class="btn btn-dialog-yes">
+          <button type="button" class="btn btn-modal-yes">
             <span class="btn__text">Yes</span>
             <span class="btn__loading-icon">
               <i class="fas fa-spinner fa-pulse"></i>
             </span>
           </button>
     
-          <button type="button" class="btn btn-dialog-no">No</button>
+          <button type="button" class="btn btn-modal-no modal-closer">No</button>
         </div>
       </div>
     </section>

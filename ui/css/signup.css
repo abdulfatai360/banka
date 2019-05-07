@@ -1,15 +1,9 @@
 /* *** signup page content container *** */
-.body {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-}
-
-.signin-page-content {
-  flex-grow: 1;
+.signup-page-content {
   font-size: 1em;
   display: flex;
   align-items: center;
+  min-height: 100%;
 }
 
 /* *** heading *** */

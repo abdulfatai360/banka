@@ -41,14 +41,14 @@
     </div>
   </header>
 
-  <main class="page-content accts-txns">
-    <section class="acct-selection row">
-      <div class="acct-selection__inner container">
+  <main class="page-content accounts-transactions">
+    <section class="account-selection row">
+      <div class="account-selection__inner container">
         <h2>Select an Account</h2>
 
         <form class="form form-inner-pages">
           <div class="form-field selectContainer">
-            <select name="selAcct" id="sel-acct" class="sel-acct" autofocus>
+            <select name="selectAccount" id="select-account" class="select-account" autofocus>
               <option value="">-- Select bank account --</option>
               <option value="0131483939">0131483939 &mdash; Savings</option>
               <option value="0131483939">0131483939 &mdash; Current</option>
@@ -68,8 +68,8 @@
       </div>
     </section>
 
-    <section class="txns-details row">
-      <div class="txns-details__inner container">
+    <section class="transaction-details row">
+      <div class="transaction-details__inner container">
         <h2>Transactions Details</h2>
 
         <div class="table-container">
@@ -79,36 +79,36 @@
               <th scope="col" class="type-th">Type</th>
               <th scope="col" class="acct-num-th">Account Number</th>
               <th scope="col" class="amnt-th">Amount</th>
-              <th scope="col" class="prev-bal-th">Previous Bal</th>
-              <th scope="col" class="curr-bal-th">Current Bal</th>
+              <th scope="col" class="prev-bal-th">Previous Balance</th>
+              <th scope="col" class="curr-bal-th">Current Balance</th>
             </thead>
         
             <tbody>
-              <tr class="debit">
-                <td class="date">01/01/2019</td>
-                <td class="type">Debit</td>
-                <td class="acct-num">0131485678</td>
-                <td class="amnt" data-sign="+">1,000.00</td>
-                <td class="prev-bal">3,000.00</td>
-                <td class="curr-bal">2,000.00</td>
+              <tr class="transaction-info debit">
+                <td class="transaction-info__date">01/01/2019</td>
+                <td class="transaction-info__type">Debit</td>
+                <td class="transaction-info__account-number">0131485678</td>
+                <td class="transaction-info__amount">&#8358; 1,000</td>
+                <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
+                <td class="transaction-info__new-balance">&#8358; 4,000.00</td>
               </tr>
         
-              <tr class="credit">
-                <td class="date">01/01/2019</td>
-                <td class="type">Credit</td>
-                <td class="acct-num">0131485678</td>
-                <td class="amnt" data-sign="-">1,000.00</td>
-                <td class="prev-bal">3,000.00</td>
-                <td class="curr-bal">2,000.00</td>
+              <tr class="transaction-info credit">
+                <td class="transaction-info__date">01/01/2019</td>
+                <td class="transaction-info__type">Credit</td>
+                <td class="transaction-info__account-number">0131485678</td>
+                <td class="transaction-info__amount">&#8358; 1,000</td>
+                <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
+                <td class="transaction-info__new-balance">&#8358; 2,000.00</td>
               </tr>
         
-              <tr class="credit">
-                <td class="date">01/01/2019</td>
-                <td class="type">Credit</td>
-                <td class="acct-num">0131485678</td>
-                <td class="amnt" data-sign="-">1,000.00</td>
-                <td class="prev-bal">3,000.98</td>
-                <td class="curr-bal">2,000.67</td>
+              <tr class="transaction-info credit">
+                <td class="transaction-info__date">01/01/2019</td>
+                <td class="transaction-info__type">Credit</td>
+                <td class="transaction-info__account-number">0131485678</td>
+                <td class="transaction-info__amount">&#8358; 1,000</td>
+                <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
+                <td class="transaction-info__new-balance">&#8358; 2,000.00</td>
               </tr>
             </tbody>
           </table>

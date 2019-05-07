@@ -1,20 +1,3 @@
-/* *** align cell with amount in bank accts display table *** */
-td[class*=-bal] {
-  padding-left: 1.3em;
-  position: relative;
-}
-
-td[class*=-bal]::before {
-  content: "\20A6";
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  font: inherit;
-  padding-left: 7px;
-}
-
 /* *** delete button in accts display table for cashier *** */
 .btn-danger {
   min-width: 65px;
@@ -58,15 +41,13 @@ td[class*=-bal]::before {
   color: #dd2C00;
 }
 
-/* *** overlay for viewing a confirmation dialog box *** */
-.confirmation-dialog {
-  display: none;
+/* *** modal styles *** */
+.modal {
   color: #14213d;
 }
 
-/* *** swtiching the overlay on or off *** */
-.confirmation-dialog-visible .confirmation-dialog {
-  display: block;
+.modal--hidden .modal {
+  display: none;
 }
 
 .overlay {
@@ -79,21 +60,28 @@ td[class*=-bal]::before {
   background-color: rgba(255, 255, 255, 0.44);
 }
 
-.confirmation-dialog__inner {
+.modal__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+.modal-content {
   width: 80%;
   max-width: 330px;
   padding: 30px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  transform: translate(-50%, -50%);
   background-color: #e5e5e5;
   border: 2px solid;
-  text-rendering: optimizeLegibility;
+  position: relative;
 }
 
-.overlay-close {
+.btn-modal-close {
   width: 25px;
   height: 25px;
   padding: 15px 20px;
@@ -110,28 +98,28 @@ td[class*=-bal]::before {
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.overlay-close:hover {
+.btn-modal-close:hover {
   color: #dd2C00;
 }
 
-.confirmation-dialog__inner p {
+.modal__inner p {
   margin-bottom: 44px;
 }
 
-.btn-dialog-yes,
-.btn-dialog-no {
+.btn-modal-yes,
+.btn-modal-no {
   width: 45%;
   padding: 3px;
   margin-top: 0;
   font-size: 1.1em;
 }
 
-.btn-dialog-yes {
+.btn-modal-yes {
   color: #dd2C00;
   background: transparent;
   border: 1px solid;
 }
 
-.btn-dialog-yes:hover {
+.btn-modal-yes:hover {
   box-shadow: 0 0 2px #fff, 0 0 5px #dd2C00, 0 0 10px #dd2C00;
 }

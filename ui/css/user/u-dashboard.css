@@ -8,15 +8,15 @@
 }
 
 /* *** accts overview container *** */
-.accts-overview__list {
+.accounts-overview__list {
   display: flex;
   flex-flow: row wrap;
 }
 
 /* *** account overview card component *** */
-.accts-overview__item {
+.accounts-overview__item {
   width: 100%;
-  max-width: 325px;
+  max-width: 320px;
   padding: 10px 20px;
   margin-top: 11px;
   border-radius: 5px;
@@ -27,18 +27,18 @@
 }
 
 @media (min-width: 630px) {
-  .accts-overview__item {
+  .accounts-overview__item {
     margin-right: 11px;
   }
 }
 
-.accts-overview__item p {
+.accounts-overview__item p {
   margin-bottom: 0.3em;
 }
 
 .bank-details,
-.acct-holder-details,
-.acct-bal-details {
+.account-details,
+.account-balance {
   position: relative;
   margin-bottom: 7px;
 }
@@ -48,35 +48,35 @@
   margin-bottom: 11px;
 }
 
-.bank-name {
+.bank-details__name {
   font-weight: 700;
 }
 
-.acct-type {
+.bank-details__type {
   float: right;
   text-transform: uppercase;
   font-size: 0.75em;
 }
 
-.acct-name {
+.account-details__name {
   color: goldenrod;
 }
 
-.acct-num {
+.account-details__number {
   font-size: 0.9em;
 }
 
-.acct-bal-details {
+.account-balance {
   margin-bottom: 0;
   text-align: right;
 }
 
-.acct-bal-details p:first-child {
+.account-balance p:first-child {
   margin-bottom: 0;
   font-size: 0.8em;
 }
 
-.acct-bal-details p:nth-child(2) {
+.account-balance p:nth-child(2) {
   margin-bottom: 0;
   font-size: 1.3em;
   font-weight: 500;
@@ -104,56 +104,36 @@ td {
   vertical-align: top;
 }
 
-.txn-date {
+.transaction-date {
   text-align: left;
 }
 
-.txn-date > span,
-.txn-amnt-time > span {
+.transaction-date > span,
+.transaction-info > span {
   display: block
 }
 
-.txn-amnt-time {
+.transaction-info {
   line-height: 1.5;
 }
 
-.txn-date .day {
+.transaction-date__day {
   font-weight: 500;
   font-size: 1.25em;
 }
 
-.txn-date .month,
-.txn-date .year, 
-.txn-amnt-time .time {
+.transaction-date__month,
+.transaction-date__year, 
+.transaction-info__time {
   font-size: 0.9em;
 }
 
-.txn-amnt-time .debit {
+.transaction-info .debit {
   color: green;
-  padding-left: 1.4em;
   position: relative;
 }
 
-.txn-amnt-time .credit {
+.transaction-info .credit {
   color: #dd2C00;
-  padding-left: 1.15em;
   position: relative;
-}
-
-.debit::before,
-.credit::before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  font: inherit;
-}
-
-.debit::before {
-  content: attr(data-sign)'\20A6';
-}
-
-.credit::before {
-  content: attr(data-sign)'\20A6';
 }

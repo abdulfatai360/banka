@@ -267,7 +267,7 @@ ul {
 .navicon {
   cursor: pointer;
   font-weight: 300;
-  font-size: 1.6em;
+  font-size: 1.4em;
   padding: 5px;
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }

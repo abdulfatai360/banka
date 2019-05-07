@@ -5,23 +5,61 @@
   background-clip: content-box;
 }
 
-/* *** align cell in cashier's txns history *** */
+/* *** navbar for toggling transaction history and form display *** */
+.panels-bar {
+  background: #e5e5e5;
+  color: #14213d;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.panels-bar__list {
+  display: flex;
+}
+
+.panels-bar__item {
+  margin-right: 5px;
+  position: relative;
+  cursor: pointer;
+  padding: 12px 8px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.panels-bar__item:last-of-type {
+  margin-right: 0;
+}
+
+.active-panel-tab::before,
+.panels-bar__item::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  background: #fca311;
+  height: 4px;
+  width: 0;
+  left: 0;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.active-panel-tab::before,
+.panels-bar__item:hover::before {
+  width: 100%;
+}
+
+.panel--hidden {
+  display: none;
+}
+
+/* *** cashier's transactions history and form styles *** */
 table {
   min-width: 880px;
 }
 
-.table-container .amnt {
+.table-container .amount {
   position: relative;
-  padding-left: 1.3em;
 }
 
-.amnt::before {
-  content: "\20A6";
-  display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  font: inherit;
-  padding-left: 7px;
+.form {
+  margin: 0;
 }
