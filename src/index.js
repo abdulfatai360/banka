@@ -1,5 +1,6 @@
 import 'express-async-errors';
 import express from 'express';
+import cors from 'cors';
 import helmet from 'helmet';
 import winston from 'winston';
 import { config } from 'dotenv';
@@ -14,6 +15,7 @@ const serverMsg = `Starting development server... http://localhost:${port}`;
 
 // middlewares
 app.use(helmet());
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(trimRequestObjectValues);
