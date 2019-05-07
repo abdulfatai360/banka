@@ -33,7 +33,6 @@
         <ul class="app-nav__list">
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
-          <li class="app-nav__item"><a href="./post-transaction.html">Post Transaction</a></li>
           <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
         </ul>
       </nav>
@@ -128,58 +127,112 @@
       </div>
     </section>
 
-    <section class="cashier-txns-history row">
-      <div class="cashier-txns-history__inner container">
-        <h2>Transaction History</h2>
+    <nav class="panels-bar">
+      <ul class="panels-bar__list container">
+        <li class="panels-bar__item active-panel-tab">
+          Transactions History
+        </li>
+        <li class="panels-bar__item">
+          Post Transaction
+        </li>
+      </ul>
+    </nav>
 
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col" class="date-th">Date</th>
-                <th scope="col" class="type-th">Type</th>
-                <th scope="col" class="acct-num-th">Account Number</th>
-                <th scope="col" class="amnt-th">Amount</th>
-              </tr>
-            </thead>
-          
-            <tbody>
-              <tr>
-                <td class="date">20/03/2019</td>
-                <td class="type">Credit</td>
-                <td class="acct-num">0123456789</td>
-                <td class="amnt">2,000,000.12</td>
-              </tr>
-          
-              <tr>
-                <td class="date">20/03/2019</td>
-                <td class="type">Debit</td>
-                <td class="acct-num">0123456789</td>
-                <td class="amnt">200,000.45</td>
-              </tr>
-          
-              <tr>
-                <td class="date">20/03/2019</td>
-                <td class="type">Debit</td>
-                <td class="acct-num">0123456789</td>
-                <td class="amnt">150,000.99</td>
-              </tr>
+    <section class="cashier-transactions row">
+      <div class="cashier-transactions__inner container">
+        <section class="cashier-transactions__history panel">
+          <h2>Transaction History</h2>
 
-              <tr>
-                <td class="date">20/03/2019</td>
-                <td class="type">Debit</td>
-                <td class="acct-num">0123456789</td>
-                <td class="amnt">150,000.77</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>   
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col" class="date-th">Date</th>
+                  <th scope="col" class="type-th">Type</th>
+                  <th scope="col" class="account-number-th">Account Number</th>
+                  <th scope="col" class="amount-th">Amount</th>
+                </tr>
+              </thead>
+          
+              <tbody>
+                <tr>
+                  <td class="date">20/03/2019</td>
+                  <td class="type">Credit</td>
+                  <td class="account-number">0123456789</td>
+                  <td class="amount">&#8358; 2,000,000.12</td>
+                </tr>
+          
+                <tr>
+                  <td class="date">20/03/2019</td>
+                  <td class="type">Debit</td>
+                  <td class="account-number">0123456789</td>
+                  <td class="amount">&#8358; 200,000.45</td>
+                </tr>
+          
+                <tr>
+                  <td class="date">20/03/2019</td>
+                  <td class="type">Debit</td>
+                  <td class="account-number">0123456789</td>
+                  <td class="amount">&#8358; 150,000.99</td>
+                </tr>
+          
+                <tr>
+                  <td class="date">20/03/2019</td>
+                  <td class="type">Debit</td>
+                  <td class="account-number">0123456789</td>
+                  <td class="amount">&#8358; 150,000.77</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cashier-transactions__posting-form panel panel--hidden">
+          <h2>Transaction Posting Form</h2>
+
+          <form class="form">
+            <div class="form-field">
+              <label for="acct-number">
+                Account Number <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter account number" id="acct-number">
+            </div>
+          
+            <div class="form-field">
+              <label for="amount">
+                Amount <abbr title="required">*</abbr>
+              </label>
+              <input type="text" placeholder="Enter amount to deposit" id="amount">
+            </div>
+          
+            <div class="form-field">
+              <label for="txn-type">
+                Transaction Type <abbr title="required">*</abbr>
+              </label>
+              <select id="txn-type">
+                <option value="">-- Select transaction type --</option>
+                <option value="credit">Credit</option>
+                <option value="debit">Debit</option>
+              </select>
+            </div>
+          
+            <div class="form-field">
+              <button type="button" class="btn btn-form">
+                <span class="btn__text">Post Transaction</span>
+                <span class="btn__loading-icon">
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              </button>
+            </div>
+          </form>
+        </section>
       </div>
     </section>
   </main>
 
   <script src="../js/app.js"></script>
   <script src="../js/profile-update.js"></script>
+  <script src="../js/toggle-panel.js"></script>
   <script src="../js/simulate-async.js"></script>
 </body>
 

@@ -1,9 +1,7 @@
 const bodyElem = document.body;
-const actionButtons = document.querySelectorAll('.action .btn');
+const modalTriggers = document.querySelectorAll('.modal-trigger');
 const overlay = document.querySelector('.overlay');
-const noButton = document.querySelector('.btn-dialog-no');
-const overlayCloseIcon = document.querySelector('.overlay-close');
-const overlayClosers = [overlay, overlayCloseIcon, noButton];
+const modalClosers = document.querySelectorAll('.modal-closer');
 
 const statusCells = document.querySelectorAll('tbody .status');
 statusCells.forEach(statusCell => {
@@ -16,14 +14,14 @@ statusCells.forEach(statusCell => {
   }
 });
 
-actionButtons.forEach(actionButton => {
-  actionButton.addEventListener('click', () => {
-    bodyElem.classList.add('confirmation-dialog-visible');
+modalTriggers.forEach(modalTrigger => {
+  modalTrigger.addEventListener('click', () => {
+    bodyElem.classList.remove('modal--hidden');
   });
 });
 
-overlayClosers.forEach(closer => {
-  closer.addEventListener('click', () => {
-    bodyElem.classList.remove('confirmation-dialog-visible');
+modalClosers.forEach(modalCloser => {
+  modalCloser.addEventListener('click', () => {
+    bodyElem.classList.add('modal--hidden');
   });
 });

@@ -129,21 +129,21 @@
       </div>
     </section>
 
-    <nav class="acct-type-bar">
-      <ul class="acct-type-bar__list container">
-        <li class="acct-type-bar__item clients-accts-tab active-tab">
-          Cashiers
+    <nav class="panels-bar">
+      <ul class="panels-bar__list container">
+        <li class="panels-bar__item active-panel-tab">
+          Cashier Staff
         </li>
-        <li class="acct-type-bar__item staff-accts-tab">
-          Admins
+        <li class="panels-bar__item">
+          Admin Staff
         </li>
       </ul>
     </nav>
 
-    <section class="row users-accts">
-      <div class="users-accts__inner container">
-        <section class="clients-accts visible-acct-type-section">
-          <h2>Cashiers</h2>
+    <section class="row staff">
+      <div class="staff__inner container">
+        <section class="staff__cashier panel">
+          <h2>List of Cashier Staff</h2>
 
           <div class="table-container">
             <table>
@@ -196,8 +196,8 @@
           </div>
         </section>
 
-        <section class="staff-accts">
-          <h2>Admins</h2>
+        <section class="staff__admin panel panel--hidden">
+          <h2>List of Admin Staff</h2>
 
           <div class="table-container">
             <table>
@@ -254,7 +254,7 @@
   </main>
 
   <script src="../js/app.js"></script>
-  <script src="../js/a-dashboard.js"></script>
+  <script src="../js/toggle-panel.js"></script>
   <script src="../js/profile-update.js"></script>
   <script src="../js/simulate-async.js"></script>
 </body>

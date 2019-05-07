@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../css/cashier/bank-accounts.css">
 </head>
 
-<body class="">
+<body class="modal--hidden">
   <header class="app-header">
     <div class="container container-inner">
       <div class="app-header__inner">
@@ -33,7 +33,6 @@
         <ul class="app-nav__list">
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
-          <li class="app-nav__item"><a href="./post-transaction.html">Post Transaction</a></li>
           <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
         </ul>
       </nav>
@@ -64,13 +63,10 @@
                 <td class="acct-nm">Bauch Samantha</td>
                 <td class="type">Savings</td>
                 <td class="status">Active</td>
-                <td class="curr-bal">500.00</td>
+                <td class="curr-bal">&#8358; 500.00</td>
                 <td class="action">
-                  <button type="button" class="btn btn-table btn-danger">
-                    <span class="btn__text">Delete</span>
-                    <span class="btn__loading-icon">
-                      <i class="fas fa-spinner fa-pulse"></i>
-                    </span>
+                  <button type="button" class="btn btn-table btn-danger modal-trigger">
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -81,13 +77,10 @@
                 <td class="acct-nm">Samantha Bauch</td>
                 <td class="type">Savings</td>
                 <td class="status">Active</td>
-                <td class="curr-bal">500.00</td>
+                <td class="curr-bal">&#8358; 500.00</td>
                 <td class="action">
-                  <button type="button" class="btn btn-table btn-danger">
-                    <span class="btn__text">Delete</span>
-                    <span class="btn__loading-icon">
-                      <i class="fas fa-spinner fa-pulse"></i>
-                    </span>
+                  <button type="button" class="btn btn-table btn-danger modal-trigger">
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -98,14 +91,12 @@
                 <td class="acct-nm">Clementine Samantha</td>
                 <td class="type">Savings</td>
                 <td class="status">Active</td>
-                <td class="curr-bal">500.00</td>
+                <td class="curr-bal">&#8358; 500.00</td>
                 <td class="action">
-                  <button type="button" class="btn btn-table btn-danger">
-                    <span class="btn__text">Delete</span>
-                    <span class="btn__loading-icon">
-                      <i class="fas fa-spinner fa-pulse"></i>
-                    </span>
+                  <button type="button" class="btn btn-table btn-danger modal-trigger">
+                    Delete
                   </button>
+                </td>
               </tr>
           
               <tr>
@@ -114,14 +105,12 @@
                 <td class="acct-nm">Bauch Samantha</td>
                 <td class="type">Savings</td>
                 <td class="status">Active</td>
-                <td class="curr-bal">500.00</td>
+                <td class="curr-bal">&#8358; 500.00</td>
                 <td class="action">
-                  <button type="button" class="btn btn-table btn-danger">
-                    <span class="btn__text">Delete</span>
-                    <span class="btn__loading-icon">
-                      <i class="fas fa-spinner fa-pulse"></i>
-                    </span>
+                  <button type="button" class="btn btn-table btn-danger modal-trigger">
+                    Delete
                   </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -129,23 +118,23 @@
       </div>
     </section>
 
-    <section class="confirmation-dialog">
-      <div class="overlay"></div>
+    <section class="modal">
+      <div class="overlay modal-closer"></div>
     
-      <div class="confirmation-dialog__inner">
-        <div class="just-div">
-          <span class="overlay-close">&times;</span>
+      <div class="modal__inner modal-closer">
+        <div class="modal-content">
+          <span class="btn-modal-close modal-closer">&times;</span>
 
           <p>Are you sure you want to perform this action?</p>
 
-          <button type="button" class="btn btn-dialog-yes">
+          <button type="button" class="btn btn-modal-yes">
             <span class="btn__text">Yes</span>
             <span class="btn__loading-icon">
               <i class="fas fa-spinner fa-pulse"></i>
             </span>
           </button>
 
-          <button type="button" class="btn btn-dialog-no">No</button>
+          <button type="button" class="btn btn-modal-no modal-closer">No</button>
         </div>
       </div>
     </section>

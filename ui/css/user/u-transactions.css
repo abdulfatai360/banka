@@ -1,5 +1,5 @@
 /* *** form for selecting accout to view its txns *** */
-.acct-selection .form {
+.account-selection .form {
   max-width: 550px;
   margin-bottom: 0;
   padding-top: 0;
@@ -11,15 +11,15 @@
   flex-flow: row wrap;
 }
 
-.acct-selection .selectContainer {
+.account-selection .selectContainer {
   width: 100%;
   max-width: 330px;
   margin-bottom: 22px;
 }
 
 @media (min-width: 550px) {
-  .acct-selection .selectContainer,
-  .acct-selection .btnContainer {
+  .account-selection .selectContainer,
+  .account-selection .btnContainer {
     margin-bottom: 0;
   }
 }
@@ -40,47 +40,10 @@ table {
   min-width: 880px;
 }
 
-.debit .amnt {
-  padding-left: 1.4em;
-  position: relative;
+.debit .transaction-info__amount {
   color: green;
 }
 
-.credit .amnt {
-  padding-left: 1.15em;
-  position: relative;
+.credit .transaction-info__amount {
   color: #dd2C00;
-}
-
-.debit .amnt::before,
-.credit .amnt::before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  font: inherit;
-}
-
-.debit .amnt::before {
-  content: attr(data-sign)'\20A6';
-}
-
-.credit .amnt::before {
-  content: attr(data-sign)'\20A6';
-}
-
-td[class*=-bal] {
-  padding-left: 0.8em;
-  position: relative;
-}
-
-td[class*=-bal]::before {
-  content: "\20A6";
-  display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  font: inherit;
 }

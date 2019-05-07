@@ -5,19 +5,19 @@
   background-clip: content-box;
 }
 
-/* *** navbar for switching user acct type display *** */
-.acct-type-bar {
+/* *** navbar for toggling cashier/admin staff display *** */
+.panels-bar {
   background: #e5e5e5;
   color: #14213d;
   font-weight: 700;
   font-size: 1.1em;
 }
 
-.acct-type-bar__list {
+.panels-bar__list {
   display: flex;
 }
 
-.acct-type-bar__item {
+.panels-bar__item {
   margin-right: 5px;
   position: relative;
   cursor: pointer;
@@ -25,12 +25,12 @@
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.acct-type-bar__item:last-of-type {
+.panels-bar__item:last-of-type {
   margin-right: 0;
 }
 
-.active-tab::before,
-.acct-type-bar__item::before {
+.active-panel-tab::before,
+.panels-bar__item::before {
   content: "";
   display: block;
   position: absolute;
@@ -42,16 +42,11 @@
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.active-tab::before,
-.acct-type-bar__item:hover::before {
+.active-panel-tab::before,
+.panels-bar__item:hover::before {
   width: 100%;
 }
 
-.clients-accts,
-.staff-accts {
+.panel--hidden {
   display: none;
-}
-
-.visible-acct-type-section {
-  display: block;
 }

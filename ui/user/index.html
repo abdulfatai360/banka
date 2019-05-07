@@ -128,53 +128,59 @@
       </div>
     </section>
 
-    <section class="accts-overview row">
-      <div class="accts-overview__inner container">
+    <section class="accounts-overview row">
+      <div class="accounts-overview__inner container">
         <h2>All Accounts</h2>
 
-        <ul class="accts-overview__list">
-          <li class="accts-overview__item">
+        <ul class="accounts-overview__list">
+          <li class="accounts-overview__item">
             <div class="bank-details">
-              <span class="bank-name">Banka</span>
-              <span class="acct-type">Savings</span>
+              <span class="bank-details__name">Banka</span>
+              <span class="bank-details__type">Savings</span>
             </div>
-            <div class="acct-holder-details">
-              <p class="acct-name">Clementine Bauch Samantha</p>
-              <p class="acct-num">0131483939</p>
+            <div class="account-details">
+              <p class="account-details__name">Clementine Bauch Samantha</p>
+              <p class="account-details__number">0131483939</p>
             </div>
-            <div class="acct-bal-details">
+            <div class="account-balance">
               <p>Balance</p>
-              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+              <p>&#8358; 
+                <span class="account-balance__value">234,500.58</span>
+              </p>
             </div>
           </li>
 
-          <li class="accts-overview__item">
+          <li class="accounts-overview__item">
             <div class="bank-details">
-              <span class="bank-name">Banka</span>
-              <span class="acct-type">Current</span>
+              <span class="bank-details__name">Banka</span>
+              <span class="bank-details__type">Savings</span>
             </div>
-            <div class="acct-holder-details">
-              <p class="acct-name">Clementine Bauch Samantha</p>
-              <p class="acct-num">0131483939</p>
+            <div class="account-details">
+              <p class="account-details__name">Clementine Bauch Samantha</p>
+              <p class="account-details__number">0131483939</p>
             </div>
-            <div class="acct-bal-details">
+            <div class="account-balance">
               <p>Balance</p>
-              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+              <p>&#8358;
+                <span class="account-balance__value">234,500.58</span>
+              </p>
             </div>
           </li>
 
-          <li class="accts-overview__item">
+          <li class="accounts-overview__item">
             <div class="bank-details">
-              <span class="bank-name">Banka</span>
-              <span class="acct-type">Savings</span>
+              <span class="bank-details__name">Banka</span>
+              <span class="bank-details__type">Savings</span>
             </div>
-            <div class="acct-holder-details">
-              <p class="acct-name">Clementine Bauch Samantha</p>
-              <p class="acct-num">0131483939</p>
+            <div class="account-details">
+              <p class="account-details__name">Clementine Bauch Samantha</p>
+              <p class="account-details__number">0131483939</p>
             </div>
-            <div class="acct-bal-details">
+            <div class="account-balance">
               <p>Balance</p>
-              <p>&#8358; <span class="acct-bal">234,500.58</span></p>
+              <p>&#8358;
+                <span class="account-balance__value">234,500.58</span>
+              </p>
             </div>
           </li>
         </ul>
@@ -190,8 +196,8 @@
       </div>
     </section>
 
-    <section class="txns-overview row">
-      <div class="txns-overview__inner container">
+    <section class="transactions-overview row">
+      <div class="transactions-overview__inner container">
         <h2>Recent Transactions</h2>
 
         <table class="">
@@ -205,40 +211,48 @@
 
           <tbody>
             <tr>
-              <th scope="row" class="txn-date">
-                <span class="month">MAR</span>
-                <span class="day">20</span>
-                <span class="year">2019</span>
+              <th scope="row" class="transaction-date">
+                <span class="transaction-date__month">MAR</span>
+                <span class="transaction-date__day">20</span>
+                <span class="transaction-date__year">2019</span>
               </th>
 
-              <td class="txn-amnt-time">
-                <span class="type debit" data-sign="+">
-                  1,000.00
+              <td class="transaction-info">
+                <span class="debit">
+                  <span>&#8358;
+                    <span class="transaction-info__amount">1,000</span>
+                  </span>
                 </span>
-                <span class="time">10:12am</span>
+                <span class="transaction-info__time">10:12am</span>
               </td>
 
-              <td class="curr-bal">
-                NGN 1,000
+              <td class="new-balance">
+                <p>&#8358;
+                  <span class="new-balance__value">1,000</span>
+                </p>
               </td>
             </tr>
 
             <tr>
-              <th scope="row" class="txn-date">
-                <span class="month">MAR</span>
-                <span class="day">20</span>
-                <span class="year">2019</span>
+              <th scope="row" class="transaction-date">
+                <span class="transaction-date__month">MAR</span>
+                <span class="transaction-date__day">20</span>
+                <span class="transaction-date__year">2019</span>
               </th>
             
-              <td class="txn-amnt-time">
-                <span class="type credit" data-sign="-">
-                  1,000.00
+              <td class="transaction-info">
+                <span class="credit">
+                  <span>&#8358;
+                    <span class="transaction-info__amount">1,000</span>
+                  </span>
                 </span>
-                <span class="time">10:12am</span>
+                <span class="transaction-info__time">10:12am</span>
               </td>
-
-              <td class="curr-bal">
-                NGN 1,000
+            
+              <td class="new-balance">
+                <p>&#8358;
+                  <span class="new-balance__value">1,000</span>
+                </p>
               </td>
             </tr>
           </tbody>
