@@ -11,3 +11,5 @@ navCloseIcon.addEventListener('click', () => {
   const bodyElem = document.querySelector('body');
   bodyElem.classList.remove('sm-vp-nav-visible');
 });
+
+

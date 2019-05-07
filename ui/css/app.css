@@ -226,6 +226,16 @@ input:checked {
   border: 4px solid #14213d;
 }
 
+.input-not-validated {
+  border-color: #dd2C00 !important;
+}
+
+.input-error-item {
+  font-size: 0.85em;
+  color: #dd2C00;
+  font-weight: 700;
+}
+
 /* *** list and loading icon in form *** */
 ol,
 ul {
@@ -343,4 +353,33 @@ ul {
     padding-left: 30px;
     padding-right: 30px;
   }
+}
+
+/* *** Notification box styles *** */
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 440px;
+  padding: 15px 10px;
+  position: fixed;
+  left: 0;
+  bottom: 3.3em;
+  font-size: 1.1em;
+  font-weight: 400;
+  color: #fff;
+}
+
+.notification-icon {
+  font-size: 2em;
+  padding-right: 22px;
+}
+
+.positive-notification {
+  background: rgb(0, 128, 0);
+}
+
+.negative-notification {
+  background: rgb(221, 44, 0);
 }
