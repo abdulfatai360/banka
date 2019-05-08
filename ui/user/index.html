@@ -48,16 +48,18 @@
             <div class="user-photo__inner"></div>
           </div>
     
-          <div class="user-info">
-            <p class="name">Chelsey Dietrich Kamren</p>
-            <p class="email" data-type="email:">Lucio_Hettinger@annie.ca</p>
-            <p class="phone" data-type="phone:">+2348025495412</p>
-            <p class="role" data-type="role:">Client</p>
-    
+          <div class="user-info"></div>
+
+          <script type="text/template" id="user-info-template">
+            <p class="name">{{fullName}}</p>
+            <p class="email" data-type="email:">{{email}}</p>
+            <p class="phone" data-type="phone:">{{phone}}</p>
+            <p class="role" data-type="role:">{{role}}</p>
+
             <button type="button" class="btn btn-form btn-edit-profile">
               Edit Profile
             </button>
-          </div>
+          </script>
         </div>
     
         <div class="profile-update-form">
@@ -71,28 +73,28 @@
               <label for="first-name">
                 First Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="First name" id="first-name" value="Chelsey" autofocus>
+              <input type="text" placeholder="First name" id="first-name" autofocus>
             </div>
     
             <div class="form-field">
               <label for="last-name">
                 Last Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Last name" id="last-name" value="Dietrich">
+              <input type="text" placeholder="Last name" id="last-name">
             </div>
     
             <div class="form-field">
               <label for="phone">
                 Phone Number <abbr title="required">*</abbr>
               </label>
-              <input type="tel" placeholder="+2348012345678" id="phone" value="+2348025495412">
+              <input type="tel" placeholder="+2348012345678" id="phone">
             </div>
     
             <div class="form-field">
               <label for="email">
                 Email <abbr title="required">*</abbr>
               </label>
-              <input type="email" placeholder="Enter email address" id="email" value="Lucio_Hettinger@annie.ca">
+              <input type="email" placeholder="Enter email address" id="email">
             </div>
     
             <div class="form-field">
@@ -271,8 +273,8 @@
   </main>
 
   <script src="../js/app.js"></script>
+  <script src="../js/user-dashboard.js"></script>
   <script src="../js/profile-update.js"></script>
-  <script src="../js/simulate-async.js"></script>
 </body>
 
 </html>

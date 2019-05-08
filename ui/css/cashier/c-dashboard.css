@@ -1,6 +1,6 @@
 /* *** style bg specific to the user profile *** */
 .user-photo__inner {
-  background: url(../../images/erica-decker.jpg) no-repeat center;
+  background: url(../../images/user-profile-placeholder-img.png) no-repeat center;
   background-size: cover;
   background-clip: content-box;
 }
