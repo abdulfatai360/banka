@@ -48,7 +48,7 @@
             First Name <abbr title="required">*</abbr>
           </label>
           <input type="text" placeholder="First Name" name="firstName" id="first-name" autofocus>
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
     
         <div class="form-field last-name-field">
@@ -56,7 +56,7 @@
             Last Name <abbr title="required">*</abbr>
           </label>
           <input type="text" placeholder="Last Name" name="lastName" id="last-name">
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
 
         <div class="form-field phone-field">
@@ -64,7 +64,7 @@
             Phone Number <abbr title="required">*</abbr>
           </label>
           <input type="tel" placeholder="+2348012345678" name="phone" id="phone">
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
       
         <div class="form-field email-field">
@@ -72,7 +72,7 @@
             Email <abbr title="required">*</abbr>
           </label>
           <input type="email" placeholder="email@domain.com" name="email" id="email">
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
     
         <div class="form-field password-field">
@@ -80,7 +80,7 @@
             Password <abbr title="required">*</abbr>
           </label>
           <input type="password" placeholder="Enter password" name="password" id="password">
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
     
         <div class="form-field confirm-password-field">
@@ -88,10 +88,10 @@
             Confirm Password <abbr title="required">*</abbr>
           </label>
           <input type="password" placeholder="Confirm password" name="confirmPassword" id="confirm-password">
-          <ul class="error-msg-list"></ul>
+          <ul class="validation-error-list"></ul>
         </div>
       
-        <div class="form-field">
+        <div class="form-field submit-btn-field">
           <button type="submit" class="btn btn-form">
             <span class="btn__text">Sign Up</span>
             <span class="btn__loading-icon">
@@ -107,22 +107,19 @@
       </form>
     </section>
 
-    <script type="text/template" id="inputs-error-list-template">
-      <li class="input-error-item">{{errorMessage}}</li>
+    <section class="popup animated"></section>
+
+    <!-- templates -->
+    <script type="text/template" id="validation-error-list-template">
+      <li class="validation-error-item">{{message}}</li>
     </script>
 
-    <script type="text/template" id="positive-msg-template">
-      <div class="notification positive-notification">
-        <i class="far fa-check-circle notification-icon"></i>
-        Operation was successful
-      </div>
+    <script type="text/template" id="success-popup-template">
+      <div class="popup__success">{{message}}</div>
     </script>
 
-    <script type="text/template" id="negative-msg-template">
-      <div class="notification negative-notification">
-        <i class="far fa-times-circle notification-icon"></i>
-        Operation was not successful
-      </div>
+    <script type="text/template" id="failure-popup-template">
+      <div class="popup__failure">{{message}}</div>
     </script>
   </main>
 

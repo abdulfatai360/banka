@@ -1,207 +1,286 @@
-const errorListTemplate = document.querySelector('#inputs-error-list-template').textContent;
+/* ******** global variables ******** */
 const signupForm = document.querySelector('.signup-form');
+const validationErrorTemplate = document.querySelector('#validation-error-list-template').textContent;
+const httpMessageTemplate = document.querySelector('#success-popup-template').textContent;
+const httpErrorTemplate = document.querySelector('#failure-popup-template').textContent;
 const validationErrors = {};
 
-const generateErrorMsgs = (template, msg) => {
-  let errorTemplate = template;
-  errorTemplate = errorTemplate.replace('{{errorMessage}}', msg);
-  return errorTemplate;
+/* ******** helper functions ******** */
+const convertTemplateToHtml = (template, message) => {
+  const messageTemplate = template;
+  const messageHtml = messageTemplate.replace('{{message}}', message);
+  return messageHtml;
 };
 
-const renderErrorMsgs = (errorMsgs, inputField, errorMsgList) => {
-  const firstNameErrMsgs = errorMsgs;
+const renderValidationError = (errors, inputField, errorsListElem) => {
   let errorHtml = '';
+  const errorMessages = errors;
 
-  firstNameErrMsgs.forEach(errorMsg => {
-    errorHtml += generateErrorMsgs(errorListTemplate, errorMsg);
+  errorMessages.forEach(errorMessage => {
+    errorHtml += convertTemplateToHtml(validationErrorTemplate, errorMessage);
   });
 
-  errorMsgList.innerHTML = errorHtml;
-
-  inputField.parentNode.insertBefore(errorMsgList, inputField.nextSibling);
-
+  errorsListElem.innerHTML = errorHtml;
   inputField.classList.add('input-not-validated');
 };
 
-const validateFirstName = () => {
-  const firstNameInput = signupForm.firstName.value;
-  const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  const firstNameErrors = [];
-  const errorMsgList = document.querySelector('.first-name-field .error-msg-list');
-  errorMsgList.innerHTML = '';
+const showMessage = (message, messageType) => {
+  const popupElem = document.querySelector('.popup');
+  let htmlString;
 
-  if (!firstNameInput) firstNameErrors.push('First name is required');
-
-  if (!nameRegex.test(firstNameInput)) {
-    firstNameErrors.push('First name should be a valid name');
+  if (messageType === 'success') {
+    htmlString = convertTemplateToHtml(httpMessageTemplate, message);
+  } else {
+    htmlString = convertTemplateToHtml(httpErrorTemplate, message);
   }
 
-  if (firstNameInput.length < 2 || firstNameInput.length > 50) {
-    firstNameErrors.push('First name should be minimum of 2 and maximum of 50 characters long');
-  }
-
-  validationErrors.firstName = firstNameErrors;
-
-  if (validationErrors.firstName.length) {
-    return renderErrorMsgs(validationErrors.firstName, signupForm.firstName, errorMsgList);
-  }
-
-  signupForm.firstName.classList.remove('input-not-validated');
+  popupElem.textContent = '';
+  popupElem.innerHTML = htmlString;
+  popupElem.parentElement.classList.add('popup--visible');
+  setTimeout(() => {
+    popupElem.parentElement.classList.remove('popup--visible');
+  }, 3000);
 };
 
-const validateLastName = () => {
-  const lastNameInput = signupForm.lastName.value;
-  const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  const lastNameErrors = [];
-  const errorMsgList = document.querySelector('.last-name-field .error-msg-list');
-  errorMsgList.innerHTML = '';
+/* ******** signup inputs frontend validations ******** */
+class validateSignup {
+  static firstName() {
+    const errors = [];
+    const firstName = signupForm.firstName.value;
+    const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+    const errorsListElem = document.querySelector('.first-name-field .validation-error-list');
+    errorsListElem.textContent = '';
 
-  if (!lastNameInput) lastNameErrors.push('Last name is required');
+    if (!firstName) errors.push('First name is required');
 
-  if (!nameRegex.test(lastNameInput)) {
-    lastNameErrors.push('Last name should be a valid name');
+    if (!nameRegex.test(firstName)) {
+      errors.push('First name should be a valid name');
+    }
+
+    if (firstName.length < 2 || firstName.length > 50) {
+      errors.push('First name should be minimum of 2 and maximum of 50 characters long');
+    }
+
+    validationErrors.firstName = errors;
+
+    if (validationErrors.firstName.length) {
+      return renderValidationError(validationErrors.firstName, signupForm.firstName, errorsListElem);
+    }
+
+    signupForm.firstName.classList.remove('input-not-validated');
   }
 
-  if (lastNameInput.length < 2 || lastNameInput.length > 50) {
-    lastNameErrors.push('Last name should be minimum of 2 and maximum of 50 characters long');
+  static lastName() {
+    const errors = [];
+    const lastName = signupForm.lastName.value;
+    const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+    const errorsListElem = document.querySelector('.last-name-field .validation-error-list');
+    errorsListElem.textContent = '';
+
+    if (!lastName) errors.push('Last name is required');
+
+    if (!nameRegex.test(lastName)) {
+      errors.push('Last name should be a valid name');
+    }
+
+    if (lastName.length < 2 || lastName.length > 50) {
+      errors.push('Last name should be minimum of 2 and maximum of 50 characters long');
+    }
+
+    validationErrors.lastName = errors;
+
+    if (validationErrors.lastName.length) {
+      return renderValidationError(validationErrors.lastName, signupForm.lastName, errorsListElem);
+    }
+
+    signupForm.lastName.classList.remove('input-not-validated');
   }
 
-  validationErrors.lastName = lastNameErrors;
+  static phone() {
+    const errors = [];
+    const phone = signupForm.phone.value;
+    const phoneRegex = /^(\+234|234)[0-9]{10}$/;
+    const errorsListElem = document.querySelector('.phone-field .validation-error-list');
+    errorsListElem.textContent = '';
 
-  if (validationErrors.lastName.length) {
-    return renderErrorMsgs(validationErrors.lastName, signupForm.lastName, errorMsgList);
+    if (!phone) errors.push('Phone number is required');
+
+    if (!phoneRegex.test(phone)) {
+      errors.push('Phone should be a valid Nigerian phone number (formats: +234########## or 234##########)');
+    }
+
+    validationErrors.phone = errors;
+
+    if (validationErrors.phone.length) {
+      return renderValidationError(validationErrors.phone, signupForm.phone, errorsListElem);
+    }
+
+    signupForm.phone.classList.remove('input-not-validated');
   }
 
-  signupForm.lastName.classList.remove('input-not-validated');
-};
+  static email() {
+    const errors = [];
+    const email = signupForm.email.value;
+    const emailRegex = /^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/;
+    const errorsListElem = document.querySelector('.email-field .validation-error-list');
+    errorsListElem.textContent = '';
 
-const validatePhone = () => {
-  const phoneInput = signupForm.phone.value;
-  const phoneRegex = /^(\+234|234)[0-9]{10}$/;
-  const phoneErrors = [];
-  const errorMsgList = document.querySelector('.phone-field .error-msg-list');
-  errorMsgList.innerHTML = '';
+    if (!email) errors.push('Email is required');
 
-  if (!phoneInput) phoneErrors.push('Phone number is required');
+    if (!emailRegex.test(email)) {
+      errors.push('Email should be a valid email address');
+    }
 
-  if (!phoneRegex.test(phoneInput)) {
-    phoneErrors.push('Phone number should be a valid Nigerian phone number. Formats: +234########## or 234##########');
+    if (email.length < 3 || email.length > 254) {
+      errors.push('Email should be minimum of 3 and maximum of 254 characters long');
+    }
+
+    validationErrors.email = errors;
+
+    if (validationErrors.email.length) {
+      return renderValidationError(validationErrors.email, signupForm.email, errorsListElem);
+    }
+
+    signupForm.email.classList.remove('input-not-validated');
   }
 
-  validationErrors.phone = phoneErrors;
+  static password() {
+    const errors = [];
+    const password = signupForm.password.value;
+    const errorsListElem = document.querySelector('.password-field .validation-error-list');
+    errorsListElem.textContent = '';
 
-  if (validationErrors.phone.length) {
-    return renderErrorMsgs(validationErrors.phone, signupForm.phone, errorMsgList);
+    if (!password) errors.push('Password is required');
+
+    if (/\s/.test(password)) {
+      errors.push('Password should not contain spaces');
+    }
+
+    if (password.length < 6 || password.length > 254) {
+      errors.push('Password should be minimum of 6 and maximum of 254 characters long');
+    }
+
+    validationErrors.password = errors;
+
+    if (validationErrors.password.length) {
+      return renderValidationError(validationErrors.password, signupForm.password, errorsListElem);
+    }
+
+    signupForm.password.classList.remove('input-not-validated');
   }
 
-  signupForm.phone.classList.remove('input-not-validated');
-};
+  static confirmPassword() {
+    const errors = [];
+    const password = signupForm.password.value;
+    const confirmPassword = signupForm.confirmPassword.value;
+    const errorsListElem = document.querySelector('.confirm-password-field .validation-error-list');
+    errorsListElem.textContent = '';
 
-const validateEmail = () => {
-  const emailInput = signupForm.email.value;
-  const emailRegex = /^[\w._]+@[\w]+[-.]?[\w]+\.[\w]+$/;
-  const emailErrors = [];
-  const errorMsgList = document.querySelector('.email-field .error-msg-list');
-  errorMsgList.innerHTML = '';
+    if (password !== confirmPassword || !confirmPassword) {
+      errors.push('Password does not match');
+    }
 
-  if (!emailInput) emailErrors.push('Email is required');
+    validationErrors.confirmPassword = errors;
 
-  if (!emailRegex.test(emailInput)) {
-    emailErrors.push('Email should be a valid email address');
+    if (validationErrors.confirmPassword.length) {
+      return renderValidationError(validationErrors.confirmPassword, signupForm.confirmPassword, errorsListElem);
+    }
+
+    signupForm.confirmPassword.classList.remove('input-not-validated');
   }
 
-  if (emailInput.length < 3 || emailInput.length > 254) {
-    emailErrors.push('Email should be minimum of 3 and maximum of 254 characters long');
+  static errorMessageExist() {
+    validateSignup.firstName();
+    validateSignup.lastName();
+    validateSignup.phone();
+    validateSignup.email();
+    validateSignup.password();
+    validateSignup.confirmPassword();
+
+    const inputsErrorMessages = Object.values(validationErrors);
+    const arr = inputsErrorMessages.filter((inputErrorMsgs) => {
+      return inputErrorMsgs.length
+    });
+
+    if (arr.length) {
+      console.log('There are validation errors you need to fix');
+      return true;
+    };
+
+    return false;
   }
+}
 
-  validationErrors.email = emailErrors;
-
-  if (validationErrors.email.length) {
-    return renderErrorMsgs(validationErrors.email, signupForm.email, errorMsgList);
-  }
-
-  signupForm.email.classList.remove('input-not-validated');
-};
-
-const validatePassword = () => {
-  const passwordInput = signupForm.password.value;
-  const passwordErrors = [];
-  const errorMsgList = document.querySelector('.password-field .error-msg-list');
-  errorMsgList.innerHTML = '';
-
-  if (!passwordInput) passwordErrors.push('Password is required');
-
-  if (/\s/.test(passwordInput)) {
-    passwordErrors.push('Password should not contain spaces');
-  }
-
-  if (passwordInput.length < 6 || passwordInput.length > 254) {
-    passwordErrors.push('Password should be minimum of 6 and maximum of 254 characters long');
-  }
-
-  validationErrors.password = passwordErrors;
-
-  if (validationErrors.password.length) {
-    return renderErrorMsgs(validationErrors.password, signupForm.password, errorMsgList);
-  }
-
-  signupForm.password.classList.remove('input-not-validated');
-};
-
-const confirmPassword = () => {
-  const passwordInput = signupForm.password.value;
-  const confirmPasswordInput = signupForm.confirmPassword.value;
-  const confirmPasswordErrors = [];
-  const errorMsgList = document.querySelector('.confirm-password-field .error-msg-list');
-  errorMsgList.innerHTML = '';
-
-  if (passwordInput !== confirmPasswordInput || !confirmPasswordInput) {
-    confirmPasswordErrors.push('Password does not match');
-  }
-
-  validationErrors.confirmPassword = confirmPasswordErrors;
-
-  if (validationErrors.confirmPassword.length) {
-    return renderErrorMsgs(validationErrors.confirmPassword, signupForm.confirmPassword, errorMsgList);
-  }
-
-  signupForm.confirmPassword.classList.remove('input-not-validated');
-};
-
-// validate inputs
-const validateSignup = () => {
-  validateFirstName();
-  validateLastName();
-  validatePhone();
-  validateEmail();
-  validatePassword();
-  confirmPassword();
-};
-
-signupForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  validateSignup();
-
-  const errorMsgs = Object.values(validationErrors);
-  const errorMsgExist = errorMsgs.filter(errMsg => errMsg.length);
-  if (errorMsgExist.length) return;
-
-  console.log('No validation error');
-
+/* ******** register new user function ******** */
+const registerUser = (userEntity) => {
+  const submitButton = document.querySelector('.submit-btn-field');
+  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/auth/signup';
   const init = {
     headers: { "Content-Type": "application/json; charset=utf-8" },
     method: 'POST',
-    body: JSON.stringify({
-      firstName: signupForm.firstName.value,
-      lastName: signupForm.lastName.value,
-      phone: signupForm.phone.value,
-      email: signupForm.email.value,
-      password: signupForm.password.value,
-    })
+    body: JSON.stringify(userEntity),
   };
 
-  fetch('https://ile-ifowopamo.herokuapp.com/api/v1/auth/signup', init)
+  fetch(url, init)
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error.message));
+    .then((response) => {
+      const { status, data } = response;
+      if (status !== 201) {
+        showMessage(response.error, 'failure');
+        return;
+      }
+
+      console.log(response);
+      const user = {
+        id: data[0].id,
+        firstName: data[0].firstName,
+        lastName: data[0].lastName,
+        phone: data[0].phone,
+        email: data[0].email,
+        type: data[0].type,
+      }
+
+      localStorage.setItem('token', data[0].token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      if (/^client$/i.test(data[0].type)) {
+        localStorage.setItem('userRole', JSON.stringify(data[0].type));
+        window.location = 'user/index.html';
+      }
+
+      if (/^staff$/i.test(data[0].type)) {
+        if (data[0].isAdmin === false) {
+          localStorage.setItem('userRole', 'Cashier');
+          window.location = 'cashier/index.html';
+        }
+
+        if (data[0].isAdmin === true) {
+          localStorage.setItem('userRole', 'Admin');
+          window.location = 'admin/index.html';
+        }
+      }
+    })
+    .catch(error => {
+      submitButton.classList.remove('btn__loading-icon-visible');
+      console.log(error.message);
+      showMessage('Check your network connection and try again', 'failure');
+    });
+};
+
+/* ******** register user on form submission ******** */
+signupForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  if (validateSignup.errorMessageExist()) return;
+
+  const submitButton = document.querySelector('.submit-btn-field');
+  submitButton.classList.add('btn__loading-icon-visible');
+
+  registerUser({
+    firstName: signupForm.firstName.value,
+    lastName: signupForm.lastName.value,
+    phone: signupForm.phone.value,
+    email: signupForm.email.value,
+    password: signupForm.password.value,
+  });
 });
