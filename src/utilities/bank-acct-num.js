@@ -26,7 +26,11 @@ const shuffleArray = (array) => {
  * @returns {string} - Randomly generated code
  */
 const accountOwnerCode = (userEntity) => {
-  const { firstName, lastName } = userEntity;
+  let { firstName, lastName } = userEntity;
+
+  firstName = shuffleArray(firstName.split('')).join('');
+  lastName = shuffleArray(lastName.split('')).join('');
+
   const firstNameCode = firstName.toLowerCase().charCodeAt(1).toString();
   const lastNameCode = lastName.toLowerCase().charCodeAt(1).toString();
 
