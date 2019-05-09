@@ -238,9 +238,9 @@ const registerUser = (userEntity) => {
         phone: data[0].phone,
         email: data[0].email,
         type: data[0].type,
-      }
+      };
 
-      localStorage.setItem('token', data[0].token);
+      localStorage.setItem('token', JSON.stringify(data[0].token));
       localStorage.setItem('user', JSON.stringify(user));
 
       if (/^client$/i.test(data[0].type)) {
