@@ -4,6 +4,7 @@ import ObjectUtils from '../utilities/object-utils';
 import HttpResponse from '../utilities/http-response';
 import userModel from '../database/models/user';
 import accountModel from '../database/models/account';
+import transactionModel from '../database/models/transaction';
 import UserAuth from '../middlewares/authorization';
 
 /**
@@ -117,7 +118,7 @@ class UserController {
    * @returns {object}
    * @memberof UserController
    */
-  static async getMyAccounts(req, res) {
+  static async getUserAccounts(req, res) {
     const { userEmailAddress } = req.params;
 
     const users = await userModel.findByOne({ email: userEmailAddress });
@@ -139,6 +140,45 @@ class UserController {
     });
 
     return HttpResponse.send(res, 200, { data: accounts });
+  }
+
+  static async getMyAccounts(req, res) {
+    let accounts = await accountModel.findByOne({ owner_id: req.user.id });
+    if (!accounts.length) {
+      return HttpResponse.send(res, 200, { message: 'No account(s) yet' });
+    }
+
+    accounts = accounts.map(account => ObjectUtils.changeKeysToCamelCase(account));
+    return HttpResponse.send(res, 200, { data: accounts });
+  }
+
+  static async getMyTransactions(req, res) {
+    req.user = UserAuth.getLoggedInUser(req, res);
+    let transactions;
+
+    if (/^staff$/i.test(req.user.type) && !req.user.isAdmin) {
+      transactions = await transactionModel.findByOne({ cashier_id: req.user.id });
+      if (!transactions.length) {
+        return HttpResponse.send(res, 200, { message: 'You have not effect any transaction' });
+      }
+    }
+
+    if (/^client$/i.test(req.user.type)) {
+      const accounts = await accountModel.findByOne({ owner_id: req.user.id });
+      if (!accounts.length) {
+        return HttpResponse.send(res, 200, { message: 'No account(s) to perform transaction on' });
+      }
+
+      const userAccountNumbers = accounts.map(account => account.account_number);
+
+      transactions = await transactionModel.findbyMany('account_number', userAccountNumbers);
+      if (!transactions.length) {
+        return HttpResponse.send(res, 200, { message: 'No transaction(s) has occurred on your account(s)' });
+      }
+    }
+
+    transactions = transactions.map(transaction => ObjectUtils.changeKeysToCamelCase(transaction));
+    return HttpResponse.send(res, 200, { data: transactions });
   }
 }
 
