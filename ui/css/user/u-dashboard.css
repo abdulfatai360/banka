@@ -13,6 +13,22 @@
   flex-flow: row wrap;
 }
 
+.default {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+.state--no-data .default {
+  display: block;
+}
+
+.default i {
+  font-size: 2em;
+}
+
 /* *** account overview card component *** */
 .accounts-overview__item {
   width: 100%;
@@ -45,7 +61,7 @@
 
 .bank-details {
   font-size: 0.9em;
-  margin-bottom: 11px;
+  margin-bottom: 15px;
 }
 
 .bank-details__name {
@@ -63,7 +79,7 @@
 }
 
 .account-details__number {
-  font-size: 0.9em;
+  font-size: 0.95em;
 }
 
 .account-balance {
@@ -88,6 +104,10 @@
   max-width: 325px;
 }
 
+.state--no-data .btn-user-dashboard {
+  display: none;
+}
+
 /* *** transactions overview section *** */
 table {
   min-width: 290px;
@@ -96,9 +116,9 @@ table {
   line-height: 1.3;
 }
 
-/* thead {
+.state--no-data thead {
   display: none;
-} */
+}
 
 td {
   vertical-align: top;
@@ -128,12 +148,16 @@ td {
   font-size: 0.9em;
 }
 
-.transaction-info .debit {
+.transaction-date__month {
+  text-transform: uppercase;
+}
+
+.transaction-info .credit {
   color: green;
   position: relative;
 }
 
-.transaction-info .credit {
+.transaction-info .debit {
   color: #dd2C00;
   position: relative;
 }
