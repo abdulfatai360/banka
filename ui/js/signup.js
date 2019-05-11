@@ -25,6 +25,7 @@ const renderValidationError = (errors, inputField, errorsListElem) => {
 };
 
 const showMessage = (message, messageType) => {
+  const submitButtonField = document.querySelector('.submit-btn-field');
   const popupElem = document.querySelector('.popup');
   let htmlString;
 
@@ -39,6 +40,7 @@ const showMessage = (message, messageType) => {
   popupElem.parentElement.classList.add('popup--visible');
   setTimeout(() => {
     popupElem.parentElement.classList.remove('popup--visible');
+    submitButtonField.classList.remove('btn__loading-icon-visible');
   }, 3000);
 };
 
@@ -227,7 +229,7 @@ const registerUser = (userEntity) => {
       const { status, data } = response;
       if (status !== 201) {
         showMessage(response.error, 'failure');
-        return;
+        return false;
       }
 
       console.log(response);

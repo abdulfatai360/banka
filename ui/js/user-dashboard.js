@@ -1,30 +1,3 @@
-/* ******** global variables ******** */
-
-/* ******** populate user profile section ******** */
-const userInfoTemplate = document.querySelector('#user-info-template').textContent;
-
-const generateUserInfoHtml = (template, userEntity) => {
-  const userRole = JSON.parse(localStorage.getItem('userRole'));
-  let userTemplate = template;
-
-  userTemplate = userTemplate.replace('{{fullName}}', `${userEntity.firstName} ${userEntity.lastName}`);
-  userTemplate = userTemplate.replace('{{email}}', userEntity.email);
-  userTemplate = userTemplate.replace('{{phone}}', userEntity.phone);
-  userTemplate = userTemplate.replace('{{role}}', userRole);
-
-  return userTemplate;
-};
-
-const renderUserInfo = () => {
-  const userInfoElem = document.querySelector('.user-info');
-  const user = JSON.parse(localStorage.getItem('user'));
-
-  const userInfoHtml = generateUserInfoHtml(userInfoTemplate, user);
-  userInfoElem.innerHTML = userInfoHtml;
-};
-
-renderUserInfo();
-
 /* ******** populate user account overview section ******** */
 const accountsOverviewTemplate = document.querySelector('#accounts-overview-template').textContent;
 const token = JSON.parse(localStorage.getItem('token'));
@@ -73,7 +46,7 @@ const fetchUserAccounts = () => {
         const accountsOverviewElemSpan = document.createElement('span');
         accountsOverviewElemSpan.textContent = response.error;
         accountsOverviewElem.appendChild(accountsOverviewElemSpan);
-        return true;
+        return false;
       }
 
       if (response.message) {
@@ -126,7 +99,6 @@ const renderTransactionsOverview = (transactions) => {
 
 const fetchUserTransactions = () => {
   const transactionsOverviewElem = document.querySelector('.transactions-overview tbody');
-  console.log(transactionsOverviewElem);
 
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
   const init = {

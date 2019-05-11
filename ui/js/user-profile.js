@@ -1,5 +1,30 @@
-/* ******** helper functions ******** */
-const prePopulateFormFields = () => {
+/* ******** populate user profile section on dashboard ******** */
+const userInfoTemplate = document.querySelector('#user-info-template').textContent;
+
+const generateUserInfoHtml = (template, userEntity) => {
+  const userRole = JSON.parse(localStorage.getItem('userRole'));
+  let userTemplate = template;
+
+  userTemplate = userTemplate.replace('{{fullName}}', `${userEntity.firstName} ${userEntity.lastName}`);
+  userTemplate = userTemplate.replace('{{email}}', userEntity.email);
+  userTemplate = userTemplate.replace('{{phone}}', userEntity.phone);
+  userTemplate = userTemplate.replace('{{role}}', userRole);
+
+  return userTemplate;
+};
+
+const renderUserInfo = () => {
+  const userInfoElem = document.querySelector('.user-info');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const userInfoHtml = generateUserInfoHtml(userInfoTemplate, user);
+  userInfoElem.innerHTML = userInfoHtml;
+};
+
+renderUserInfo();
+
+/* ******** user profile edit functionality ******** */
+const prePopulateProfileUpdateForm = () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
   document.querySelector('#first-name').value = user.firstName;
@@ -8,7 +33,7 @@ const prePopulateFormFields = () => {
   document.querySelector('#email').value = user.email;
 };
 
-const styleUpdateFormImageLabel = () => {
+const styleProfileUpdateFormImageLabel = () => {
   const userPhoto = document.querySelector('.user-photo__inner');
   const profileImageLabel = document.querySelector('label[for="profile-image"]');
 
@@ -66,8 +91,8 @@ const init = () => {
     bodyElem.classList.remove('user-profile-visible');
     bodyElem.classList.add('update-profile-form-visible');
 
-    prePopulateFormFields();
-    styleUpdateFormImageLabel();
+    prePopulateProfileUpdateForm();
+    styleProfileUpdateFormImageLabel();
   });
 
   imageInput.addEventListener('change', profileImgHandler);

@@ -1,3 +1,4 @@
+/* ******** check if authorization token exists ******** */
 const authToken = JSON.parse(localStorage.getItem('token'));
 const userRole = JSON.parse(localStorage.getItem('userRole'));
 const currPageUrl = window.location.pathname
@@ -15,3 +16,5 @@ if (currPageUrl.includes('/cashier') && !/^cashier$/i.test(userRole)) {
 if (currPageUrl.includes('/admin') && !/^admin$/i.test(userRole)) {
   window.location = '../signin.html';
 }
+
+/* ******** check if authorization token has expired ******** */
