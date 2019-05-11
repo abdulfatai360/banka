@@ -133,61 +133,29 @@
     </section>
 
     <section class="accounts-overview row">
-      <div class="accounts-overview__inner container">
+      <div class="accounts-overview__inner state--no-data container">
         <h2>All Accounts</h2>
 
         <ul class="accounts-overview__list">
-          <li class="accounts-overview__item">
-            <div class="bank-details">
-              <span class="bank-details__name">Banka</span>
-              <span class="bank-details__type">Savings</span>
-            </div>
-            <div class="account-details">
-              <p class="account-details__name">Clementine Bauch Samantha</p>
-              <p class="account-details__number">0131483939</p>
-            </div>
-            <div class="account-balance">
-              <p>Balance</p>
-              <p>&#8358; 
-                <span class="account-balance__value">234,500.58</span>
-              </p>
-            </div>
-          </li>
-
-          <li class="accounts-overview__item">
-            <div class="bank-details">
-              <span class="bank-details__name">Banka</span>
-              <span class="bank-details__type">Savings</span>
-            </div>
-            <div class="account-details">
-              <p class="account-details__name">Clementine Bauch Samantha</p>
-              <p class="account-details__number">0131483939</p>
-            </div>
-            <div class="account-balance">
-              <p>Balance</p>
-              <p>&#8358;
-                <span class="account-balance__value">234,500.58</span>
-              </p>
-            </div>
-          </li>
-
-          <li class="accounts-overview__item">
-            <div class="bank-details">
-              <span class="bank-details__name">Banka</span>
-              <span class="bank-details__type">Savings</span>
-            </div>
-            <div class="account-details">
-              <p class="account-details__name">Clementine Bauch Samantha</p>
-              <p class="account-details__number">0131483939</p>
-            </div>
-            <div class="account-balance">
-              <p>Balance</p>
-              <p>&#8358;
-                <span class="account-balance__value">234,500.58</span>
-              </p>
-            </div>
-          </li>
+          <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
         </ul>
+
+        <script type="text/template" id="accounts-overview-template">
+          <li class="accounts-overview__item">
+            <div class="bank-details">
+              <span class="bank-details__name">Banka</span>
+              <span class="bank-details__type">{{accountType}}</span>
+            </div>
+            <div class="account-details">
+              <p class="account-details__name">{{accountName}}</p>
+              <p class="account-details__number">{{accountNumber}}</p>
+            </div>
+            <div class="account-balance">
+              <p>Balance</p>
+              <p class="account-balance__value">&#8358; {{accountBalance}}</p>
+            </div>
+          </li>
+        </script>
 
         <span class="btn-user-dashboard-container">
           <a href="./accounts.html" class="btn btn-form btn-user-dashboard">
@@ -201,7 +169,7 @@
     </section>
 
     <section class="transactions-overview row">
-      <div class="transactions-overview__inner container">
+      <div class="transactions-overview__inner state--no-data container">
         <h2>Recent Transactions</h2>
 
         <table class="">
@@ -209,58 +177,35 @@
             <tr>
               <th scope="col">Date</th>
               <th scope="col">Amount/Time</th>
-              <th scope="col">New Balance</th>
+              <th scope="col">Current Balance</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr>
-              <th scope="row" class="transaction-date">
-                <span class="transaction-date__month">MAR</span>
-                <span class="transaction-date__day">20</span>
-                <span class="transaction-date__year">2019</span>
-              </th>
-
-              <td class="transaction-info">
-                <span class="debit">
-                  <span>&#8358;
-                    <span class="transaction-info__amount">1,000</span>
-                  </span>
-                </span>
-                <span class="transaction-info__time">10:12am</span>
-              </td>
-
-              <td class="new-balance">
-                <p>&#8358;
-                  <span class="new-balance__value">1,000</span>
-                </p>
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row" class="transaction-date">
-                <span class="transaction-date__month">MAR</span>
-                <span class="transaction-date__day">20</span>
-                <span class="transaction-date__year">2019</span>
-              </th>
-            
-              <td class="transaction-info">
-                <span class="credit">
-                  <span>&#8358;
-                    <span class="transaction-info__amount">1,000</span>
-                  </span>
-                </span>
-                <span class="transaction-info__time">10:12am</span>
-              </td>
-            
-              <td class="new-balance">
-                <p>&#8358;
-                  <span class="new-balance__value">1,000</span>
-                </p>
-              </td>
-            </tr>
+            <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
           </tbody>
         </table>
+
+        <script type="text/template" id="transactions-overview-template">
+          <tr>
+            <th scope="row" class="transaction-date">
+              <span class="transaction-date__month">{{month}}</span>
+              <span class="transaction-date__day">{{day}}</span>
+              <span class="transaction-date__year">{{year}}</span>
+            </th>
+          
+            <td class="transaction-info">
+              <span class="{{type}}">
+                <span class="transaction-info__amount">&#8358; {{amount}}</span>
+              </span>
+              <span class="transaction-info__time">{{time}}</span>
+            </td>
+          
+            <td class="new-balance">
+              <p class="new-balance__value">&#8358; {{balance}}</p>
+            </td>
+          </tr>
+        </script>
 
         <span class="btn-user-dashboard-container">
           <a href="./transactions.html" class="btn btn-form btn-user-dashboard">
