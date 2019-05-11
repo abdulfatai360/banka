@@ -47,18 +47,18 @@
           <label for="email">
             Email <abbr title="required">*</abbr>
           </label>
-          <input type="email" placeholder="email@domain.com" id="email" autofocus>
+          <input type="email" placeholder="email@domain.com" name="email" id="email" autofocus>
         </div>
       
         <div class="form-field">
           <label for="password">
             Password <abbr title="required">*</abbr>
           </label>
-          <input type="password" placeholder="Enter password" id="password">
+          <input type="password" placeholder="Enter password" name="password" id="password">
         </div>
         
-        <div class="form-field">
-          <button type="button" class="btn btn-form">
+        <div class="form-field submit-btn-field">
+          <button type="submit" class="btn btn-form">
             <span class="btn__text">Sign In</span>
             <span class="btn__loading-icon">
               <i class="fas fa-spinner fa-pulse"></i>
@@ -86,7 +86,7 @@
   </main>
 
   <script src="js/app.js"></script>
-  <script src="js/simulate-async.js"></script>
+  <script src="js/signin.js"></script>
 </body>
 
 </html>
