@@ -138,4 +138,3 @@ const fetchUserTransactions = () => {
 };
 
 fetchUserTransactions();
-

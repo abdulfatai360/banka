@@ -1,3 +1,33 @@
+/* *** accounts details table *** */
+.state--no-data .table-container {
+  overflow-x: hidden;
+}
+
+.default {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+.state--no-data .default {
+  display: block;
+}
+
+.default i {
+  font-size: 1.5em;
+}
+
+.state--no-data thead {
+  display: none;
+}
+
+table .type,
+table .status {
+  text-transform: capitalize;
+}
+
 /* *** new account opening form *** */
 .acct-opening h2 {
   display: flex;
