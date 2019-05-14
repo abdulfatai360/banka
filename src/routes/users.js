@@ -6,7 +6,11 @@ import UserAuth from '../middlewares/authorization';
 const router = express.Router();
 
 router.get('/:userEmailAddress/accounts', validateParams('email'), UserAuth.staffOnly, User.getUserAccounts);
+
 router.get('/accounts', UserAuth.clientOnly, User.getMyAccounts);
-router.get('/transactions', User.getMyTransactions);
+
+router.get('/transactions', UserAuth.clientAndCashierOnly, User.getMyTransactions);
+
+router.get('/transactions/:accountNumber', UserAuth.clientOnly, User.getMySpecificAccountTransactions);
 
 export default router;

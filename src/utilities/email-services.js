@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import winston from 'winston';
 import transactionHtml from './email-assets/transaction-html';
-import padWithZero from './zero-padding';
 
 dotenv.config({ path: '../../.env' });
 
@@ -20,9 +19,13 @@ class EmailServices {
   static generateTransactionAlert(transactionInfo = {}, accountName = '') {
     let transactionEmailContent = transactionHtml;
 
-    const transactionTimeAndDate = transactionInfo.createdOn;
-    const transactionDate = `${padWithZero(transactionTimeAndDate.getDate())}/${padWithZero(transactionTimeAndDate.getMonth() + 1)}/${transactionTimeAndDate.getFullYear()}`;
-    const transactionTime = `${padWithZero(transactionTimeAndDate.getHours())}:${padWithZero(transactionTimeAndDate.getMinutes())}`;
+    const transactionTimeAndDate = new Date(transactionInfo.createdOn);
+    const transactionDate = new Intl
+      .DateTimeFormat('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' })
+      .format(transactionTimeAndDate);
+    const transactionTime = new Intl
+      .DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      .format(transactionTimeAndDate);
 
     transactionEmailContent = transactionEmailContent.replace('{{accountName}}', accountName);
     transactionEmailContent = transactionEmailContent.replace('{{type}}', transactionInfo.transactionType);
@@ -49,7 +52,7 @@ class EmailServices {
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) winston.error(err.message);
-      // winston.info(`Message sent: ${info.response}`);
+      if (info) winston.info(`Message sent: ${info.response}`);
     });
   }
 }

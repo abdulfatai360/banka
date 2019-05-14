@@ -103,7 +103,7 @@ describe('/auth', () => {
 
       const res = await execSigninReq();
 
-      expect(res).to.have.status(400);
+      expect(res).to.have.status(401);
       expect(res.body)
         .to.have.ownProperty('error')
         .that.is.a('string');

@@ -51,6 +51,7 @@ class UserController {
       return HttpResponse.send(res, 409, { error: 'Email already exists' });
     }
 
+    // allow only admins to create staff (cashier/admin) user
     if ((/^Staff$/i).test(userEntity.type)) {
       req.user = UserAuth.getLoggedInUser(req, res);
       if (!req.user.isAdmin) {
@@ -62,12 +63,13 @@ class UserController {
     }
 
     const rows = await userModel.create(userEntity);
+
     let user = ObjectUtils.changeKeysToCamelCase(rows[0]);
-
-    if (!user.isAdmin) user = ObjectUtils.removeOneProperty('isAdmin', user);
-
     user = ObjectUtils.removeOneProperty('password', user);
-    const token = AuthToken.generateToken(user);
+    if ((/^client$/i).test(user.type)) user = ObjectUtils.removeOneProperty('isAdmin', user);
+
+    const tokenPayload = ObjectUtils.removeManyProperties(['firstName', 'lastName', 'phone'], user);
+    const token = AuthToken.generateToken(tokenPayload);
 
     const header = { name: 'x-auth-token', value: token };
     return HttpResponse.sendWithHeader(res, header, 201, {
@@ -90,19 +92,21 @@ class UserController {
 
     const users = await userModel.findByOne({ email });
     if (!users.length) {
-      return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
+      return HttpResponse.send(res, 401, { error: 'The email or password you entered is incorrect' });
     }
 
     const isPasswordValid = PasswordHasher.verifyPassword(pass, users[0].password);
     if (!isPasswordValid) {
-      return HttpResponse.send(res, 400, { error: 'The email or password you entered is incorrect' });
+      return HttpResponse.send(res, 401, { error: 'The email or password you entered is incorrect' });
     }
 
     let user = ObjectUtils.changeKeysToCamelCase(users[0]);
     user = ObjectUtils.removeOneProperty('password', user);
-    if (!user.isAdmin) user = ObjectUtils.removeOneProperty('isAdmin', user);
+    if ((/^client$/i).test(user.type)) user = ObjectUtils.removeOneProperty('isAdmin', user);
 
-    const token = AuthToken.generateToken(user);
+    const tokenPayload = ObjectUtils.removeManyProperties(['firstName', 'lastName', 'phone'], user);
+    const token = AuthToken.generateToken(tokenPayload);
+
     const header = { name: 'x-auth-token', value: token };
     return HttpResponse.sendWithHeader(res, header, 200, {
       data: [Object.assign({ token }, user)],
@@ -145,7 +149,7 @@ class UserController {
   static async getMyAccounts(req, res) {
     let accounts = await accountModel.findByOne({ owner_id: req.user.id });
     if (!accounts.length) {
-      return HttpResponse.send(res, 200, { message: 'No account(s) yet' });
+      return HttpResponse.send(res, 200, { message: 'You have not opened any account' });
     }
 
     accounts = accounts.map(account => ObjectUtils.changeKeysToCamelCase(account));
@@ -166,15 +170,31 @@ class UserController {
     if (/^client$/i.test(req.user.type)) {
       const accounts = await accountModel.findByOne({ owner_id: req.user.id });
       if (!accounts.length) {
-        return HttpResponse.send(res, 200, { message: 'No account(s) to perform transaction on' });
+        return HttpResponse.send(res, 200, { message: 'No account(s) to perform transaction(s) on' });
       }
 
       const userAccountNumbers = accounts.map(account => account.account_number);
 
       transactions = await transactionModel.findbyMany('account_number', userAccountNumbers);
       if (!transactions.length) {
-        return HttpResponse.send(res, 200, { message: 'No transaction(s) has occurred on your account(s)' });
+        return HttpResponse.send(res, 200, { message: 'You have not performed any transaction' });
       }
+    }
+
+    transactions = transactions.map(transaction => ObjectUtils.changeKeysToCamelCase(transaction));
+    return HttpResponse.send(res, 200, { data: transactions });
+  }
+
+  static async getMySpecificAccountTransactions(req, res) {
+    const { accountNumber } = req.params;
+    const accounts = await accountModel.findByOne({ account_number: accountNumber });
+    if (!accounts.length) {
+      return HttpResponse.send(res, 404, { error: 'Account does not exist' });
+    }
+
+    let transactions = await transactionModel.findByOne({ account_number: accountNumber });
+    if (!transactions.length) {
+      return HttpResponse.send(res, 200, { message: 'No transactions on this account' });
     }
 
     transactions = transactions.map(transaction => ObjectUtils.changeKeysToCamelCase(transaction));

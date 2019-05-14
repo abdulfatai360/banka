@@ -23,13 +23,9 @@ class UserAuthorization {
       return HttpResponse.send(res, 401, { error: 'Please signup or login to your account' });
     }
 
-    try {
-      const decoded = AuthorizationToken.verifyToken(token);
-      req.body.ownerId = String(decoded.id);
-      return decoded;
-    } catch (err) {
-      return HttpResponse.send(res, 401, { error: 'Invalid authorization credentials' });
-    }
+    const decoded = AuthorizationToken.verifyToken(token);
+    req.body.ownerId = String(decoded.id);
+    return decoded;
   }
 
   /**
@@ -47,6 +43,13 @@ class UserAuthorization {
     if (/^client$/i.test(req.user.type)) return next();
 
     return HttpResponse.send(res, 403, { error: 'Sorry, only a client can access this feature.' });
+  }
+
+  static clientAndCashierOnly(req, res, next) {
+    req.user = UserAuthorization.getLoggedInUser(req, res);
+    if (/^client$/i.test(req.user.type) || (/^staff$/i.test(req.user.type) && !req.user.isAdmin)) return next();
+
+    return HttpResponse.send(res, 403, { error: 'Sorry, only a client or cashier can access this feature.' });
   }
 
   /**
