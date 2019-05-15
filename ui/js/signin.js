@@ -35,6 +35,7 @@ const showMessage = (message, messageType) => {
 const loginUser = (credentials) => {
   const submitButtonField = document.querySelector('.submit-btn-field');
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/auth/signin';
+  // const url = 'http://localhost:3000/api/v1/auth/signin';
   const init = {
     headers: { "Content-Type": "application/json; charset=utf-8" },
     method: 'POST',
@@ -71,12 +72,12 @@ const loginUser = (credentials) => {
 
       if (/^staff$/i.test(data[0].type)) {
         if (data[0].isAdmin === false) {
-          localStorage.setItem('userRole', 'Cashier');
+          localStorage.setItem('userRole', JSON.stringify('Cashier'));
           window.location = 'cashier/index.html';
         }
 
         if (data[0].isAdmin === true) {
-          localStorage.setItem('userRole', 'Admin');
+          localStorage.setItem('userRole', JSON.stringify('Admin'));
           window.location = 'admin/index.html';
         }
       }

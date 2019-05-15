@@ -33,6 +33,7 @@ const fetchClientAccounts = () => {
   const accountsDetailsElem = document.querySelector('.accts-details tbody');
 
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/accounts';
+  // const url = 'http://localhost:3000/api/v1/user/accounts';
   const init = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -43,36 +44,30 @@ const fetchClientAccounts = () => {
   fetch(url, init)
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       accountsDetailsElem.textContent = '';
-      document.querySelector('.accts-details .default').style.display = 'none';
+      document.querySelector('.http-message').textContent = '';
+      document.querySelector('.accts-details__inner')
+        .classList.remove('state--loading');
 
       if (response.status !== 200) {
         const accountsDetailsElemSpan = document.createElement('span');
-        accountsDetailsElemSpan.style.fontStyle = 'italic';
         accountsDetailsElemSpan.textContent = response.error;
-        document.querySelector('.accts-details__inner')
+        document.querySelector('.http-message')
           .appendChild(accountsDetailsElemSpan);
         return false;
       }
 
       if (response.message) {
         const accountsDetailsElemSpan = document.createElement('span');
-        accountsDetailsElemSpan.style.fontStyle = 'italic';
         accountsDetailsElemSpan.textContent = response.message;
-        document.querySelector('.accts-details__inner')
+        document.querySelector('.http-message')
           .appendChild(accountsDetailsElemSpan);
         return true;
       }
 
-      const existingSpans = document.querySelectorAll('.accts-details__inner > span');
-      if (existingSpans) {
-        existingSpans.forEach(existingSpan => existingSpan.style.display = 'none');
-      }
+      document.querySelector('.accts-details__inner').classList.remove('state--no-data');
 
       renderAccountsDetails(response.data);
-
-      document.querySelector('.accts-details__inner').classList.remove('state--no-data');
     })
     .catch(error => console.log(error.message));
 };
@@ -179,6 +174,7 @@ const openBankAccount = (accountInfo) => {
   const token = JSON.parse(localStorage.getItem('token'));
   const submitButtonField = document.querySelector('.submit-btn-field');
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/accounts';
+  // const url = 'http://localhost:3000/api/v1/accounts';
   const init = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",

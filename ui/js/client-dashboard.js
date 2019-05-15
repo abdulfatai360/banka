@@ -29,6 +29,7 @@ const fetchUserAccounts = () => {
   const accountsOverviewElem = document.querySelector('.accounts-overview__list');
 
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/accounts';
+  // const url = 'http://localhost:3000/api/v1/user/accounts';
   const init = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -39,26 +40,30 @@ const fetchUserAccounts = () => {
   fetch(url, init)
     .then(response => response.json())
     .then(response => {
-      // console.log(response);
       accountsOverviewElem.textContent = '';
+      document.querySelector('.accounts-overview .http-message')
+        .textContent = '';
+      document.querySelector('.accounts-overview__inner')
+        .classList.remove('state--loading');
 
       if (response.status !== 200) {
         const accountsOverviewElemSpan = document.createElement('span');
         accountsOverviewElemSpan.textContent = response.error;
-        accountsOverviewElem.appendChild(accountsOverviewElemSpan);
+        document.querySelector('.accounts-overview .http-message')
+          .appendChild(accountsOverviewElemSpan);
         return false;
       }
 
       if (response.message) {
         const accountsOverviewElemSpan = document.createElement('span');
-        accountsOverviewElemSpan.style.fontStyle = 'italic';
         accountsOverviewElemSpan.textContent = response.message;
-        accountsOverviewElem.appendChild(accountsOverviewElemSpan);
+        document.querySelector('.accounts-overview .http-message')
+          .appendChild(accountsOverviewElemSpan);
         return true;
       }
 
-      renderAccountsOverview(response.data);
       accountsOverviewElem.parentElement.classList.remove('state--no-data');
+      renderAccountsOverview(response.data);
     })
     .catch(error => console.log(error.message));
 };
@@ -101,6 +106,7 @@ const fetchUserTransactions = () => {
   const transactionsOverviewElem = document.querySelector('.transactions-overview tbody');
 
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
+  // const url = 'http://localhost:3000/api/v1/user/transactions';
   const init = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -111,28 +117,31 @@ const fetchUserTransactions = () => {
   fetch(url, init)
     .then(response => response.json())
     .then(response => {
-      // console.log(response);
       transactionsOverviewElem.textContent = '';
-      document.querySelector('.transactions-overview .default').style.display = 'none';
+      document.querySelector('.transactions-overview .http-message')
+        .textContent = '';
+      document.querySelector('.transactions-overview__inner')
+        .classList.remove('state--loading');
 
       if (response.status !== 200) {
         const transactionsOverviewElemSpan = document.createElement('span');
         transactionsOverviewElemSpan.textContent = response.error;
-        transactionsOverviewElem.appendChild(transactionsOverviewElemSpan);
-        return true;
+        document.querySelector('.transactions-overview .http-message')
+          .appendChild(transactionsOverviewElemSpan);
+        return false;
       }
 
       if (response.message) {
         const transactionsOverviewElemSpan = document.createElement('span');
-        transactionsOverviewElemSpan.style.fontStyle = 'italic';
-        transactionsOverviewElemSpan.style.fontSize = '1.1em';
         transactionsOverviewElemSpan.textContent = response.message;
-        transactionsOverviewElem.appendChild(transactionsOverviewElemSpan);
+        document.querySelector('.transactions-overview .http-message')
+          .appendChild(transactionsOverviewElemSpan);
         return true;
       }
 
+      document.querySelector('.transactions-overview__inner')
+        .classList.remove('state--no-data');
       renderTransactionsOverview(response.data);
-      document.querySelector('.transactions-overview__inner').classList.remove('state--no-data');
     })
     .catch(error => console.log(error.message));
 };

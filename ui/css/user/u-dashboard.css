@@ -8,11 +8,6 @@
 }
 
 /* *** accts overview container *** */
-.accounts-overview__list {
-  display: flex;
-  flex-flow: row wrap;
-}
-
 .default {
   display: none;
   width: 100%;
@@ -21,12 +16,21 @@
   font-style: italic;
 }
 
-.state--no-data .default {
+.state--loading .default {
   display: block;
 }
 
 .default i {
   font-size: 1.5em;
+}
+
+.http-message span {
+  font-style: italic;
+}
+
+.accounts-overview__list {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 /* *** account overview card component *** */
