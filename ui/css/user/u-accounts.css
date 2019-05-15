@@ -11,12 +11,16 @@
   font-style: italic;
 }
 
-.state--no-data .default {
+.state--loading .default {
   display: block;
 }
 
 .default i {
   font-size: 1.5em;
+}
+
+.http-message span {
+  font-style: italic;
 }
 
 .state--no-data thead {

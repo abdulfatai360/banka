@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../css/app-inner.css">
   <link rel="stylesheet" href="../css/user/u-transactions.css">
 
-  <!-- <script src="../js/validate-auth-token.js"></script> -->
+  <script src="../js/validate-auth-token.js"></script>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./accounts.html">Accounts</a></li>
           <li class="app-nav__item"><a href="./transactions.html">Transactions</a></li>
-          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+          <li class="app-nav__item"><a href="../signin.html">Sign Out</a></li>
         </ul>
       </nav>
     </div>
@@ -51,10 +51,7 @@
         <form class="form form-inner-pages">
           <div class="form-field selectContainer">
             <select name="selectAccount" id="select-account" class="select-account" autofocus>
-              <option value="">-- Select bank account --</option>
-              <option value="0131483939">0131483939 &mdash; Savings</option>
-              <option value="0131483939">0131483939 &mdash; Current</option>
-              <option value="0131483939">0131483939 &mdash; Savings</option>>
+              <!-- <option value="0131483939">0131483939 &mdash; Savings</option> -->
             </select>
           </div>
 
@@ -71,8 +68,12 @@
     </section>
 
     <section class="transaction-details row">
-      <div class="transaction-details__inner container">
+      <div class="transaction-details__inner state--no-data state--loading container">
         <h2>Transactions Details</h2>
+
+        <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
+
+        <div class="http-message"></div>
 
         <div class="table-container">
           <table>
@@ -86,32 +87,25 @@
             </thead>
         
             <tbody>
-              <tr class="transaction-info debit">
+              <!-- <tr class="transaction-info debit">
                 <td class="transaction-info__date">01/01/2019</td>
                 <td class="transaction-info__type">Debit</td>
                 <td class="transaction-info__account-number">0131485678</td>
                 <td class="transaction-info__amount">&#8358; 1,000</td>
                 <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
                 <td class="transaction-info__new-balance">&#8358; 4,000.00</td>
-              </tr>
-        
-              <tr class="transaction-info credit">
-                <td class="transaction-info__date">01/01/2019</td>
-                <td class="transaction-info__type">Credit</td>
-                <td class="transaction-info__account-number">0131485678</td>
-                <td class="transaction-info__amount">&#8358; 1,000</td>
-                <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
-                <td class="transaction-info__new-balance">&#8358; 2,000.00</td>
-              </tr>
-        
-              <tr class="transaction-info credit">
-                <td class="transaction-info__date">01/01/2019</td>
-                <td class="transaction-info__type">Credit</td>
-                <td class="transaction-info__account-number">0131485678</td>
-                <td class="transaction-info__amount">&#8358; 1,000</td>
-                <td class="transaction-info__old-balance">&#8358; 3,000.00</td>
-                <td class="transaction-info__new-balance">&#8358; 2,000.00</td>
-              </tr>
+              </tr> -->
+
+              <script type="text/template" id="transaction-details-template">
+                <tr class="transaction-info {{type}}">
+                  <td class="transaction-info__date">{{date}}</td>
+                  <td class="transaction-info__type">{{type}}</td>
+                  <td class="transaction-info__account-number">{{accountNumber}}</td>
+                  <td class="transaction-info__amount">&#8358; {{amount}}</td>
+                  <td class="transaction-info__old-balance">&#8358; {{oldBalance}}</td>
+                  <td class="transaction-info__new-balance">&#8358; {{newBalance}}</td>
+                </tr>
+              </script>
             </tbody>
           </table>
         </div>
@@ -120,7 +114,7 @@
   </main>
 
   <script src="../js/app.js"></script>
-  <script src="../js/simulate-async.js"></script>
+  <script src="../js/client-transactions.js"></script>
 </body>
 
 </html>

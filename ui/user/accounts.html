@@ -36,7 +36,7 @@
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./accounts.html">Accounts</a></li>
           <li class="app-nav__item"><a href="./transactions.html">Transactions</a></li>
-          <li class="app-nav__item signout-menu"><a href="../index.html">Sign Out</a></li>
+          <li class="app-nav__item signout-menu"><a href="../signin.html">Sign Out</a></li>
         </ul>
       </nav>
     </div>
@@ -44,10 +44,12 @@
 
   <main class="page-content user-accounts">
     <section class="accts-details row">
-      <div class="accts-details__inner state--no-data container">
+      <div class="accts-details__inner state--no-data state--loading container">
         <h2>My Accounts Details</h2>
 
         <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
+
+        <div class="http-message"></div>
 
         <div class="table-container">
           <table>
@@ -137,7 +139,7 @@
   </main>
 
   <script src="../js/app.js"></script>
-  <script src="../js/user-accounts.js"></script>
+  <script src="../js/client-accounts.js"></script>
   <script src="../js/signout.js"></script>
 </body>
 

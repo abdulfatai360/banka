@@ -217,6 +217,7 @@ class validateSignup {
 const registerUser = (userEntity) => {
   const submitButton = document.querySelector('.submit-btn-field');
   const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/auth/signup';
+  // const url = 'http://localhost:3000/api/v1/auth/signup';
   const init = {
     headers: { "Content-Type": "application/json; charset=utf-8" },
     method: 'POST',
@@ -250,17 +251,17 @@ const registerUser = (userEntity) => {
         window.location = 'user/index.html';
       }
 
-      if (/^staff$/i.test(data[0].type)) {
-        if (data[0].isAdmin === false) {
-          localStorage.setItem('userRole', 'Cashier');
-          window.location = 'cashier/index.html';
-        }
+      // if (/^staff$/i.test(data[0].type)) {
+      //   if (data[0].isAdmin === false) {
+      //     localStorage.setItem('userRole', JSON.stringify('Cashier'));
+      //     window.location = 'cashier/index.html';
+      //   }
 
-        if (data[0].isAdmin === true) {
-          localStorage.setItem('userRole', 'Admin');
-          window.location = 'admin/index.html';
-        }
-      }
+      //   if (data[0].isAdmin === true) {
+      //     localStorage.setItem('userRole', JSON.stringify('Admin'));
+      //     window.location = 'admin/index.html';
+      //   }
+      // }
     })
     .catch(error => {
       submitButton.classList.remove('btn__loading-icon-visible');

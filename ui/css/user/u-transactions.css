@@ -36,14 +36,46 @@
 }
 
 /* *** txns display table *** */
+.state--no-data .table-container {
+  overflow-x: hidden;
+}
+
+.default {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+.state--loading .default {
+  display: block;
+}
+
+.default i {
+  font-size: 1.5em;
+}
+
+.http-message span {
+  font-style: italic;
+}
+
+.state--no-data thead {
+  display: none;
+}
+
+.transaction-info__type {
+  text-transform: capitalize;
+}
+
 table {
   min-width: 880px;
 }
 
 .debit .transaction-info__amount {
-  color: green;
+  color: #dd2C00;
 }
 
 .credit .transaction-info__amount {
-  color: #dd2C00;
+  color: green;
 }
