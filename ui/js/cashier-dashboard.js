@@ -33,8 +33,8 @@ const getCashierTransactions = () => {
   const cashierTransactionsElem = document.querySelector('.cashier-transactions tbody');
   const httpMessageElem = document.querySelector('.http-message');
 
-  // const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
-  const url = 'http://localhost:3000/api/v1/user/transactions';
+  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
+  // const url = 'http://localhost:3000/api/v1/user/transactions';
   const init = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
