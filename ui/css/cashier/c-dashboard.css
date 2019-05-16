@@ -10,7 +10,7 @@
   background: #e5e5e5;
   color: #14213d;
   font-weight: 700;
-  font-size: 1.1em;
+  font-size: 1em;
 }
 
 .panels-bar__list {
@@ -52,6 +52,34 @@
 }
 
 /* *** cashier's transactions history and form styles *** */
+.state--no-data .table-container {
+  overflow-x: hidden;
+}
+
+.default {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+.state--loading .default {
+  display: block;
+}
+
+.default i {
+  font-size: 1.5em;
+}
+
+.http-message span {
+  font-style: italic;
+}
+
+.state--no-data thead {
+  display: none;
+}
+
 table {
   min-width: 880px;
 }

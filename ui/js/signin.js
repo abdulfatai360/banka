@@ -51,8 +51,6 @@ const loginUser = (credentials) => {
         return false;
       }
 
-      console.log(response);
-
       const user = {
         id: data[0].id,
         firstName: data[0].firstName,
