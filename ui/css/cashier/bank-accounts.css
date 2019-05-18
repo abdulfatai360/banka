@@ -1,3 +1,32 @@
+/* *** styles for the loading state of the app *** */
+.state--no-data .table-container {
+  overflow-x: hidden;
+}
+
+.default {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+.state--loading .default {
+  display: block;
+}
+
+.default i {
+  font-size: 1.5em;
+}
+
+.http-message span {
+  font-style: italic;
+}
+
+.state--no-data thead {
+  display: none;
+}
+
 /* *** delete button in accts display table for cashier *** */
 .btn-danger {
   min-width: 65px;
@@ -102,7 +131,7 @@
   color: #dd2C00;
 }
 
-.modal__inner p {
+.modal-message {
   margin-bottom: 44px;
 }
 
