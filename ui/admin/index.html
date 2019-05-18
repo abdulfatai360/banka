@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="../css/app-inner.css">
   <link rel="stylesheet" href="../css/admin/a-dashboard.css">
 
-  <!-- <script src="../js/validate-auth-token.js"></script> -->
+  <script src="../js/validate-auth-token.js"></script>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
           <li class="app-nav__item"><a href="./create-staff-account.html">Create Staff Account</a></li>
-          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+          <li class="app-nav__item signout-menu"><a href="../signin.html">Sign Out</a></li>
         </ul>
       </nav>
     </div>
@@ -50,70 +50,72 @@
           <div class="user-photo">
             <div class="user-photo__inner"></div>
           </div>
+    
+          <div class="user-info"></div>
+    
+          <script type="text/template" id="user-info-template">
+                    <p class="name">{{fullName}}</p>
+                    <p class="email" data-type="email:">{{email}}</p>
+                    <p class="phone" data-type="phone:">{{phone}}</p>
+                    <p class="role" data-type="role:">{{role}}</p>
         
-          <div class="user-info">
-            <p class="name">Patricia Lebsack Karianne</p>
-            <p class="email" data-type="email:">Julianne.OConner@kory.org</p>
-            <p class="phone" data-type="phone:">2348049317096</p>
-            <p class="role" data-type="role:">Admin</p>
-        
-            <button type="button" class="btn btn-form btn-edit-profile">
-              Edit Profile
-            </button>
-          </div>
+                    <button type="button" class="btn btn-form btn-edit-profile">
+                      Edit Profile
+                    </button>
+                  </script>
         </div>
-
+    
         <div class="profile-update-form">
           <form class="form">
             <div class="form-field profile-img-field">
               <label for="profile-image" data-title="Change Avatar"></label>
               <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-image">
             </div>
-        
+    
             <div class="form-field">
               <label for="first-name">
                 First Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter first name" id="first-name" value="Patricia" autofocus>
+              <input type="text" placeholder="First name" id="first-name" autofocus>
             </div>
-        
+    
             <div class="form-field">
               <label for="last-name">
                 Last Name <abbr title="required">*</abbr>
               </label>
-              <input type="text" placeholder="Enter last name" id="last-name" value="Lebsack">
+              <input type="text" placeholder="Last name" id="last-name">
             </div>
-        
+    
             <div class="form-field">
               <label for="phone">
                 Phone Number <abbr title="required">*</abbr>
               </label>
-              <input type="tel" placeholder="Enter phone number" id="phone" value="2348049317096">
+              <input type="tel" placeholder="+2348012345678" id="phone">
             </div>
-        
+    
             <div class="form-field">
               <label for="email">
                 Email <abbr title="required">*</abbr>
               </label>
-              <input type="email" placeholder="Enter email address" id="email" value="Julianne.OConner@kory.org">
+              <input type="email" placeholder="Enter email address" id="email">
             </div>
-        
+    
             <div class="form-field">
               <label for="password">
                 Current Password <abbr title="required">*</abbr>
               </label>
               <input type="password" placeholder="Enter password" id="password">
             </div>
-        
+    
             <p class="change-pw-btn link-in-p">I want to Change my Password</p>
-        
+    
             <div class="form-field new-password-field">
               <label for="new-password">
                 New Password <abbr title="required">*</abbr>
               </label>
               <input type="password" placeholder="Enter new password" id="new-password">
             </div>
-        
+    
             <div class="form-field">
               <button type="button" class="btn btn-form btn-update-done">
                 <span class="btn__text">Update Profile</span>
@@ -121,7 +123,7 @@
                   <i class="fas fa-spinner fa-pulse"></i>
                 </span>
               </button>
-        
+    
               <button type="button" class="btn btn-update-cancel">
                 Cancel
               </button>
@@ -256,9 +258,9 @@
   </main>
 
   <script src="../js/app.js"></script>
+  <script src="../js/user-profile.js"></script>
   <script src="../js/toggle-panel.js"></script>
-  <script src="../js/profile-update.js"></script>
-  <script src="../js/simulate-async.js"></script>
+  <script src="../js/signout.js"></script>
 </body>
 
 </html>
