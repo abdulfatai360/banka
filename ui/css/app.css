@@ -389,6 +389,7 @@ ul {
   max-width: 440px;
   display: none;
   position: fixed;
+  z-index: 5;
   left: 0;
   bottom: 3em;
   font-size: 1.1em;

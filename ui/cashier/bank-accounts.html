@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../css/app-inner.css">
   <link rel="stylesheet" href="../css/cashier/bank-accounts.css">
 
-  <!-- <script src="../js/validate-auth-token.js"></script> -->
+  <script src="../js/validate-auth-token.js"></script>
 </head>
 
 <body class="modal--hidden">
@@ -35,7 +35,7 @@
         <ul class="app-nav__list">
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
-          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+          <li class="app-nav__item signout-menu"><a href="../signin.html">Sign Out</a></li>
         </ul>
       </nav>
     </div>
@@ -43,78 +43,44 @@
 
   <main class="page-content bank-accts">
     <section class="bank-accts-ls row">
-      <div class="bank-accts-ls__inner container">
+      <div class="bank-accts-ls__inner state--no-data state--loading container">
         <h2>All Bank Accounts</h2>
+
+        <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
+        
+        <div class="http-message"></div>
 
         <div class="table-container">
           <table>
             <thead>
               <th scope="col" class="created-th">Opened On</th>
               <th scope="col" class="acct-num-th">Account Number</th>
-              <th scope="col" class="acct-nm-th">Account Name</th>
+              <!-- <th scope="col" class="acct-nm-th">Account Name</th> -->
               <th scope="col" class="type-th">Type</th>
               <th scope="col" class="status-th">Status</th>
+              <th scope="col" class="opn-bal-th">Opening Balance</th>
               <th scope="col" class="curr-bal-th">Current Balance</th>
               <th scope="col" class="action-th">Action</th>
             </thead>
           
-            <tbody>
-              <tr>
-                <td class="created">01/01/2019</td>
-                <td class="acct-num">0131483939</td>
-                <td class="acct-nm">Bauch Samantha</td>
-                <td class="type">Savings</td>
-                <td class="status">Active</td>
-                <td class="curr-bal">&#8358; 500.00</td>
+            <tbody></tbody>
+
+            <script type="text/template" id="bank-accts-ls-template">
+              <tr class="account">
+                <td class="created">{{createdOn}}</td>
+                <td class="acct-num">{{accountNumber}}</td>
+                <!-- <td class="acct-nm">Bauch Samantha</td> -->
+                <td class="type">{{type}}</td>
+                <td class="status">{{status}}</td>
+                <td class="opn-bal">&#8358; {{openingBalance}}</td>
+                <td class="curr-bal">&#8358; {{balance}}</td>
                 <td class="action">
-                  <button type="button" class="btn btn-table btn-danger modal-trigger">
+                  <button type="button" class="btn btn-table btn-danger btn-delete modal-trigger">
                     Delete
                   </button>
                 </td>
               </tr>
-          
-              <tr>
-                <td class="created">01/01/2019</td>
-                <td class="acct-num">0131483939</td>
-                <td class="acct-nm">Samantha Bauch</td>
-                <td class="type">Savings</td>
-                <td class="status">Active</td>
-                <td class="curr-bal">&#8358; 500.00</td>
-                <td class="action">
-                  <button type="button" class="btn btn-table btn-danger modal-trigger">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-          
-              <tr>
-                <td class="created">01/01/2019</td>
-                <td class="acct-num">0131483939</td>
-                <td class="acct-nm">Clementine Samantha</td>
-                <td class="type">Savings</td>
-                <td class="status">Active</td>
-                <td class="curr-bal">&#8358; 500.00</td>
-                <td class="action">
-                  <button type="button" class="btn btn-table btn-danger modal-trigger">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-          
-              <tr>
-                <td class="created">01/01/2019</td>
-                <td class="acct-num">0131483939</td>
-                <td class="acct-nm">Bauch Samantha</td>
-                <td class="type">Savings</td>
-                <td class="status">Active</td>
-                <td class="curr-bal">&#8358; 500.00</td>
-                <td class="action">
-                  <button type="button" class="btn btn-table btn-danger modal-trigger">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            </script>
           </table>
         </div>
       </div>
@@ -127,7 +93,7 @@
         <div class="modal-content">
           <span class="btn-modal-close modal-closer">&times;</span>
 
-          <p>Are you sure you want to perform this action?</p>
+          <p class="modal-message"></p>
 
           <button type="button" class="btn btn-modal-yes">
             <span class="btn__text">Yes</span>
@@ -140,11 +106,23 @@
         </div>
       </div>
     </section>
+
+    <section class="popup animated"></section>
+    
+    <!-- templates -->
+    
+    <script type="text/template" id="success-popup-template">
+      <div class="popup__success">{{message}}</div>
+    </script>
+    
+    <script type="text/template" id="failure-popup-template">
+      <div class="popup__failure">{{message}}</div>
+    </script>
   </main>
 
   <script src="../js/app.js"></script>
   <script src="../js/bank-accounts.js"></script>
-  <script src="../js/simulate-async.js"></script>
+  <script src="../js/signout.js"></script>
 </body>
 
 </html>
