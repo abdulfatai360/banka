@@ -34,6 +34,8 @@
 }
 
 /* *** action icons in table *** */
+.draft-account .icon-activate,
+/* .draft-account .icon-deactivate, */
 .active-account .icon-activate,
 .dormant-account .icon-deactivate {
   color: #fff;
