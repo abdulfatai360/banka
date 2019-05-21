@@ -15,12 +15,15 @@
   },
   "plugins": ["mocha"],
   "rules": {
-    "linebreak-style": ["error","windows"],
+    "linebreak-style": ["error", "windows"],
     "mocha/no-exclusive-tests": ["error"],
     "no-console": ["off"],
-    "no-unused-vars": [
+    "no-unused-vars": ["error", { "varsIgnorePattern": "should|expect" }],
+    "max-len": [
       "error",
-      { "varsIgnorePattern": "should|expect" }
+      {
+        "code": 80
+      }
     ]
   }
 }
