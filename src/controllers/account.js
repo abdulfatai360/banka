@@ -23,7 +23,8 @@ const formulateAccountEntity = (req, accountOwner) => ({
 });
 
 /**
- * Contains methods for creating, getting, updating, and deleting an account entity
+ * Contains methods for creating, getting, updating,
+ * and deleting an account entity
  *
  * @class AccountController
  */
@@ -40,7 +41,9 @@ class AccountController {
   static async createAccount(req, res) {
     const users = await userModel.findByOne({ id: Number(req.body.ownerId) });
     if (!users.length) {
-      return HttpResponse.send(res, 400, { error: 'The specified account owner is incorrect' });
+      return HttpResponse.send(res, 400, {
+        error: 'The specified account owner is incorrect',
+      });
     }
 
     const accountOwner = ObjectUtils.changeKeysToCamelCase(users[0]);
@@ -65,16 +68,29 @@ class AccountController {
     const newStatus = req.body.accountStatus;
 
     const accounts = await accountModel.findByAccountNumber(accountNumber);
-    if (!accounts.length) return HttpResponse.send(res, 404, { error: 'Account does not exist' });
+    if (!accounts.length) {
+      return HttpResponse.send(
+        res, 404, { error: 'Account does not exist' },
+      );
+    }
 
     if (/^draft$/i.test(accounts[0].account_status)) {
-      if (/^dormant$/i.test(newStatus)) return HttpResponse.send(res, 400, { error: 'Draft account can not be set to dormant' });
+      if (/^dormant$/i.test(newStatus)) {
+        return HttpResponse.send(res, 400, {
+          error: 'Draft account can not be set to dormant',
+        });
+      }
 
-      return HttpResponse.send(res, 400, { error: 'Draft account can only be activated by making a credit transaction' });
+      return HttpResponse.send(res, 400, {
+        error:
+          'Draft account can only be activated by making a credit transaction',
+      });
     }
 
     if (newStatus.toLowerCase() === accounts[0].account_status.toLowerCase()) {
-      return HttpResponse.send(res, 400, { error: `Account is already in ${newStatus} state` });
+      return HttpResponse.send(res, 400, {
+        error: `Account is already in ${newStatus} state`,
+      });
     }
 
     const info = await accountModel.changeStatus(accountNumber, newStatus);
@@ -95,12 +111,16 @@ class AccountController {
   static async deleteAccount(req, res) {
     const { accountNumber } = req.params;
 
-    const accounts = await accountModel.deleteOne({ account_number: accountNumber });
+    const accounts = await accountModel.deleteOne({
+      account_number: accountNumber,
+    });
     if (!accounts.length) {
       return HttpResponse.send(res, 404, { error: 'Account does not exist' });
     }
 
-    return HttpResponse.send(res, 200, { message: 'Account successfully deleted' });
+    return HttpResponse.send(res, 200, {
+      message: 'Account successfully deleted',
+    });
   }
 
   /**
@@ -121,15 +141,23 @@ class AccountController {
     }
 
     if (Number(req.user.id) !== Number(accounts[0].owner_id)) {
-      return HttpResponse.send(res, 400, { error: 'Account does not belong to this user' });
+      return HttpResponse.send(res, 400, {
+        error: 'Account does not belong to this user',
+      });
     }
 
-    const transactions = await transactionModel.findByOne({ account_number: accountNumber });
+    const transactions = await transactionModel.findByOne({
+      account_number: accountNumber,
+    });
     if (!transactions.length) {
-      return HttpResponse.send(res, 200, { message: 'No transaction history for this account' });
+      return HttpResponse.send(res, 200, {
+        message: 'No transaction history for this account',
+      });
     }
 
-    transactions.forEach(transaction => ObjectUtils.changeKeysToCamelCase(transaction));
+    transactions.forEach(transaction => (
+      ObjectUtils.changeKeysToCamelCase(transaction)
+    ));
     return HttpResponse.send(res, 200, { data: transactions });
   }
 
@@ -151,7 +179,9 @@ class AccountController {
     }
 
     if (Number(req.user.id) !== Number(accounts[0].owner_id)) {
-      return HttpResponse.send(res, 400, { error: 'Account does not belong to this user' });
+      return HttpResponse.send(res, 400, {
+        error: 'Account does not belong to this user',
+      });
     }
 
     accounts[0] = ObjectUtils.changeKeysToCamelCase(accounts[0]);
@@ -159,7 +189,8 @@ class AccountController {
   }
 
   /**
-   * Filters and returns a list of account based on the value of the account's status
+   * Filters and returns a list of account based on the value
+   * of the account's status
    *
    * @static
    * @param {object} req - HTTP request object
@@ -168,7 +199,8 @@ class AccountController {
    * @memberof AccountController
    */
   static async filterAccounts(req, res) {
-    const { status } = req.query; let accounts;
+    const { status } = req.query;
+    let accounts;
 
     if (!status || Object.keys(req.query).length > 1) {
       return HttpResponse.send(res, 400, { error: 'Invalid query' });
@@ -183,7 +215,9 @@ class AccountController {
     }
 
     if (!accounts.length) {
-      return HttpResponse.send(res, 404, { error: `No ${status} accounts found` });
+      return HttpResponse.send(res, 404, {
+        error: `No ${status} accounts found`,
+      });
     }
 
     accounts.forEach(account => ObjectUtils.changeKeysToCamelCase(account));
