@@ -37,7 +37,7 @@
           <li class="app-nav__item"><a href="./index.html">Dashboard</a></li>
           <li class="app-nav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
           <li class="app-nav__item"><a href="./create-staff-account.html">Create Staff Account</a></li>
-          <li class="app-nav__item"><a href="../index.html">Sign Out</a></li>
+          <li class="app-nav__item signout-menu"><a href="../signin.html">Sign Out</a></li>
         </ul>
       </nav>
     </div>
@@ -46,65 +46,72 @@
   <main class="page-content create-staff-account">
     <section class="row">
       <div class="container">
-        <h1>Staff Account Creation Form</h1>
+        <h1>Staff Signup Form</h1>
     
-        <form class="form">
-          <div class="form-field">
+        <form class="form signup-form">
+          <div class="form-field first-name-field">
             <label for="first-name">
               First Name <abbr title="required">*</abbr>
             </label>
-            <input type="text" placeholder="First Name" id="first-name" autofocus>
+            <input type="text" placeholder="First Name" name="firstName" id="first-name" autofocus>
+            <ul class="validation-error-list"></ul>
           </div>
           
-          <div class="form-field">
+          <div class="form-field last-name-field">
             <label for="last-name">
               Last Name <abbr title="required">*</abbr>
             </label>
-            <input type="text" placeholder="Last Name" id="last-name">
+            <input type="text" placeholder="Last Name" name="lastName" id="last-name">
+            <ul class="validation-error-list"></ul>
           </div>
           
-          <div class="form-field">
+          <div class="form-field phone-field">
             <label for="phone">
               Phone Number <abbr title="required">*</abbr>
             </label>
-            <input type="tel" placeholder="+2341111111111" id="phone">
+            <input type="tel" placeholder="+2348012345678" name="phone" id="phone">
+            <ul class="validation-error-list"></ul>
           </div>
           
-          <div class="form-field">
+          <div class="form-field email-field">
             <label for="email">
               Email <abbr title="required">*</abbr>
             </label>
-            <input type="email" placeholder="email@domain.com" id="email">
+            <input type="email" placeholder="email@domain.com" name="email" id="email">
+            <ul class="validation-error-list"></ul>
           </div>
           
-          <div class="form-field">
+          <div class="form-field password-field">
             <label for="password">
               Password <abbr title="required">*</abbr>
             </label>
-            <input type="password" placeholder="Enter password" id="password">
+            <input type="password" placeholder="Enter password" name="password" id="password">
+            <ul class="validation-error-list"></ul>
           </div>
           
-          <div class="form-field">
-            <label for="password-again">
+          <div class="form-field confirm-password-field">
+            <label for="confirm-password">
               Confirm Password <abbr title="required">*</abbr>
             </label>
-            <input type="password" placeholder="Confirm password" id="password-again">
+            <input type="password" placeholder="Confirm password" name="confirmPassword" id="confirm-password">
+            <ul class="validation-error-list"></ul>
           </div>
 
-          <div class="form-field">
-            <label for="staff-acct-type">
-              Staff Account Type <abbr title="required">*</abbr>
+          <div class="form-field staff-type-field">
+            <label for="staff-type">
+              Staff Type <abbr title="required">*</abbr>
             </label>
-            <select id="staff-acct-type">
+            <select id="staff-type" name="staffType">
               <option value="">-- Select account type --</option>
-              <option value="credit">Admin</option>
-              <option value="debit">Cashier</option>
+              <option value="Admin">Admin</option>
+              <option value="Cashier">Cashier</option>
             </select>
+            <ul class="validation-error-list"></ul>
           </div>
     
-          <div class="form-field">
-            <button type="button" class="btn btn-form">
-              <span class="btn__text">Create Account</span>
+          <div class="form-field submit-btn-field">
+            <button type="submit" class="btn btn-form">
+              <span class="btn__text">Sign Up</span>
               <span class="btn__loading-icon">
                 <i class="fas fa-spinner fa-pulse"></i>
               </span>
@@ -113,11 +120,27 @@
         </form>
       </div>
     </section>
+
+    <section class="popup animated"></section>
+
+    <!-- templates -->
+    <script type="text/template" id="validation-error-list-template">
+      <li class="validation-error-item">{{message}}</li>
+    </script>
+
+    <script type="text/template" id="success-popup-template">
+      <div class="popup__success">{{message}}</div>
+    </script>
+
+    <script type="text/template" id="failure-popup-template">
+      <div class="popup__failure">{{message}}</div>
+    </script>
   </main>
 
   <script src="../js/app.js"></script>
-  <script src="../js/a-dashboard.js"></script>
-  <script src="../js/simulate-async.js"></script>
+  <script src="../js/signup.js"></script>
+  <!-- <script src="../js/a-dashboard.js"></script> -->
+  <!-- <script src="../js/simulate-async.js"></script> -->
 </body>
 
 </html>

@@ -19,15 +19,13 @@ fetch(url, myInit)
   .then(response => response.json())
   .then(response => {
     const { status } = response;
-    if (status === 400) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('userRole');
+    if (status === 400) return null; // token valid
 
-      window.location = '../signin.html';
-    }
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userRole');
 
-    return null;
+    window.location = '../signin.html';
   })
   .catch(error => console.log(error));
 
