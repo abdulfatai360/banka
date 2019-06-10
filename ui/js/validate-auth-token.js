@@ -1,3 +1,7 @@
+const localhostUrl = 'http://localhost:3000/api/v1';
+const herokuUrl = 'https://ile-ifowopamo.herokuapp.com/api/v1';
+const appsUrl = herokuUrl;
+
 /* ******** check if authorization token exists/has expired ******** */
 const authToken = JSON.parse(localStorage.getItem('token'));
 const userRole = JSON.parse(localStorage.getItem('userRole'));
@@ -5,8 +9,7 @@ const currPageUrl = window.location.pathname;
 
 if (!authToken) window.location = '../signin.html';
 
-const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/tokens/expiration';
-// const url = 'http://localhost:3000/api/v1/accounts';
+const url = `${appsUrl}/tokens/expiration`;
 const myInit = {
   headers: {
     'Content-Type': 'application/json; charset=utf-8'

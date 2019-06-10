@@ -1,4 +1,6 @@
-const transactionDetailsTemplate = document.querySelector('#transaction-details-template').textContent;
+const transactionDetailsTemplate = document.querySelector(
+  '#transaction-details-template'
+).textContent;
 
 const generateTransactionDetailsHtml = (template, transactionEntity) => {
   let transactionTemplate = template;
@@ -7,35 +9,57 @@ const generateTransactionDetailsHtml = (template, transactionEntity) => {
 
   date = new Intl.DateTimeFormat('en-US', dateFormat).format(date);
 
-  transactionTemplate = transactionTemplate.replace(/{{type}}/g, transactionEntity.transactionType);
+  transactionTemplate = transactionTemplate.replace(
+    /{{type}}/g,
+    transactionEntity.transactionType
+  );
   transactionTemplate = transactionTemplate.replace('{{date}}', date);
-  transactionTemplate = transactionTemplate.replace('{{accountNumber}}', transactionEntity.accountNumber);
-  transactionTemplate = transactionTemplate.replace('{{amount}}', transactionEntity.amount);
-  transactionTemplate = transactionTemplate.replace('{{oldBalance}}', transactionEntity.oldBalance);
-  transactionTemplate = transactionTemplate.replace('{{newBalance}}', transactionEntity.newBalance);
+  transactionTemplate = transactionTemplate.replace(
+    '{{accountNumber}}',
+    transactionEntity.accountNumber
+  );
+  transactionTemplate = transactionTemplate.replace(
+    '{{amount}}',
+    transactionEntity.amount
+  );
+  transactionTemplate = transactionTemplate.replace(
+    '{{oldBalance}}',
+    transactionEntity.oldBalance
+  );
+  transactionTemplate = transactionTemplate.replace(
+    '{{newBalance}}',
+    transactionEntity.newBalance
+  );
 
   return transactionTemplate;
 };
 
-const renderTransactionDetails = (transactions) => {
-  const transactionDetailsElem = document.querySelector('.transaction-details tbody');
+const renderTransactionDetails = transactions => {
+  const transactionDetailsElem = document.querySelector(
+    '.transaction-details tbody'
+  );
   let transactionDetailsHtml = '';
 
   transactions.forEach(transaction => {
-    transactionDetailsHtml += generateTransactionDetailsHtml(transactionDetailsTemplate, transaction);
-  })
+    transactionDetailsHtml += generateTransactionDetailsHtml(
+      transactionDetailsTemplate,
+      transaction
+    );
+  });
 
   transactionDetailsElem.innerHTML = transactionDetailsHtml;
 };
 
-const fetchTransactions = (url) => {
+const fetchTransactions = url => {
   const token = JSON.parse(localStorage.getItem('token'));
-  const transactionDetailsElem = document.querySelector('.transaction-details tbody');
+  const transactionDetailsElem = document.querySelector(
+    '.transaction-details tbody'
+  );
 
   const init = {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "x-auth-token": token
+      'Content-Type': 'application/json; charset=utf-8',
+      'x-auth-token': token
     }
   };
 
@@ -44,13 +68,15 @@ const fetchTransactions = (url) => {
     .then(response => {
       transactionDetailsElem.textContent = '';
       document.querySelector('.http-message').textContent = '';
-      document.querySelector('.transaction-details__inner')
+      document
+        .querySelector('.transaction-details__inner')
         .classList.remove('state--loading');
 
       if (response.status !== 200) {
         const transactionDetailsElemSpan = document.createElement('span');
         transactionDetailsElemSpan.textContent = response.error;
-        document.querySelector('.http-message')
+        document
+          .querySelector('.http-message')
           .appendChild(transactionDetailsElemSpan);
         return false;
       }
@@ -58,12 +84,14 @@ const fetchTransactions = (url) => {
       if (response.message) {
         const transactionDetailsElemSpan = document.createElement('span');
         transactionDetailsElemSpan.textContent = response.message;
-        document.querySelector('.http-message')
+        document
+          .querySelector('.http-message')
           .appendChild(transactionDetailsElemSpan);
         return true;
       }
 
-      document.querySelector('.transaction-details__inner')
+      document
+        .querySelector('.transaction-details__inner')
         .classList.remove('state--no-data');
 
       renderTransactionDetails(response.data);
@@ -73,8 +101,7 @@ const fetchTransactions = (url) => {
 
 /* ******** fetch all transactions ******** */
 const allTransactions = () => {
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
-  // const url = 'http://localhost:3000/api/v1/user/transactions';
+  const url = `${appUrl}/user/transactions`;
   fetchTransactions(url);
 };
 
@@ -83,51 +110,51 @@ allTransactions();
 /* ******** fetch specific transactions ******** */
 const getClientAccountNumbers = () => {
   const token = JSON.parse(localStorage.getItem('token'));
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/accounts';
-  // const url = 'http://localhost:3000/api/v1/user/accounts';
+  const url = `${appUrl}/user/accounts`;
   const init = {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "x-auth-token": token
+      'Content-Type': 'application/json; charset=utf-8',
+      'x-auth-token': token
     }
   };
 
   return new Promise((resolve, reject) => {
     fetch(url, init)
       .then(response => response.json())
-      .then((response) => {
+      .then(response => {
         let accountNumbers = ['-- Select bank account --'];
 
         if (response.data) {
           response.data.forEach(accountEntity => {
-            accountNumbers.push(accountEntity.accountNumber)
+            accountNumbers.push(accountEntity.accountNumber);
           });
         }
         resolve(accountNumbers);
       })
       .catch(error => console.log(error.message));
-  });  
+  });
 };
 
 const populateAccountSelectElem = () => {
   const accountSelectElem = document.querySelector('.select-account');
-  getClientAccountNumbers()
-    .then(accountNumbers => {
-      accountNumbers.forEach(accountNumber => {
-        const accountSelectOptionElem = document.createElement('option');
-        accountSelectOptionElem.text = accountNumber;
-        accountSelectElem.add(accountSelectOptionElem, null);
-      })
-    })
+  getClientAccountNumbers().then(accountNumbers => {
+    accountNumbers.forEach(accountNumber => {
+      const accountSelectOptionElem = document.createElement('option');
+      accountSelectOptionElem.text = accountNumber;
+      accountSelectElem.add(accountSelectOptionElem, null);
+    });
+  });
 };
 
 const oneAccountTransactions = () => {
   const accountSelectElem = document.querySelector('.select-account');
   const selectedAccountNumber = accountSelectElem.value;
 
-  document.querySelector('.transaction-details__inner')
+  document
+    .querySelector('.transaction-details__inner')
     .classList.add('state--no-data');
-  document.querySelector('.transaction-details__inner')
+  document
+    .querySelector('.transaction-details__inner')
     .classList.add('state--loading');
   document.querySelector('.http-message').textContent = '';
   document.querySelector('.transaction-details tbody').textContent = '';
@@ -137,8 +164,7 @@ const oneAccountTransactions = () => {
     return true;
   }
 
-  const url = `https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions/${selectedAccountNumber}`;
-  // const url = `http://localhost:3000/api/v1/user/transactions/${selectedAccountNumber}`;
+  const url = `${appUrl}/user/transactions/${selectedAccountNumber}`;
 
   fetchTransactions(url);
 };
