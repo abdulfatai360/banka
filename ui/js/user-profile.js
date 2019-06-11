@@ -1,11 +1,15 @@
 /* ******** populate user profile section on dashboard ******** */
-const userInfoTemplate = document.querySelector('#user-info-template').textContent;
+const userInfoTemplate = document.querySelector('#user-info-template')
+  .textContent;
 
 const generateUserInfoHtml = (template, userEntity) => {
   const userRole = JSON.parse(localStorage.getItem('userRole'));
   let userTemplate = template;
 
-  userTemplate = userTemplate.replace('{{fullName}}', `${userEntity.firstName} ${userEntity.lastName}`);
+  userTemplate = userTemplate.replace(
+    '{{fullName}}',
+    `${userEntity.firstName} ${userEntity.lastName}`
+  );
   userTemplate = userTemplate.replace('{{email}}', userEntity.email);
   userTemplate = userTemplate.replace('{{phone}}', userEntity.phone);
   userTemplate = userTemplate.replace('{{role}}', userRole);
@@ -35,7 +39,9 @@ const prePopulateProfileUpdateForm = () => {
 
 const styleProfileUpdateFormImageLabel = () => {
   const userPhoto = document.querySelector('.user-photo__inner');
-  const profileImageLabel = document.querySelector('label[for="profile-image"]');
+  const profileImageLabel = document.querySelector(
+    'label[for="profile-image"]'
+  );
 
   const userPhotoStyle = getComputedStyle(userPhoto);
   const profileImageLabelStyle = getComputedStyle(profileImageLabel);
@@ -56,24 +62,29 @@ const styleProfileUpdateFormImageLabel = () => {
   `;
 };
 
-const isProfileImageFormatValid = (str) => {
+const isProfileImageFormatValid = str => {
   const fileType = ['image/jpeg', 'image/jpg', 'image/png'];
   for (let i = 0; i < fileType.length; i++) {
-    if (str === fileType[i]) { return true };
+    if (str === fileType[i]) {
+      return true;
+    }
   }
   return false;
 };
 
-
 const profileImgHandler = () => {
   const imageInput = document.querySelector('input[type="file"]');
-  const profileImageLabel = document.querySelector('label[for="profile-image"]');
+  const profileImageLabel = document.querySelector(
+    'label[for="profile-image"]'
+  );
 
   const selectFile = imageInput.files[0];
 
   if (isProfileImageFormatValid(selectFile.type)) {
     window.URL = window.URL || window.webkitURL;
-    profileImageLabel.style.backgroundImage = `url(${window.URL.createObjectURL(selectFile)})`;
+    profileImageLabel.style.backgroundImage = `url(${window.URL.createObjectURL(
+      selectFile
+    )})`;
   }
 };
 
@@ -99,15 +110,15 @@ const init = () => {
 
   changePasswordBtn.addEventListener('click', () => {
     bodyElem.classList.toggle('new-password-field-visible');
-  })
+  });
 
   updateCancelBtn.addEventListener('click', () => {
     bodyElem.classList.remove('update-profile-form-visible');
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
-    })
+    });
   });
-}
+};
 
 window.addEventListener('load', init);

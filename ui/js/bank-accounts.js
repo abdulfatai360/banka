@@ -99,8 +99,7 @@ const getAllAccounts = () => {
   const accountsListElem = document.querySelector('.bank-accts-ls tbody');
   const token = JSON.parse(localStorage.getItem('token'));
 
-  // const url = 'http://localhost:3000/api/v1/accounts';
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/accounts';
+  const url = `${appUrl}/accounts`;
   const init = {
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
@@ -224,8 +223,7 @@ const deleteAccount = () => {
   yesButton.classList.add('btn__loading-icon-visible');
   const token = JSON.parse(localStorage.getItem('token'));
 
-  // const url = `http://localhost:3000/api/v1/accounts/${accountNumber}`;
-  const url = `https://ile-ifowopamo.herokuapp.com/api/v1/accounts/${accountNumber}`;
+  const url = `${appUrl}/accounts/${accountNumber}`;
   console.log(url);
 
   const init = {
@@ -259,8 +257,7 @@ const activateOrDeactivateAccount = () => {
   yesButton.classList.add('btn__loading-icon-visible');
   const token = JSON.parse(localStorage.getItem('token'));
 
-  // const url = `http://localhost:3000/api/v1/accounts/${accountNumber}`;
-  const url = `https://ile-ifowopamo.herokuapp.com/api/v1/accounts/${accountNumber}`;
+  const url = `${appUrl}/accounts/${accountNumber}`;
   console.log(url);
   console.log(newAccountStatus);
 

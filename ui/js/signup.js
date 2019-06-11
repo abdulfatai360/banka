@@ -298,15 +298,15 @@ class signupValidation {
 /* ******** register new user function ******** */
 const registerUser = userEntity => {
   const submitButton = document.querySelector('.submit-btn-field');
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/auth/signup';
-  // const url = 'http://localhost:3000/api/v1/auth/signup';
+  const staffTypeField = document.querySelector('.staff-type-field');
+  const url = `${appUrl}/auth/signup`;
   const init = {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     method: 'POST',
     body: JSON.stringify(userEntity)
   };
 
-  if (signupForm.staffType.value) {
+  if (staffTypeField) {
     init.headers['x-auth-token'] = JSON.parse(localStorage.getItem('token'));
   }
 
@@ -321,9 +321,9 @@ const registerUser = userEntity => {
 
       console.log(response);
 
-      if (signupForm.staffType) {
+      if (staffTypeField) {
         showMessage(
-          `${userEntity.type} user account successfully created`,
+          `${userEntity.type} user successfully created`,
           'success'
         );
         return null;
@@ -359,6 +359,7 @@ signupForm.addEventListener('submit', event => {
 
   if (signupValidation.errorMessageExist()) return;
 
+  const staffTypeField = document.querySelector('.staff-type-field');
   const submitButton = document.querySelector('.submit-btn-field');
   submitButton.classList.add('btn__loading-icon-visible');
 
@@ -370,7 +371,7 @@ signupForm.addEventListener('submit', event => {
     password: signupForm.password.value,
   };
 
-  if (signupForm.staffType.value) {
+  if (staffTypeField) {
     userInfo.type = 'Staff';
     userInfo.isAdmin = (signupForm.staffType.value === 'Admin') ? true : false;
   }

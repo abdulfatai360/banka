@@ -1,7 +1,9 @@
 /* ******** global variables ******** */
 const signinForm = document.querySelector('.signin-form');
-const httpMessageTemplate = document.querySelector('#success-popup-template').textContent;
-const httpErrorTemplate = document.querySelector('#failure-popup-template').textContent;
+const httpMessageTemplate = document.querySelector('#success-popup-template')
+  .textContent;
+const httpErrorTemplate = document.querySelector('#failure-popup-template')
+  .textContent;
 const validationErrors = {};
 
 /* ******** helper functions ******** */
@@ -32,19 +34,18 @@ const showMessage = (message, messageType) => {
 };
 
 /* ******** login user function ******** */
-const loginUser = (credentials) => {
+const loginUser = credentials => {
   const submitButtonField = document.querySelector('.submit-btn-field');
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/auth/signin';
-  // const url = 'http://localhost:3000/api/v1/auth/signin';
+  const url = `${appUrl}/auth/signin`;
   const init = {
-    headers: { "Content-Type": "application/json; charset=utf-8" },
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
     method: 'POST',
-    body: JSON.stringify(credentials),
+    body: JSON.stringify(credentials)
   };
 
   fetch(url, init)
     .then(response => response.json())
-    .then((response) => {
+    .then(response => {
       const { status, data } = response;
       if (status !== 200) {
         showMessage(response.error, 'failure');
@@ -57,7 +58,7 @@ const loginUser = (credentials) => {
         lastName: data[0].lastName,
         phone: data[0].phone,
         email: data[0].email,
-        type: data[0].type,
+        type: data[0].type
       };
 
       localStorage.setItem('token', JSON.stringify(data[0].token));
@@ -88,7 +89,7 @@ const loginUser = (credentials) => {
 };
 
 /* ******** register user on form submission ******** */
-signinForm.addEventListener('submit', (event) => {
+signinForm.addEventListener('submit', event => {
   event.preventDefault();
 
   const submitButtonField = document.querySelector('.submit-btn-field');
@@ -96,6 +97,6 @@ signinForm.addEventListener('submit', (event) => {
 
   loginUser({
     email: signinForm.email.value,
-    password: signinForm.password.value,
+    password: signinForm.password.value
   });
 });

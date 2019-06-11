@@ -1,44 +1,63 @@
 /* ******** fetch transactions cashier has consummated ******** */
-const cashierTransactionsTemplate = document.querySelector('#cashier-transactions-template').textContent;
+const cashierTransactionsTemplate = document.querySelector(
+  '#cashier-transactions-template'
+).textContent;
 
 const generateCashierTransactionsHtml = (template, txnEntity) => {
   let txnTemplate = template;
 
   const createdOn = new Date(txnEntity.createdOn);
-  const date = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' }).format(createdOn);
-  const time = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(createdOn);
+  const date = new Intl.DateTimeFormat('en-US', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  }).format(createdOn);
+  const time = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  }).format(createdOn);
 
   txnTemplate = txnTemplate.replace('{{date}}', date);
   txnTemplate = txnTemplate.replace('{{time}}', time);
   txnTemplate = txnTemplate.replace('{{type}}', txnEntity.transactionType);
-  txnTemplate = txnTemplate.replace('{{accountNumber}}', txnEntity.accountNumber);
+  txnTemplate = txnTemplate.replace(
+    '{{accountNumber}}',
+    txnEntity.accountNumber
+  );
   txnTemplate = txnTemplate.replace('{{amount}}', txnEntity.amount);
 
   return txnTemplate;
 };
 
-const renderCashierTransactions = (transactions) => {
-  const cashierTransactionsElem = document.querySelector('.cashier-transactions tbody');
+const renderCashierTransactions = transactions => {
+  const cashierTransactionsElem = document.querySelector(
+    '.cashier-transactions tbody'
+  );
   let cashierTransactionsHtml = '';
 
   transactions.forEach(transaction => {
-    cashierTransactionsHtml += generateCashierTransactionsHtml(cashierTransactionsTemplate, transaction);
-  })
+    cashierTransactionsHtml += generateCashierTransactionsHtml(
+      cashierTransactionsTemplate,
+      transaction
+    );
+  });
 
   cashierTransactionsElem.innerHTML = cashierTransactionsHtml;
 };
 
 const getCashierTransactions = () => {
-  const token =JSON.parse(localStorage.getItem('token'));
-  const cashierTransactionsElem = document.querySelector('.cashier-transactions tbody');
+  const token = JSON.parse(localStorage.getItem('token'));
+  const cashierTransactionsElem = document.querySelector(
+    '.cashier-transactions tbody'
+  );
   const httpMessageElem = document.querySelector('.http-message');
 
-  const url = 'https://ile-ifowopamo.herokuapp.com/api/v1/user/transactions';
-  // const url = 'http://localhost:3000/api/v1/user/transactions';
+  const url = `${appUrl}/user/transactions`;
   const init = {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "x-auth-token": token
+      'Content-Type': 'application/json; charset=utf-8',
+      'x-auth-token': token
     }
   };
 
@@ -47,7 +66,8 @@ const getCashierTransactions = () => {
     .then(response => {
       cashierTransactionsElem.textContent = '';
       httpMessageElem.textContent = '';
-      document.querySelector('.cashier-transactions__inner')
+      document
+        .querySelector('.cashier-transactions__inner')
         .classList.remove('state--loading');
 
       if (response.status !== 200) {
@@ -64,7 +84,9 @@ const getCashierTransactions = () => {
         return true;
       }
 
-      document.querySelector('.cashier-transactions__inner').classList.remove('state--no-data');
+      document
+        .querySelector('.cashier-transactions__inner')
+        .classList.remove('state--no-data');
 
       renderCashierTransactions(response.data);
     })
@@ -75,9 +97,13 @@ getCashierTransactions();
 
 /* ******** new transaction consummation by cashier ******** */
 const txnPostingForm = document.querySelector('.post-transaction-form');
-const successMessageTemplate = document.querySelector('#success-popup-template').textContent;
-const errorMessageTemplate = document.querySelector('#failure-popup-template').textContent;
-const validationErrorTemplate = document.querySelector('#validation-error-list-template').textContent;
+const successMessageTemplate = document.querySelector('#success-popup-template')
+  .textContent;
+const errorMessageTemplate = document.querySelector('#failure-popup-template')
+  .textContent;
+const validationErrorTemplate = document.querySelector(
+  '#validation-error-list-template'
+).textContent;
 const validationErrors = {};
 
 const showMessage = (message, messageType) => {
@@ -103,7 +129,7 @@ const showMessage = (message, messageType) => {
 };
 
 const renderValidationError = (errors, inputField, errorsListElem) => {
-  const errorTemplate = validationErrorTemplate
+  const errorTemplate = validationErrorTemplate;
   let errorHtml = '';
   const errorMessages = errors;
 
@@ -116,83 +142,104 @@ const renderValidationError = (errors, inputField, errorsListElem) => {
 };
 
 const resetTxnPostingForm = () => {
-  const errsListElems = document.querySelectorAll('.form-field .validation-error-list');
+  const errsListElems = document.querySelectorAll(
+    '.form-field .validation-error-list'
+  );
   const txnPostingInputs = [
     txnPostingForm.accountNumber,
     txnPostingForm.amount,
     txnPostingForm.txnType
   ];
 
-  txnPostingInputs.forEach(input => input.classList.remove('input-not-validated'));
-  errsListElems.forEach(errListElem => errListElem.textContent = '');
+  txnPostingInputs.forEach(input =>
+    input.classList.remove('input-not-validated')
+  );
+  errsListElems.forEach(errListElem => (errListElem.textContent = ''));
 };
 
 class validateTxnPostingInputs {
   static accountNumber(errors) {
-    const errorsListElem = document.querySelector('.account-number-field .validation-error-list');
+    const errorsListElem = document.querySelector(
+      '.account-number-field .validation-error-list'
+    );
     errorsListElem.textContent = '';
 
-    validationErrors.accountNumber = errors.filter((error) => {
+    validationErrors.accountNumber = errors.filter(error => {
       return /^account number/i.test(error);
     });
 
     if (!txnPostingForm.accountNumber.value) {
-      validationErrors.accountNumber.push('Account number should not be empty')
+      validationErrors.accountNumber.push('Account number should not be empty');
     }
 
     if (validationErrors.accountNumber.length) {
-      return renderValidationError(validationErrors.accountNumber, txnPostingForm.accountNumber, errorsListElem);
+      return renderValidationError(
+        validationErrors.accountNumber,
+        txnPostingForm.accountNumber,
+        errorsListElem
+      );
     }
 
     txnPostingForm.accountNumber.classList.remove('input-not-validated');
   }
 
   static amount(errors) {
-    const errorsListElem = document.querySelector('.amount-field .validation-error-list');
+    const errorsListElem = document.querySelector(
+      '.amount-field .validation-error-list'
+    );
     errorsListElem.textContent = '';
 
-    validationErrors.amount = errors.filter((error) => {
+    validationErrors.amount = errors.filter(error => {
       return /^amount/i.test(error);
     });
 
     if (validationErrors.amount.length) {
-      return renderValidationError(validationErrors.amount, txnPostingForm.amount, errorsListElem);
+      return renderValidationError(
+        validationErrors.amount,
+        txnPostingForm.amount,
+        errorsListElem
+      );
     }
 
     txnPostingForm.amount.classList.remove('input-not-validated');
   }
 
   static transactionType(errors) {
-    const errorsListElem = document.querySelector('.txn-type-field .validation-error-list');
+    const errorsListElem = document.querySelector(
+      '.txn-type-field .validation-error-list'
+    );
     errorsListElem.textContent = '';
 
-    validationErrors.transactionType = errors.filter((error) => {
+    validationErrors.transactionType = errors.filter(error => {
       return /^transaction type/i.test(error);
     });
 
     if (validationErrors.transactionType.length) {
-      return renderValidationError(validationErrors.transactionType, txnPostingForm.txnType, errorsListElem);
+      return renderValidationError(
+        validationErrors.transactionType,
+        txnPostingForm.txnType,
+        errorsListElem
+      );
     }
 
     txnPostingForm.txnType.classList.remove('input-not-validated');
   }
 }
 
-const postTransaction = (newTransactionInfo) => {
+const postTransaction = newTransactionInfo => {
   const token = JSON.parse(localStorage.getItem('token'));
   const submitButtonField = document.querySelector('.submit-btn-field');
   const accountNumber = newTransactionInfo.accountNumber || '0000000000';
   const transactionType = newTransactionInfo.transactionType || 'credit';
-  const url = `https://ile-ifowopamo.herokuapp.com/api/v1/transactions/${accountNumber}/${transactionType.toLowerCase()}`;
+  const url = `${appUrl}/transactions/${accountNumber}/${transactionType.toLowerCase()}`;
 
-  // const url = `http://localhost:3000/api/v1/transactions/${accountNumber}/${transactionType.toLowerCase()}`;
   const init = {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "x-auth-token": token,
+      'Content-Type': 'application/json; charset=utf-8',
+      'x-auth-token': token
     },
     method: 'POST',
-    body: JSON.stringify(newTransactionInfo),
+    body: JSON.stringify(newTransactionInfo)
   };
 
   fetch(url, init)
@@ -209,7 +256,7 @@ const postTransaction = (newTransactionInfo) => {
         console.log('There are validation errors you need to fix');
         return false;
       }
-      
+
       resetTxnPostingForm();
 
       if (response.message) {
@@ -231,11 +278,11 @@ const postTransaction = (newTransactionInfo) => {
     .catch(error => {
       submitButtonField.classList.remove('btn__loading-icon-visible');
       console.log(error.message);
-    })
+    });
 };
 
 /* ******** post transaction on form submission ******** */
-txnPostingForm.addEventListener('submit', (event) => {
+txnPostingForm.addEventListener('submit', event => {
   event.preventDefault();
 
   const submitButtonField = document.querySelector('.submit-btn-field');
@@ -244,6 +291,6 @@ txnPostingForm.addEventListener('submit', (event) => {
   postTransaction({
     accountNumber: txnPostingForm.accountNumber.value,
     amount: txnPostingForm.amount.value,
-    transactionType: txnPostingForm.txnType.value,
+    transactionType: txnPostingForm.txnType.value
   });
 });
