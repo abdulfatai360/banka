@@ -91,20 +91,20 @@ const profileImgHandler = () => {
 /* ******** global variables and event listeners ******** */
 const init = () => {
   const bodyElem = document.body;
-  const profileEditBtn = document.querySelector('.btn-edit-profile');
+  // const profileEditBtn = document.querySelector('.btn-edit-profile');
   const updateCancelBtn = document.querySelector('.btn-update-cancel');
   const changePasswordBtn = document.querySelector('.change-pw-btn');
   const newPasswordField = document.querySelector('.new-password-field');
 
   const imageInput = document.querySelector('input[type="file"]');
 
-  profileEditBtn.addEventListener('click', () => {
-    bodyElem.classList.remove('user-profile-visible');
-    bodyElem.classList.add('update-profile-form-visible');
+  // profileEditBtn.addEventListener('click', () => {
+  //   bodyElem.classList.remove('user-profile-visible');
+  //   bodyElem.classList.add('update-profile-form-visible');
 
-    prePopulateProfileUpdateForm();
-    styleProfileUpdateFormImageLabel();
-  });
+  //   prePopulateProfileUpdateForm();
+  //   styleProfileUpdateFormImageLabel();
+  // });
 
   imageInput.addEventListener('change', profileImgHandler);
 

@@ -47,9 +47,9 @@
     <section class="user-profile row-alt">
       <div class="container">
         <div class="user-profile__inner">
-          <div class="user-photo">
+          <!-- <div class="user-photo">
             <div class="user-photo__inner"></div>
-          </div>
+          </div> -->
     
           <div class="user-info"></div>
     
@@ -59,9 +59,9 @@
                     <p class="phone" data-type="phone:">{{phone}}</p>
                     <p class="role" data-type="role:">{{role}}</p>
         
-                    <button type="button" class="btn btn-form btn-edit-profile">
+                    <!-- <button type="button" class="btn btn-form btn-edit-profile">
                       Edit Profile
-                    </button>
+                    </button> -->
                   </script>
         </div>
     
@@ -149,6 +149,10 @@
         <section class="staff__cashier panel">
           <h2>List of Cashier Staff</h2>
 
+          <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
+          
+          <div class="http-message"></div>
+
           <div class="table-container">
             <table>
               <thead>
@@ -160,42 +164,16 @@
                 </tr>
               </thead>
           
-              <tbody>
-                <tr>
-                  <td class="fname">Kurtis</td>
-                  <td class="lname">Weissnat</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348021006761</td>
-                </tr>
-          
-                <tr>
-                  <td class="fname">Patricia</td>
-                  <td class="lname">Karianne</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348049317096</td>
-                </tr>
+              <tbody></tbody>
 
+              <script type="text/template" id="staff__cashier-template">
                 <tr>
-                  <td class="fname">Chelsey</td>
-                  <td class="lname">Kamren</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348025495412</td>
+                  <td class="fname">{{firstName}}</td>
+                  <td class="lname">{{lastName}}</td>
+                  <td class="email">{{email}}</td>
+                  <td class="phone">{{phone}}</td>
                 </tr>
-
-                <tr>
-                  <td class="fname">Elwyn</td>
-                  <td class="lname">Kurtis</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348021006761</td>
-                </tr>
-
-                <tr>
-                  <td class="fname">Schulist</td>
-                  <td class="lname">Leopoldo</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348014779358</td>
-                </tr>
-              </tbody>
+              </script>
             </table>
           </div>
         </section>
@@ -203,6 +181,10 @@
         <section class="staff__admin panel panel--hidden">
           <h2>List of Admin Staff</h2>
 
+          <span class="default"><i class="fas fa-spinner fa-pulse"></i></span>
+          
+          <div class="http-message"></div>
+
           <div class="table-container">
             <table>
               <thead>
@@ -214,42 +196,16 @@
                 </tr>
               </thead>
           
-              <tbody>
+              <tbody></tbody>
+              
+              <script type="text/template" id="staff__admin-template">
                 <tr>
-                  <td class="fname">Dennis</td>
-                  <td class="lname">Kurtis</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348021006761</td>
+                  <td class="fname">{{firstName}}</td>
+                  <td class="lname">{{lastName}}</td>
+                  <td class="email">{{email}}</td>
+                  <td class="phone">{{phone}}</td>
                 </tr>
-          
-                <tr>
-                  <td class="fname">Lebsack</td>
-                  <td class="lname">Karianne</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348049317096</td>
-                </tr>
-          
-                <tr>
-                  <td class="fname">Dietrich</td>
-                  <td class="lname">Kamren</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348025495412</td>
-                </tr>
-          
-                <tr>
-                  <td class="fname">Elwyn</td>
-                  <td class="lname">Kurtis</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348021006761</td>
-                </tr>
-          
-                <tr>
-                  <td class="fname">Leopoldo</td>
-                  <td class="lname">Schulist</td>
-                  <td class="email">Telly.Hoeger@billy.biz</td>
-                  <td class="phone">+2348014779358</td>
-                </tr>
-              </tbody>
+              </script>
             </table>
           </div>
         </section>
@@ -260,6 +216,7 @@
   <script src="../js/app.js"></script>
   <script src="../js/user-profile.js"></script>
   <script src="../js/toggle-panel.js"></script>
+  <script src="../js/admin-dashboard.js"></script>
   <script src="../js/signout.js"></script>
 </body>
 
